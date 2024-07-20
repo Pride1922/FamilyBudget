@@ -59,7 +59,7 @@ app.use('/api/subcategories', subcategoriesRouter); // Subcategories API routes
 
 // Authentication and Authorization Middleware
 app.use('/api/auth', authRouter); // Authentication routes (login)
-app.use('/api/register', registerRouter); // Registration route
+app.use('/api', registerRouter); // Registration route
 
 // Middleware to rate limit MFA related routes
 app.use('/api/mfa', mfaRateLimiter);

@@ -1,15 +1,10 @@
+// backend/routes/register.js
+
 const express = require('express');
 const router = express.Router();
-const registerController = require('../controllers/registerController');
-const { infoLogger } = require('../config/logger');
+const userController = require('../controllers/userController');
 
-// Middleware to log request details for the /send-email route
-router.use('/send-email', (req, res, next) => {
-  infoLogger.info('Received request to send registration email', { email: req.body.email });
-  next(); // Proceed to the next middleware or route handler
-});
-
-// Route to send registration email
-router.post('/send-email', registerController.sendRegistrationEmail);
+// Register endpoint
+router.post('/register', userController.registerUser);
 
 module.exports = router;

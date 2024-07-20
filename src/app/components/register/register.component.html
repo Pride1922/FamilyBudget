@@ -1,32 +1,181 @@
-<form [formGroup]="registrationForm" (ngSubmit)="register()">
-    <label for="email">Email:</label>
-    <input id="email" formControlName="email" type="email" placeholder="Enter your email">
-    <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
-      <small *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required.</small>
-      <small *ngIf="registrationForm.get('email')?.errors?.['email']">Invalid email format.</small>
-    </div>
-  
-    <label for="username">Username:</label>
-    <input id="username" formControlName="username" type="text" placeholder="Enter your username">
-    <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched">
-      <small *ngIf="registrationForm.get('username')?.errors?.['required']">Username is required.</small>
-    </div>
-  
-    <label for="password">Password:</label>
-    <input id="password" formControlName="password" type="password" placeholder="Enter your password">
-    <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
-      <small *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required.</small>
-    </div>
-  
-    <label for="confirmPassword">Confirm Password:</label>
-    <input id="confirmPassword" formControlName="confirmPassword" type="password" placeholder="Confirm your password">
-    <div *ngIf="registrationForm.errors?.['mismatch'] && registrationForm.get('confirmPassword')?.touched">
-      <small>Passwords do not match.</small>
-    </div>
-  
-    <button type="submit" [disabled]="registrationForm.invalid">Register</button>
-  
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-  </form>
-  
+<div class="app-container">
+  <div class="register-container mat-elevation-z2">
+    <h2>Register</h2>
+    <form [formGroup]="registrationForm" (ngSubmit)="register()">
+      <!-- Hidden Field to Store Email -->
+      <input type="hidden" formControlName="email" />
+
+      <!-- Email Field (Visible but Disabled) -->
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          type="email"
+          placeholder="Enter your email"
+          readonly
+        />
+        <mat-error
+          *ngIf="
+            registrationForm.get('email')?.hasError('required') &&
+            (registrationForm.get('email')?.touched ||
+              registrationForm.get('email')?.dirty)
+          "
+        >
+          Email is required.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('email')?.hasError('email') &&
+            (registrationForm.get('email')?.touched ||
+              registrationForm.get('email')?.dirty)
+          "
+        >
+          Invalid email format.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Username Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          formControlName="username"
+          type="text"
+          placeholder="Enter your username"
+          required
+          minlength="4"
+          maxlength="20"
+        />
+        <mat-error
+          *ngIf="
+            registrationForm.get('username')?.hasError('required') &&
+            (registrationForm.get('username')?.touched ||
+              registrationForm.get('username')?.dirty)
+          "
+        >
+          Username is required.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('username')?.hasError('minlength') &&
+            (registrationForm.get('username')?.touched ||
+              registrationForm.get('username')?.dirty)
+          "
+        >
+          Username must be at least 4 characters.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('username')?.hasError('maxlength') &&
+            (registrationForm.get('username')?.touched ||
+              registrationForm.get('username')?.dirty)
+          "
+        >
+          Username cannot exceed 20 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Password Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Enter your password"
+          required
+          minlength="6"
+          maxlength="20"
+        />
+        <mat-error
+          *ngIf="
+            registrationForm.get('password')?.hasError('required') &&
+            (registrationForm.get('password')?.touched ||
+              registrationForm.get('password')?.dirty)
+          "
+        >
+          Password is required.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('password')?.hasError('minlength') &&
+            (registrationForm.get('password')?.touched ||
+              registrationForm.get('password')?.dirty)
+          "
+        >
+          Password must be at least 6 characters.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            registrationForm.get('password')?.hasError('maxlength') &&
+            (registrationForm.get('password')?.touched ||
+              registrationForm.get('password')?.dirty)
+          "
+        >
+          Password cannot exceed 20 characters.
+        </mat-error>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="togglePasswordVisibility('password')"
+          matSuffix
+        >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Confirm Password Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input
+          matInput
+          formControlName="confirmPassword"
+          [type]="hideConfirmPassword ? 'password' : 'text'"
+          placeholder="Confirm your password"
+          required
+        />
+        <mat-error
+          *ngIf="
+            registrationForm.hasError('mismatch') &&
+            (registrationForm.get('confirmPassword')?.touched ||
+              registrationForm.get('confirmPassword')?.dirty)
+          "
+        >
+          Passwords do not match.
+        </mat-error>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="togglePasswordVisibility('confirmPassword')"
+          matSuffix
+        >
+          <mat-icon>{{
+            hideConfirmPassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Register Button -->
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="full-width"
+        [disabled]="registrationForm.invalid"
+      >
+        Register
+      </button>
+
+      <!-- Error and Success Messages -->
+      <div *ngIf="errorMessage" class="error-message mat-body-2">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="success-message mat-body-2">
+        {{ successMessage }}
+      </div>
+    </form>
+  </div>
+</div>

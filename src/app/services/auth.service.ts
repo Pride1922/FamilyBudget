@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -78,6 +78,17 @@ export class AuthService {
     localStorage.setItem('mfa_completed', 'true');
   }
 
+  // Get email by registration token
+  getEmailByToken(token: string): Observable<{ email: string }> {
+    const params = new HttpParams().set('token', token);
+    return this.http.get<{ email: string }>(`${this.apiUrl}/auth/email-by-token`, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Error retrieving email by token:', error);
+          return throwError(error);
+        })
+      );
+  }
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('mfa_completed'); // Clear MFA completion status on logout
