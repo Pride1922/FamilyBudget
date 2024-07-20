@@ -1,0 +1,67 @@
+.manage-users-container {
+  padding: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+/* Adjust the input size as needed */
+.mat-form-field {
+  width: 100%;
+  max-width: 500px; /* Adjust the max-width to your preference */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 6px; /* Reduced padding for smaller cells */
+  text-align: left;
+  vertical-align: middle; /* Center content vertically */
+  font-size: 14px; /* Adjusted font size for cells */
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.mat-row:hover {
+  background-color: #f9f9f9;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center; /* Center align action buttons vertically */
+}
+
+button[mat-icon-button] {
+  background-color: transparent;
+  color: inherit;
+  font-size: 18px; /* Adjusted icon button size */
+  padding: 4px; /* Adjusted padding for icon button */
+}
+
+button[mat-raised-button] {
+  min-width: 80px; /* Reduced width for raised buttons */
+  text-transform: uppercase;
+  font-size: 12px; /* Reduced font size */
+}
+
+.mat-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}

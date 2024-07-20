@@ -1,0 +1,79 @@
+header {
+  background-color: #6dabe4; /* Header background color */
+  position: fixed; /* Fixed position */
+    width: 100%;
+  top: 0; /* Stick to the top */
+  z-index: 1000; /* Higher z-index for stacking order */
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%; /* Ensure nav spans the full width */
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Ensure container spans the full width */
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: inline;
+  margin-right: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.user-menu {
+  position: absolute;
+  right: 20px; /* Adjust as needed */
+  top: 50%; /* Vertical centering */
+  transform: translateY(-50%);
+}
+
+.logout-button {
+  background-color: #f44336; /* Red color for logout button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+.home-link {
+  font-size: 18px; /* Larger font size for home link */
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #cbe7ff; /* Baby blue background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ensure body takes full height */
+}

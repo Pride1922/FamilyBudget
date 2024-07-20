@@ -1,0 +1,113 @@
+/* Import Angular Material theme (ensure this is correct) */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #cbe7ff; /* Baby blue background */
+  margin: 0;
+}
+
+/* Header styles */
+header {
+  background-color: #6dabe4;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: inline;
+  margin-right: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.logout-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+.home-link {
+  font-size: 18px;
+}
+
+/* Ensure the entire HTML and body cover full height */
+html, body {
+  height: 100%;
+}
+
+/* Dialog container styles */
+::ng-deep .mat-dialog-container {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Dialog content styling */
+::ng-deep .mat-dialog-content {
+  border-radius: 20px;
+}
+
+/* Actions inside the dialog */
+::ng-deep mat-dialog-actions {
+  border-radius: 20px;
+  padding: 16px;
+}
+
+/* Form field styling */
+::ng-deep .mat-form-field {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Rounded corners for select elements */
+::ng-deep mat-select {
+  border-radius: 20px;
+}
+
+/* Rounded corners for checkboxes */
+::ng-deep mat-checkbox {
+  border-radius: 20px;
+}
+
+/* Rounded corners for input elements inside mat-form-field */
+::ng-deep .mat-form-field-infix {
+  border-radius: 20px;
+}

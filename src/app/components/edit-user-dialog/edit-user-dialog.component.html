@@ -1,0 +1,39 @@
+<h2 mat-dialog-title class="dialog-title">Edit User</h2>
+<mat-dialog-content class="mat-dialog-content">
+  <form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="onSave()" class="user-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+      <mat-error *ngIf="username && username.invalid && (username.dirty || username.touched)">
+        <span *ngIf="username.errors && username.errors['required']">Username is required.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="email && email.invalid && (email.dirty || email.touched)">
+        <span *ngIf="email.errors && email.errors['required']">Email is required.</span>
+        <span *ngIf="email.errors && email.errors['email']">Invalid email format.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="passwordFields.hide ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" aria-label="Toggle password visibility">
+        <mat-icon>{{ passwordFields.hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="user">User</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-checkbox formControlName="isActive" class="full-width-checkbox">Active</mat-checkbox>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [disabled]="isSaving" (click)="onSave()">Save</button>
+</mat-dialog-actions>

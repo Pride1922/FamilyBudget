@@ -1,0 +1,76 @@
+<div class="app-container">
+  <div class="login-container mat-elevation-z2">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()" *ngIf="!showMFA">
+      <!-- Username Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" required minlength="4" maxlength="20">
+        <mat-error *ngIf="loginForm.get('username')?.hasError('required') && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)">
+          Username is required.
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('username')?.hasError('minlength') && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)">
+          Username must be at least 4 characters.
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('username')?.hasError('maxlength') && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)">
+          Username cannot exceed 20 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Password Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" required minlength="4" maxlength="20">
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required') && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+          Password is required.
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength') && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+          Password must be at least 4 characters.
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('maxlength') && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+          Password cannot exceed 20 characters.
+        </mat-error>
+        <button mat-icon-button type="button" (click)="togglePasswordVisibility()" matSuffix>
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Login Button -->
+      <button mat-raised-button color="primary" type="submit" class="full-width">
+        Login
+      </button>
+    </form>
+
+    <form [formGroup]="mfaForm" (ngSubmit)="verifyMFA()" *ngIf="showMFA">
+      <!-- MFA Token Field -->
+      <div class="mfa-token-field">
+        <mat-form-field appearance="fill">
+          <mat-label>MFA Token</mat-label>
+          <input matInput #mfaTokenInput formControlName="mfaToken" type="text" required>
+          <!-- Error messages for MFA Token -->
+          <mat-error *ngIf="mfaForm.get('mfaToken')?.hasError('required') && (mfaForm.get('mfaToken')?.touched || mfaForm.get('mfaToken')?.dirty)">
+            MFA Token is required.
+          </mat-error>
+          <mat-error *ngIf="mfaForm.get('mfaToken')?.hasError('minlength') && (mfaForm.get('mfaToken')?.touched || mfaForm.get('mfaToken')?.dirty)">
+            MFA Token must be 6 characters long.
+          </mat-error>
+          <mat-error *ngIf="mfaForm.get('mfaToken')?.hasError('maxlength') && (mfaForm.get('mfaToken')?.touched || mfaForm.get('mfaToken')?.dirty)">
+            MFA Token must be 6 characters long.
+          </mat-error>
+          <mat-error *ngIf="mfaForm.get('mfaToken')?.hasError('pattern') && (mfaForm.get('mfaToken')?.touched || mfaForm.get('mfaToken')?.dirty)">
+            MFA Token must be numeric.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    
+      <!-- Verify MFA Button -->
+      <button mat-raised-button color="primary" type="submit" class="full-width">
+        Verify MFA
+      </button>
+    </form>
+    
+
+    <!-- Error Message Display -->
+    <div *ngIf="errorMessage" class="error-message mat-body-2">{{ errorMessage }}</div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<!-- home.component.html -->
+
+<div class="home-container">
+  <ng-container *ngIf="loggedInUser$ | async as loggedInUser">
+    <h2 class="welcome-message">
+      Welcome, {{ loggedInUser.username }}!
+    </h2>
+    <p class="role-info">
+      Your role: {{ loggedInUser.role }}
+    </p>
+  </ng-container>
+  <ng-container *ngIf="!(loggedInUser$ | async)">
+    <p>Loading...</p>
+  </ng-container>
+</div>

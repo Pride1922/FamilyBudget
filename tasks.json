@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start backend",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/backend/index.js"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/backend"
+      },
+      "problemMatcher": [],
+      "detail": "Starts the backend server"
+    },
+    {
+      "label": "npm: start",
+      "type": "npm",
+      "script": "start",
+      "detail": "Starts the frontend server"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+.dialog-title {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  color: #3f51b5; /* Accent color */
+}
+
+::ng-deep .mat-dialog-container {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .mat-dialog-content {
+  border-radius: 20px !important;
+}
+
+::ng-deep mat-dialog-actions {
+  border-radius: 20px !important;
+  padding: 16px !important;
+}
+
+::ng-deep .mat-button, ::ng-deep .mat-raised-button {
+  border-radius: 20px !important;
+}
+
+mat-form-field {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+
+mat-select {
+  border-radius: 20px !important;
+}
+
+mat-checkbox {
+  border-radius: 20px !important;
+}
+
+.mat-form-field-infix {
+  border-radius: 20px !important;
+}
+
+.user-form {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.full-width-checkbox {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+/* Add rounded corners to dialog actions */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-radius: 20px; /* Rounded corners */
+}
+
+/* Add rounded corners to buttons */
+button.mat-button {
+  min-width: 80px;
+  font-size: 14px;
+  color: #3f51b5; /* Accent color for text */
+}
+
+button.mat-raised-button {
+  font-size: 14px;
+  text-transform: none;
+  border-radius: 20px; /* Rounded corners */
+  background-color: #3f51b5; /* Primary color */
+  color: #fff; /* White text color */
+}
+
+.btn-cancel {
+  margin-right: 16px;
+  background-color: #f5f5f5; /* Light gray background for cancel button */
+  color: #333; /* Dark text color */
+  border-radius: 20px; /* Rounded corners */
+}
+
+/* Add rounded corners to mat-form-field */
+mat-form-field {
+  margin-bottom: 16px;
+  border-radius: 20px; /* Rounded corners */
+  overflow: hidden; /* Ensure rounded corners are visible */
+}
+
+/* Ensure rounded corners for mat-select */
+mat-select {
+  border-radius: 20px; /* Rounded corners */
+}
+
+/* Ensure rounded corners for mat-checkbox */
+mat-checkbox {
+  margin-top: 10px;
+  color: #3f51b5; /* Accent color */
+}
+
+mat-checkbox.mat-accent .mat-checkbox-background {
+  background-color: #3f51b5; /* Primary color for checkbox */
+}
+
+/* Additional style to ensure input elements have rounded corners */
+.mat-form-field-infix {
+  border-radius: 20px; /* Rounded corners for the input inside the form field */
+}

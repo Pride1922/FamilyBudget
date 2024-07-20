@@ -1,0 +1,26 @@
+<div *ngFor="let category of categories">
+  <h2>{{ category.name }}</h2>
+  <p>Type: {{ category.type }}</p>
+  
+  <h3>Subcategories:</h3>
+  <ul>
+    <li *ngFor="let subcategory of category.subcategories">{{ subcategory.name }}</li>
+  </ul>
+  
+  <button (click)="editCategory(category)">Edit</button>
+  <button (click)="deleteCategory(category.id)">Delete</button>
+
+  <div>
+    <input type="text" [(ngModel)]="newSubcategory.name" placeholder="New Subcategory Name">
+    <button (click)="addSubcategory(category.id)">Add Subcategory</button>
+  </div>
+</div>
+
+<div>
+  <input type="text" [(ngModel)]="newCategory.name" placeholder="New Category Name">
+  <select [(ngModel)]="newCategory.type">
+    <option value="income">Income</option>
+    <option value="expense">Expense</option>
+  </select>
+  <button (click)="addCategory()">Add Category</button>
+</div>

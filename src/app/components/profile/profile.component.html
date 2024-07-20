@@ -1,0 +1,75 @@
+<div class="profile-container">
+  <!-- Profile Info Section -->
+  <div class="profile-info">
+    <h2>User Profile</h2>
+    <p><strong>Username:</strong> {{ user?.username }}</p>
+    <p><strong>Email:</strong> {{ user?.email }}</p>
+    <p><strong>Role:</strong> {{ user?.role }}</p>
+    <p *ngIf="formattedcreatedat"><strong>Account Created:</strong> {{ formattedcreatedat }}</p>
+  </div>
+
+  <!-- Main Content Section -->
+  <div class="main-content">
+    <!-- Change Password Form Section -->
+    <div class="password-change-form">
+      <h3 class="card-title mb-3">Change Password</h3>
+      <form [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+        <div class="form-group">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Old Password</mat-label>
+            <input matInput [type]="passwordFields['oldPassword'].hide ? 'password' : 'text'" formControlName="oldPassword" required>
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('oldPassword')" aria-label="Toggle password visibility">
+              <mat-icon class="small-icon">{{ passwordFields['oldPassword'].hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="changePasswordForm.get('oldPassword')?.hasError('required') && (changePasswordForm.get('oldPassword')?.dirty || changePasswordForm.get('oldPassword')?.touched)">
+              Old Password is required.
+            </mat-error>
+            <mat-error *ngIf="errorMessage === 'Old password is incorrect'">
+              {{ errorMessage }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>New Password</mat-label>
+            <input matInput [type]="passwordFields['newPassword'].hide ? 'password' : 'text'" formControlName="newPassword" required>
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('newPassword')" aria-label="Toggle password visibility">
+              <mat-icon class="small-icon">{{ passwordFields['newPassword'].hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="changePasswordForm.get('newPassword')?.hasError('required') && (changePasswordForm.get('newPassword')?.dirty || changePasswordForm.get('newPassword')?.touched)">
+              New Password is required and must be at least 6 characters long.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Confirm New Password</mat-label>
+            <input matInput [type]="passwordFields['confirmNewPassword'].hide ? 'password' : 'text'" formControlName="confirmNewPassword" required>
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('confirmNewPassword')" aria-label="Toggle password visibility">
+              <mat-icon class="small-icon">{{ passwordFields['confirmNewPassword'].hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="changePasswordForm.get('confirmNewPassword')?.hasError('passwordMismatch') && (changePasswordForm.get('confirmNewPassword')?.dirty || changePasswordForm.get('confirmNewPassword')?.touched)">
+              New passwords do not match.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="changePasswordForm.invalid">Change Password</button>
+
+        <div *ngIf="passwordChangeSuccess" class="alert alert-success mt-3">
+          Password changed successfully.
+        </div>
+      </form>
+    </div>
+
+    <!-- MFA Setup Form Section -->
+    <div class="mfa-setup-form">
+      <h3 class="card-title mb-3">MFA Setup</h3>
+      <p *ngIf="!user?.mfa_enabled">Enable Two-Factor Authentication for added security:</p>
+      <p *ngIf="user?.mfa_enabled" class="text-success">Two-Factor Authentication is enabled for your account.</p>
+      <button *ngIf="!user?.mfa_enabled" class="btn btn-primary" (click)="navigateToMFASetup()">Setup MFA</button>
+    </div>
+  </div>
+</div>
