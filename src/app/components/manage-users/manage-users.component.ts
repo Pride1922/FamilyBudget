@@ -97,14 +97,6 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       width: '400px',
       data: {}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.addUser(result).subscribe(() => {
-          this.loadUsers();
-        });
-      }
-    });
   }
 
   editUser(user: User): void {

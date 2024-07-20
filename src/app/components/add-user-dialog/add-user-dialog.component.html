@@ -1,47 +1,21 @@
 <h2 mat-dialog-title class="dialog-title">Add User</h2>
 <mat-dialog-content class="mat-dialog-content">
-  <form [formGroup]="userForm" (ngSubmit)="onAdd()" class="user-form">
+  <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" class="add-user-form">
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Username</mat-label>
-      <input matInput formControlName="username" placeholder="Enter username">
-      <mat-error *ngIf="username?.invalid && (username?.dirty || username?.touched)">
-        <span *ngIf="username?.errors?.['required']">Username is required.</span>
+      <mat-label>User Email</mat-label>
+      <input matInput formControlName="email" placeholder="Enter email" />
+      <mat-error *ngIf="emailControl?.hasError('required')">
+        Email is required.
+      <mat-error *ngIf="emailControl?.hasError('email')"></mat-error>
+        Enter a valid email address.
       </mat-error>
     </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="email" placeholder="Enter email">
-      <mat-error *ngIf="email?.invalid && (email?.dirty || email?.touched)">
-        <span *ngIf="email?.errors?.['required']">Email is required.</span>
-        <span *ngIf="email?.errors?.['email']">Invalid email format.</span>
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Password</mat-label>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Enter password">
-      <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" aria-label="Toggle password visibility">
-        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-      <mat-error *ngIf="password?.invalid && (password?.dirty || password?.touched)">
-        <span *ngIf="password?.errors?.['required']">Password is required.</span>
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Role</mat-label>
-      <mat-select formControlName="role">
-        <mat-option value="admin">Admin</mat-option>
-        <mat-option value="user">User</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-checkbox formControlName="isActive" class="full-width-checkbox">Active</mat-checkbox>
 
     <mat-dialog-actions>
       <button mat-button (click)="onCancel()" class="btn-cancel">Cancel</button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Add</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="addUserForm.invalid">
+        Add User
+      </button>
     </mat-dialog-actions>
   </form>
 </mat-dialog-content>

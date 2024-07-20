@@ -13,6 +13,9 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Fetch all users.
+   */
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`)
       .pipe(
@@ -20,6 +23,9 @@ export class UserService {
       );
   }
 
+  /**
+   * Fetch a specific user's details.
+   */
   getUser(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/user`)
       .pipe(
@@ -27,13 +33,19 @@ export class UserService {
       );
   }
 
-  addUser(user: User): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/users`, user)
+  
+  addUserByEmail(email: string): Observable<any> {
+    console.log(email);
+    return this.http.post<any>(`${this.apiUrl}/register/send-email`, { email })
       .pipe(
         catchError(this.handleError)
       );
   }
 
+  /**
+   * Edit an existing user.
+   * @param user The user data to update.
+   */
   editUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/users/${user.id}`, user)
       .pipe(
@@ -41,6 +53,10 @@ export class UserService {
       );
   }
 
+  /**
+   * Delete a user by their ID.
+   * @param userId The ID of the user to delete.
+   */
   deleteUser(userId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/users/${userId}`)
       .pipe(
@@ -48,6 +64,10 @@ export class UserService {
       );
   }
 
+  /**
+   * Update a user's details.
+   * @param user The user data to update.
+   */
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/users/${user.id}`, user)
       .pipe(
@@ -55,6 +75,11 @@ export class UserService {
       );
   }
 
+  /**
+   * Update the active status of a user.
+   * @param userId The ID of the user to update.
+   * @param isActive The new active status.
+   */
   updateUserStatus(userId: number, isActive: boolean): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/users/${userId}/status`, { isActive })
       .pipe(
@@ -62,6 +87,12 @@ export class UserService {
       );
   }
 
+  /**
+   * Change a user's password.
+   * @param userId The ID of the user whose password is to be changed.
+   * @param oldPassword The current password.
+   * @param newPassword The new password.
+   */
   changePassword(userId: number, oldPassword: string, newPassword: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/users/change-password`, { userId, oldPassword, newPassword })
       .pipe(
@@ -69,6 +100,10 @@ export class UserService {
       );
   }
 
+  /**
+   * Disable Multi-Factor Authentication (MFA) for a user.
+   * @param userId The ID of the user.
+   */
   disableMfa(userId: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/users/disable-mfa`, { userId })
       .pipe(
@@ -76,6 +111,10 @@ export class UserService {
       );
   }
 
+  /**
+   * Handle HTTP errors.
+   * @param error The error response from the HTTP request.
+   */
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);

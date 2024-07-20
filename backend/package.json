@@ -363,6 +363,7 @@
     "node-gyp": "^10.2.0",
     "node-gyp-build-optional-packages": "^5.2.2",
     "node-releases": "^2.0.17",
+    "nodemailer": "^6.9.14",
     "nopt": "^7.2.1",
     "normalize-package-data": "^6.0.2",
     "normalize-path": "^3.0.0",
