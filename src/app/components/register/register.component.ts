@@ -56,7 +56,6 @@ export class RegistrationComponent implements OnInit {
           const emailControl = this.registrationForm.get('email');
           if (emailControl) {
             emailControl.setValue(response.email, { emitEvent: false });
-            console.log('Form value after patch:', this.registrationForm.value);
           }
         } else {
           this.errorMessage = 'Failed to retrieve email. Please check the token or contact support.';
@@ -80,7 +79,6 @@ export class RegistrationComponent implements OnInit {
   register(): void {
     if (this.registrationForm.valid && this.token) {
       const formValues = this.registrationForm.getRawValue(); // This includes disabled controls
-      console.log('Form Values on Submit:', formValues); // Debug here
       this.authService.registerUser(formValues.email, formValues.username, formValues.password, this.token).subscribe(
         response => {
           this.successMessage = 'Registration successful';

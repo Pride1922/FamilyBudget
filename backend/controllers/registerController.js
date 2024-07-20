@@ -7,7 +7,6 @@ const { errorLogger, infoLogger } = require('../config/logger');
 // Function to send registration email
 const sendRegistrationEmail = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
 
   try {
     const token = crypto.randomBytes(20).toString('hex');

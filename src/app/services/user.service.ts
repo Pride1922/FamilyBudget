@@ -35,7 +35,6 @@ export class UserService {
 
   
   addUserByEmail(email: string): Observable<any> {
-    console.log(email);
     return this.http.post<any>(`${this.apiUrl}/sendRegistrationEmail`, { email })
       .pipe(
         catchError(this.handleError)
