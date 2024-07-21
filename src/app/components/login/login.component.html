@@ -1,19 +1,19 @@
 <div class="app-container">
   <div class="login-container mat-elevation-z2">
-    <h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()" *ngIf="!showMFA">
-      <!-- Username Field -->
+    <h2 *ngIf="!showRecoverPassword">Login</h2>
+    <h2 *ngIf="showRecoverPassword">Recover Password</h2>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()" *ngIf="!showMFA && !showRecoverPassword">
+      <!-- Email Field -->
       <mat-form-field appearance="fill">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username" required minlength="4" maxlength="20">
-        <mat-error *ngIf="loginForm.get('username')?.hasError('required') && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)">
-          Username is required.
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+          Email is required.
         </mat-error>
-        <mat-error *ngIf="loginForm.get('username')?.hasError('minlength') && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)">
-          Username must be at least 4 characters.
-        </mat-error>
-        <mat-error *ngIf="loginForm.get('username')?.hasError('maxlength') && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)">
-          Username cannot exceed 20 characters.
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+          Please enter a valid email.
         </mat-error>
       </mat-form-field>
 
@@ -39,15 +39,18 @@
       <button mat-raised-button color="primary" type="submit" class="full-width">
         Login
       </button>
+      <button mat-button type="button" (click)="showRecoverPasswordForm()" class="full-width">
+        Forgot Password?
+      </button>
     </form>
 
+    <!-- MFA Form -->
     <form [formGroup]="mfaForm" (ngSubmit)="verifyMFA()" *ngIf="showMFA">
       <!-- MFA Token Field -->
       <div class="mfa-token-field">
         <mat-form-field appearance="fill">
           <mat-label>MFA Token</mat-label>
           <input matInput #mfaTokenInput formControlName="mfaToken" type="text" required>
-          <!-- Error messages for MFA Token -->
           <mat-error *ngIf="mfaForm.get('mfaToken')?.hasError('required') && (mfaForm.get('mfaToken')?.touched || mfaForm.get('mfaToken')?.dirty)">
             MFA Token is required.
           </mat-error>
@@ -62,13 +65,31 @@
           </mat-error>
         </mat-form-field>
       </div>
-    
       <!-- Verify MFA Button -->
       <button mat-raised-button color="primary" type="submit" class="full-width">
         Verify MFA
       </button>
     </form>
-    
+
+    <!-- Recover Password Form -->
+    <form [formGroup]="recoverPasswordForm" (ngSubmit)="recoverPassword()" *ngIf="showRecoverPassword">
+      <!-- Email Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required>
+        <mat-error *ngIf="recoverPasswordForm.get('email')?.hasError('required') && (recoverPasswordForm.get('email')?.touched || recoverPasswordForm.get('email')?.dirty)">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="recoverPasswordForm.get('email')?.hasError('email') && (recoverPasswordForm.get('email')?.touched || recoverPasswordForm.get('email')?.dirty)">
+          Please enter a valid email.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Recover Password Button -->
+      <button mat-raised-button color="primary" type="submit" class="full-width">
+        Recover Password
+      </button>
+    </form>
 
     <!-- Error Message Display -->
     <div *ngIf="errorMessage" class="error-message mat-body-2">{{ errorMessage }}</div>

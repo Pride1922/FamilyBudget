@@ -13,9 +13,11 @@ import { HeaderVisibilityService } from '../../services/header-visibility.servic
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   mfaForm: FormGroup;
+  recoverPasswordForm: FormGroup;
 
   errorMessage: string = '';
   showMFA: boolean = false;
+  showRecoverPassword: boolean = false;
   userId: number = 0;
 
   hidePassword: boolean = true;
@@ -30,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private headerVisibilityService: HeaderVisibilityService
   ) {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]]
     });
 
@@ -39,8 +41,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(6),
-        Validators.pattern('^[0-9]*$') // Only numeric characters
+        Validators.pattern('^[0-9]*$')
       ]]
+    });
+
+    this.recoverPasswordForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
@@ -58,13 +64,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginFormSubmit() {
     if (this.loginForm.valid) {
-      const user = { username: this.loginForm.value.username, password: this.loginForm.value.password };
+      const user = { email: this.loginForm.value.email, password: this.loginForm.value.password };
       this.authService.login(user).subscribe(
         response => {
           if (response.requiresMFA) {
             this.showMFA = true;
             this.userId = response.userId;
-            this.loginForm.reset(); // Resetting loginForm here
+            this.loginForm.reset();
             setTimeout(() => {
               this.mfaTokenInput.nativeElement.focus();
             }, 0);
@@ -76,7 +82,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.handleLoginError(error);
         }
       );
-    } else {
     }
   }
 
@@ -91,7 +96,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.handleMFAError(error);
         }
       );
-    } else {
     }
   }
 
@@ -105,7 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   handleLoginError(error: any) {
     console.error('Error during login:', error.status);
     if (error.status === 401) {
-      this.errorMessage = 'Invalid username or password';
+      this.errorMessage = 'Invalid email or password';
     } else if (error.status === 403) {
       this.errorMessage = 'User is disabled, please contact the administrator';
     } else {
@@ -121,6 +125,24 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.errorMessage = 'Too many requests. Please try again later.';
     } else {
       this.errorMessage = 'Error verifying MFA. Please try again.';
+    }
+  }
+
+  showRecoverPasswordForm() {
+    this.showRecoverPassword = true;
+  }
+
+  recoverPassword() {
+    if (this.recoverPasswordForm.valid) {
+      const email = this.recoverPasswordForm.value.email;
+      this.authService.recoverPassword(email).subscribe(
+        response => {
+          // Handle success (e.g., show a success message)
+        },
+        error => {
+          // Handle error (e.g., show an error message)
+        }
+      );
     }
   }
 }

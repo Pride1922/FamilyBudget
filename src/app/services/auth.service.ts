@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams  } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -45,7 +45,7 @@ export class AuthService {
       );
   }
 
-  login(user: { username: string, password: string }): Observable<any> {
+  login(user: { email: string, password: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, user)
       .pipe(
         tap(response => {
@@ -89,6 +89,18 @@ export class AuthService {
         })
       );
   }
+
+  // Recover password
+  recoverPassword(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/recover-password`, { email })
+      .pipe(
+        catchError(error => {
+          console.error('Recover password error:', error);
+          return throwError(error);
+        })
+      );
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('mfa_completed'); // Clear MFA completion status on logout

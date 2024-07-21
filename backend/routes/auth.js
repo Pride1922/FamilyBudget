@@ -2,22 +2,25 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const db = require('../config/database'); // Database configuration
 const { errorLogger } = require('../config/logger'); // Logger configuration
+const { sendEmail } = require('../utils/emailService'); // Import sendEmail function
+
 
 // Login endpoint
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    db.query('SELECT * FROM Users WHERE username = ?', [username], async (error, results) => {
+    db.query('SELECT * FROM Users WHERE email = ?', [email], async (error, results) => {
       if (error) {
         errorLogger.error('Database error:', { error });
         return res.status(500).send({ message: 'Database error', error });
       }
 
       if (results.length === 0) {
-        return res.status(400).send({ message: 'Invalid username or password' });
+        return res.status(400).send({ message: 'Invalid email or password' });
       }
 
       const user = results[0];
@@ -29,12 +32,12 @@ router.post('/login', async (req, res) => {
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        return res.status(400).send({ message: 'Invalid username or password' });
+        return res.status(400).send({ message: 'Invalid email or password' });
       }
 
       const requiresMFA = user.mfa_enabled; // Check if MFA is enabled
 
-      const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, process.env.JWT_SECRET, {
+      const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
         expiresIn: '1h'
       });
 
@@ -43,7 +46,7 @@ router.post('/login', async (req, res) => {
         token,
         requiresMFA,
         userId: user.id,
-        user: { id: user.id, username: user.username, role: user.role }
+        user: { id: user.id, email: user.email, role: user.role }
       });
     });
   } catch (error) {
@@ -77,5 +80,65 @@ router.get('/email-by-token', (req, res) => {
     res.status(200).send({ email });
   });
 });
+
+// Endpoint for password recovery
+router.post('/recover-password', async (req, res) => {
+  const { email } = req.body;
+  try {
+    db.query('SELECT * FROM Users WHERE email = ?', [email], async (error, results) => {
+      if (error) {
+        errorLogger.error('Database error:', { error });
+        return res.status(500).send({ message: 'Database error', error });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).send({ message: 'Email not found' });
+      }
+
+      const user = results[0];
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      const resetTokenHash = await bcrypt.hash(resetToken, 10);
+      const resetTokenExpires = new Date(Date.now() + 3600000); // 1 hour from now
+      const generateResetPasswordLink = (token) => {
+        return `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+      };
+
+      
+
+      db.query('UPDATE Users SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE email = ?', 
+      [resetTokenHash, resetTokenExpires, email], async (error) => {
+        if (error) {
+          errorLogger.error('Database error:', { error });
+          return res.status(500).send({ message: 'Database error', error });
+        }
+
+        // Create the email options
+        const mailOptions = {
+          to: userEmail,
+          from: process.env.SMTP_USER,
+          subject: 'Budget: Password Reset Request',
+          text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+                 Please click on the following link, or paste this into your browser to complete the process:\n\n
+                 ${resetPasswordLink}\n\n
+                 If you did not request this, please ignore this email and your password will remain unchanged.\n`
+        };
+
+        // Send the email
+        try {
+          await sendEmail(mailOptions);
+          res.status(200).send({ message: 'Password recovery email sent' });
+        } catch (emailError) {
+          errorLogger.error('Error sending recovery email:', { error: emailError });
+          res.status(500).send({ message: 'Error sending recovery email', error: emailError });
+        }
+      });
+    });
+  } catch (error) {
+    errorLogger.error('Password recovery error:', { error });
+    res.status(500).send({ message: 'Server error', error });
+  }
+});
+
+
 
 module.exports = router;
