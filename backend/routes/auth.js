@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const db = require('../config/database'); // Database configuration
 const { errorLogger, infoLogger } = require('../config/logger'); // Logger configuration
-const { sendEmail } = require('../utils/emailService'); // Import sendEmail function
 
 // Login endpoint
 router.post('/login', async (req, res) => {

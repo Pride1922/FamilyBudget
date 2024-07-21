@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const subcategoriesController = require('../controllers/subcategoriesController');
+const subcategoryController = require('../controllers/subcategoriesController');
+const { authenticateToken } = require('../middleware/auth'); 
 
-// Route to get all subcategories
-router.get('/', subcategoriesController.getAllSubcategories);
-
-// Route to create a new subcategory
-router.post('/', subcategoriesController.createSubcategory);
-
-// Route to delete a subcategory
-router.delete('/:id', subcategoriesController.deleteSubcategory);
-
+router.get('/', authenticateToken,  subcategoryController.getSubcategories);
+router.get('/:id', authenticateToken, subcategoryController.getSubcategoryById);
+router.post('/', authenticateToken, subcategoryController.addSubcategory);
+router.put('/:id', authenticateToken, subcategoryController.editSubcategory);
+router.delete('/:id', authenticateToken, subcategoryController.deleteSubcategory);
 module.exports = router;

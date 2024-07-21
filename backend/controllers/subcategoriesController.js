@@ -1,78 +1,105 @@
 const db = require('../models/subcategoryModel');
+const merchantModel = require('../models/merchantModel');
 const { errorLogger, infoLogger } = require('../config/logger');
 
-// Function to get all subcategories
-const getAllSubcategories = (req, res) => {
-  db.getAllSubcategories((error, subcategories) => {
-    if (error) {
-      errorLogger.error('Database error while retrieving all subcategories:', {
-        error: error.message,
-        stack: error.stack,
-        query: 'SELECT * FROM Subcategories' // Adjust this if you have a specific query
-      });
-      return res.status(500).send({ message: 'Database error', error: error.message });
-    }
-    infoLogger.info('Retrieved all subcategories successfully');
-    res.status(200).send(subcategories);
-  });
-};
-
-// Function to create a new subcategory
-const createSubcategory = (req, res) => {
-  const { categoryId } = req.params;
-  const subcategoryData = { ...req.body, categoryId };
-
-  db.createSubcategory(subcategoryData, (error, results) => {
-    if (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
-        errorLogger.error('Duplicate entry error while creating subcategory:', {
-          error: error.message,
-          stack: error.stack,
-          query: 'INSERT INTO Subcategories ...', // Adjust this if you have a specific query
-          params: subcategoryData
-        });
-        return res.status(400).send({ message: 'Subcategory name already exists for this category' });
-      }
-      errorLogger.error('Database error while creating subcategory:', {
-        error: error.message,
-        stack: error.stack,
-        query: 'INSERT INTO Subcategories ...', // Adjust this if you have a specific query
-        params: subcategoryData
-      });
-      return res.status(500).send({ message: 'Database error', error: error.message });
-    }
-    infoLogger.info('Subcategory added successfully:', {
-      subcategory: subcategoryData,
-      results
+// Get All Subcategories
+const getSubcategories = (req, res) => {
+    db.getAllSubcategories((err, results) => {
+        if (err) {
+            errorLogger.error(err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json(results);
     });
-    res.status(201).send({ message: 'Subcategory added successfully' });
-  });
 };
 
-// Function to delete a subcategory
-const deleteSubcategory = (req, res) => {
-  const { id } = req.params;
+// Get Subcategory By ID
+const getSubcategoryById = (req, res) => {
+    const { id } = req.params;
+    db.getSubcategoryById(id, (err, result) => {
+        if (err) {
+            errorLogger.error(err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        if (!result) {
+            return res.status(404).json({ error: 'Subcategory not found' });
+        }
+        res.json(result);
+    });
+};
 
-  db.deleteSubcategory(id, (error, results) => {
-    if (error) {
-      errorLogger.error('Database error while deleting subcategory:', {
-        error: error.message,
-        stack: error.stack,
-        query: 'DELETE FROM Subcategories WHERE id = ?', // Adjust this if you have a specific query
-        params: [id]
-      });
-      return res.status(500).send({ message: 'Database error', error: error.message });
+// Add Subcategory
+const addSubcategory = async (req, res) => {
+    const { name, category_id } = req.body;
+    try {
+        if (!name || !category_id) {
+            return res.status(400).json({ error: 'Name and category_id are required' });
+        }
+
+        const newSubcategory = new db.Subcategory({ name, category_id });
+        await newSubcategory.save();
+
+        infoLogger.info(`Subcategory added: ${name}`);
+        res.status(201).json(newSubcategory);
+    } catch (error) {
+        errorLogger.error(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
-    if (results.affectedRows === 0) {
-      return res.status(404).send({ message: `No subcategory found with ID ${id}` });
+};
+
+// Edit Subcategory
+const editSubcategory = async (req, res) => {
+    const { id } = req.params;
+    const { name, category_id } = req.body;
+    try {
+        if (!name || !category_id) {
+            return res.status(400).json({ error: 'Name and category_id are required' });
+        }
+
+        const updatedSubcategory = await db.Subcategory.findByIdAndUpdate(
+            id,
+            { name, category_id },
+            { new: true }
+        );
+
+        if (!updatedSubcategory) {
+            return res.status(404).json({ error: 'Subcategory not found' });
+        }
+
+        infoLogger.info(`Subcategory updated: ${name}`);
+        res.json(updatedSubcategory);
+    } catch (error) {
+        errorLogger.error(error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
-    infoLogger.info(`Subcategory with ID ${id} deleted successfully`);
-    res.status(200).send({ message: `Subcategory with ID ${id} deleted successfully` });
-  });
+};
+
+// Delete Subcategory
+const deleteSubcategory = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const hasMerchants = await merchantModel.Merchant.exists({ subcategory_id: id });
+        if (hasMerchants) {
+            return res.status(400).json({ error: 'Cannot delete subcategory with existing merchants' });
+        }
+
+        const deletedSubcategory = await db.Subcategory.findByIdAndDelete(id);
+        if (!deletedSubcategory) {
+            return res.status(404).json({ error: 'Subcategory not found' });
+        }
+
+        infoLogger.info(`Subcategory deleted: ${deletedSubcategory.name}`);
+        res.status(204).send();
+    } catch (error) {
+        errorLogger.error(error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 };
 
 module.exports = {
-  getAllSubcategories,
-  createSubcategory,
-  deleteSubcategory
+    getSubcategories,
+    getSubcategoryById,
+    addSubcategory,
+    editSubcategory,
+    deleteSubcategory
 };

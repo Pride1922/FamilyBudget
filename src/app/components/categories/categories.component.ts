@@ -39,9 +39,12 @@ export class CategoriesComponent implements OnInit {
   openCategoryDialog(category?: Category): void {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {
       width: '400px',
-      data: category || { name: '', type: 'expense', icon: '' }
+      data: {
+        ...category,
+        subcategories: category?.subcategories || [] // Ensure subcategories are included
+      }
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.id) {

@@ -1,134 +1,113 @@
-const db = require('../models/categoryModel');
-const { errorLogger, infoLogger } = require('../config/logger');
+const db = require('../config/database');
 const subcategoryModel = require('../models/subcategoryModel');
+const merchantModel = require('../models/merchantModel');
+const { errorLogger, infoLogger } = require('../config/logger');
 
-// Create a new category
-const createCategory = (req, res) => {
-  const categoryData = req.body;
-  db.createCategory(categoryData, (error, results) => {
-    if (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
-        errorLogger.error('Duplicate entry error while creating category:', {
-          message: 'Category name already exists',
-          error: error.message,
-          stack: error.stack
-        });
-        return res.status(400).send({ message: 'Category name already exists' });
-      }
-      errorLogger.error('Database error while creating category:', {
-        error: error.message,
-        stack: error.stack
-      });
-      return res.status(500).send({ message: 'Database error', error: error.message });
-    }
-    infoLogger.info('Category added successfully:', { categoryData });
-    res.status(201).send({ message: 'Category added successfully' });
-  });
+// Get All Categories
+const getCategories = (req, res) => {
+    const query = `
+        SELECT c.*, JSON_ARRAYAGG(
+            JSON_OBJECT('id', s.id, 'name', s.name)
+        ) AS subcategories
+        FROM Categories c
+        LEFT JOIN Subcategories s ON c.id = s.category_id
+        GROUP BY c.id
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            errorLogger.error(err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json(results);
+    });
 };
 
-// Get all categories with their subcategories
-const getAllCategories = (req, res) => {
-  db.getAllCategories(async (error, categories) => {
-    if (error) {
-      errorLogger.error('Database error while fetching categories:', {
-        error: error.message,
-        stack: error.stack
-      });
-      return res.status(500).send({ message: 'Database error', error: error.message });
-    }
+// Get Category By ID
+const getCategoryById = (req, res) => {
+    const { id } = req.params;
 
-    try {
-      for (const category of categories) {
-        const subcategories = await new Promise((resolve, reject) => {
-          subcategoryModel.getSubcategoriesByCategoryId(category.id, (error, subcategories) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(subcategories);
-            }
-          });
-        });
-        category.subcategories = subcategories;
-      }
-      infoLogger.info('Categories with subcategories fetched successfully');
-      res.status(200).send(categories);
-    } catch (err) {
-      errorLogger.error('Error fetching subcategories for categories:', {
-        error: err.message,
-        stack: err.stack
-      });
-      res.status(500).send({ message: 'Error fetching subcategories', error: err.message });
-    }
-  });
+    const query = `
+        SELECT c.*, JSON_ARRAYAGG(
+            JSON_OBJECT('id', s.id, 'name', s.name)
+        ) AS subcategories
+        FROM Categories c
+        LEFT JOIN Subcategories s ON c.id = s.category_id
+        WHERE c.id = ?
+        GROUP BY c.id
+    `;
+
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            errorLogger.error(err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
+        res.json(results[0]);
+    });
 };
 
-// Update a category
-const updateCategory = (req, res) => {
-  const { id } = req.params;
-  const categoryData = req.body;
-  db.updateCategory(id, categoryData, (error, results) => {
-    if (error) {
-      errorLogger.error('Database error while updating category:', {
-        message: 'Error executing query to update category',
-        query: 'UPDATE Categories SET ? WHERE id = ?',
-        params: [categoryData, id],
-        error: error.message,
-        stack: error.stack
-      });
-      return res.status(500).send({ message: 'Database error', error: error.message });
-    }
-    if (results.affectedRows === 0) {
-      return res.status(404).send({ message: `No category found with ID ${id}` });
-    }
-    infoLogger.info(`Category with ID ${id} updated successfully`, { categoryData });
-    res.status(200).send({ message: `Category with ID ${id} updated successfully` });
-  });
+// Add Category
+const addCategory = (req, res) => {
+    const { name, type, icon } = req.body;
+    db.query('INSERT INTO Categories (name, type, icon) VALUES (?, ?, ?)', [name, type, icon], (err, result) => {
+        if (err) {
+            errorLogger.error(err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.status(201).json({ id: result.insertId, name, type, icon });
+    });
 };
 
-// Delete a category
+// Edit Category
+const editCategory = (req, res) => {
+    const { id } = req.params;
+    const { name, type, icon } = req.body;
+    db.query('UPDATE Categories SET name = ?, type = ?, icon = ? WHERE id = ?', [name, type, icon, id], (err, result) => {
+        if (err) {
+            errorLogger.error(err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Category not found' });
+        }
+        res.json({ id, name, type, icon });
+    });
+};
+
+// Delete Category
 const deleteCategory = (req, res) => {
-  const { id } = req.params;
-  db.deleteCategory(id, async (error, results) => {
-    if (error) {
-      errorLogger.error('Database error while deleting category:', {
-        message: 'Error executing query to delete category',
-        query: 'DELETE FROM Categories WHERE id = ?',
-        params: [id],
-        error: error.message,
-        stack: error.stack
-      });
-      return res.status(500).send({ message: 'Database error', error: error.message });
-    }
-    if (results.affectedRows === 0) {
-      return res.status(404).send({ message: `No category found with ID ${id}` });
-    }
-
-    try {
-      await new Promise((resolve, reject) => {
-        subcategoryModel.deleteSubcategoriesByCategoryId(id, (error, results) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(results);
-          }
+    const { id } = req.params;
+    subcategoryModel.deleteSubcategoriesByCategoryId(id, (err) => {
+        if (err) {
+            errorLogger.error(err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        merchantModel.getMerchantsByCategoryId(id, (err) => {
+            if (err) {
+                errorLogger.error(err.message);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+            db.query('DELETE FROM Categories WHERE id = ?', [id], (err, result) => {
+                if (err) {
+                    errorLogger.error(err.message);
+                    return res.status(500).json({ error: 'Internal server error' });
+                }
+                if (result.affectedRows === 0) {
+                    return res.status(404).json({ error: 'Category not found' });
+                }
+                res.status(204).send();
+            });
         });
-      });
-      infoLogger.info(`Category with ID ${id} deleted successfully`);
-      res.status(200).send({ message: `Category with ID ${id} deleted successfully` });
-    } catch (err) {
-      errorLogger.error('Error deleting subcategories for category ID:', {
-        categoryId: id,
-        error: err.message,
-        stack: err.stack
-      });
-      res.status(500).send({ message: 'Error deleting subcategories', error: err.message });
-    }
-  });
+    });
 };
 
 module.exports = {
-  createCategory,
-  getAllCategories,
-  updateCategory,
-  deleteCategory
+    getCategories,
+    getCategoryById,
+    addCategory,
+    editCategory,
+    deleteCategory
 };
