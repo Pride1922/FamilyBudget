@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MFAService } from '../../services/mfa.service';
 import { AuthService } from '../../services/auth.service';
+import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
 
 @Component({
   selector: 'app-mfasetup',
@@ -21,9 +22,9 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private mfaService: MFAService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: SnackbarService // Inject SnackbarService
   ) {
-    // Initialize the form group here
     this.mfaForm = this.fb.group({
       mfaToken: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]] // Only allow 6-digit numbers
     });
@@ -34,10 +35,12 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
     this.mfaService.setupMFA().subscribe(
       (data: any) => {
         this.qrCodeUrl = data.qrCodeUrl;
+        this.snackBar.showSuccess('MFA setup initialized successfully!');
       },
       error => {
         console.error('Failed to setup MFA:', error);
         this.errorMessage = 'Failed to setup MFA. Please try again.';
+        this.snackBar.showError('Failed to setup MFA. Please try again.');
       }
     );
   }
@@ -55,10 +58,12 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
     if (!userId) {
       console.error('User ID not found');
       this.errorMessage = 'User ID not found. Please login again.';
+      this.snackBar.showError('User ID not found. Please login again.');
       return;
     }
 
     if (this.mfaForm.invalid) {
+      this.snackBar.showError('Please enter a valid MFA token.');
       return; // Form is invalid
     }
 
@@ -71,10 +76,13 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
       () => {
         this.mfaConfirmed = true;
         this.authService.setMFACompleted();
+        this.snackBar.showSuccess('MFA confirmed successfully!');
+        this.navigateBackToProfile(); // Navigate back to profile on success
       },
       error => {
         console.error('Failed to confirm MFA:', error);
         this.errorMessage = 'Failed to confirm MFA. Please verify the code and try again.';
+        this.snackBar.showError('Failed to confirm MFA. Please verify the code and try again.');
       }
     );
   }

@@ -6,8 +6,9 @@ import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component'; // Adjust the path as per your project structure
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component'; 
 import { MatSort, Sort } from '@angular/material/sort';
+import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
 
 @Component({
   selector: 'app-manage-users',
@@ -26,7 +27,8 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   constructor(
     private userService: UserService,
     private mfaService: MFAService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: SnackbarService // Inject SnackbarService
   ) {
     this.users = new MatTableDataSource<User>([]);
     this.filteredUsers = new MatTableDataSource<User>([]);
@@ -51,6 +53,7 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       },
       (error) => {
         console.error('Error loading users:', error);
+        this.snackBar.showError('Failed to load users.');
       }
     );
   }
@@ -58,9 +61,7 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   applyFilter(): void {
     const filterValue = this.searchText.trim().toLowerCase();
 
-    // Check if users data is loaded
     if (this.users.data.length > 0) {
-      // Filter users data based on filterValue
       const filteredData = this.users.data.filter(user =>
         user.username.toLowerCase().includes(filterValue)
         || user.id.toString().includes(filterValue)
@@ -68,10 +69,8 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
         || user.role.toLowerCase().includes(filterValue)
       );
 
-      // Assign filtered data to filteredUsers
       this.filteredUsers.data = filteredData;
     } else {
-      // If no users are loaded, reset filteredUsers to empty
       this.filteredUsers.data = [];
     }
   }
@@ -84,10 +83,12 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   disableMFA(userId: number) {
     this.mfaService.disableMFA(userId).subscribe(
       response => {
+        this.snackBar.showSuccess('MFA disabled successfully!');
         this.loadUsers(); // Refresh the user list
       },
       error => {
         console.error('Error disabling MFA', error);
+        this.snackBar.showError('Failed to disable MFA.');
       }
     );
   }
@@ -96,6 +97,12 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
       width: '400px',
       data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadUsers(); // Refresh the user list after adding a new user
+      }
     });
   }
 
@@ -107,9 +114,16 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.userService.updateUser(result).subscribe(() => {
-          this.loadUsers();
-        });
+        this.userService.updateUser(result).subscribe(
+          () => {
+            this.snackBar.showSuccess('User updated successfully!');
+            this.loadUsers(); // Refresh the user list
+          },
+          error => {
+            console.error('Error updating user:', error);
+            this.snackBar.showError('Failed to update user.');
+          }
+        );
       }
     });
   }
@@ -126,18 +140,32 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.userService.deleteUser(userId).subscribe(() => {
-          this.loadUsers(); // Reload users after deletion
-        });
+        this.userService.deleteUser(userId).subscribe(
+          () => {
+            this.snackBar.showSuccess('User deleted successfully!');
+            this.loadUsers(); // Reload users after deletion
+          },
+          error => {
+            console.error('Error deleting user:', error);
+            this.snackBar.showError('Failed to delete user.');
+          }
+        );
       }
     });
   }
 
   toggleUserStatus(user: User): void {
     user.isActive = !user.isActive;
-    this.userService.updateUser(user).subscribe(() => {
-      this.loadUsers();
-    });
+    this.userService.updateUser(user).subscribe(
+      () => {
+        this.snackBar.showSuccess('User status updated successfully!');
+        this.loadUsers();
+      },
+      error => {
+        console.error('Error updating user status:', error);
+        this.snackBar.showError('Failed to update user status.');
+      }
+    );
   }
 
   onSortChange(sortState: Sort): void {

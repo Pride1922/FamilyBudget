@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +22,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private snackBar: SnackbarService // Inject SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class ProfileComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching user data:', error);
+        this.snackBar.showError('Error fetching user data. Please try again later.');
       }
     });
 
@@ -76,15 +79,18 @@ export class ProfileComponent implements OnInit {
           if (response.error) {
             this.errorMessage = response.message;
             this.passwordChangeSuccess = false;
+            this.snackBar.showError('Failed to change password: ' + response.message);
           } else {
             this.passwordChangeSuccess = true;
             this.errorMessage = null;
             this.changePasswordForm.reset();
+            this.snackBar.showSuccess('Password changed successfully!');
           }
         },
         error: (error) => {
           console.error('Change password error:', error);
           this.errorMessage = 'An error occurred while changing password.';
+          this.snackBar.showError('An error occurred while changing password.');
         }
       });
     }
