@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   mfaForm: FormGroup;
   recoverPasswordForm: FormGroup;
 
-  errorMessage: string = '';
   showMFA: boolean = false;
   showRecoverPassword: boolean = false;
   userId: number = 0;
@@ -113,28 +112,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   handleLoginError(error: any) {
     console.error('Error during login:', error.status);
     if (error.status === 401) {
-      this.errorMessage = 'Invalid email or password';
-      this.snackbarService.showError(this.errorMessage); // Show error message
+      this.snackbarService.showError('Invalid email or password'); // Show error message
     } else if (error.status === 403) {
-      this.errorMessage = 'User is disabled, please contact the administrator';
-      this.snackbarService.showError(this.errorMessage); // Show error message
+      this.snackbarService.showError('User is disabled, please contact the administrator'); // Show error message
     } else {
-      this.errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
-      this.snackbarService.showError(this.errorMessage); // Show error message
+      this.snackbarService.showError(error.error?.message || 'An unexpected error occurred. Please try again later.'); // Show error message
     }
   }
 
   handleMFAError(error: any) {
     console.error('Error verifying MFA:', error.status);
     if (error.status === 401) {
-      this.errorMessage = 'Invalid MFA token';
-      this.snackbarService.showError(this.errorMessage); // Show error message
+      this.snackbarService.showError('Invalid MFA token'); // Show error message
     } else if (error.status === 429) {
-      this.errorMessage = 'Too many requests. Please try again later.';
-      this.snackbarService.showError(this.errorMessage); // Show error message
+      this.snackbarService.showError('Too many requests. Please try again later.'); // Show error message
     } else {
-      this.errorMessage = 'Error verifying MFA. Please try again.';
-      this.snackbarService.showError(this.errorMessage); // Show error message
+      this.snackbarService.showError('Error verifying MFA. Please try again.'); // Show error message
     }
   }
 
@@ -173,5 +166,4 @@ export class LoginComponent implements OnInit, OnDestroy {
       );
     }
   }
-  
 }
