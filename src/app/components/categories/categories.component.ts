@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
-import { Category, Subcategory } from '../categories/category.interface'; // Import your interfaces
+import { Category, Subcategory } from '../categories/category.interface';
 
 @Component({
   selector: 'app-categories',
@@ -9,10 +10,22 @@ import { Category, Subcategory } from '../categories/category.interface'; // Imp
 })
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
-  newCategory: { name: string, type: 'income' | 'expense' } = { name: '', type: 'expense' };
-  newSubcategory: { name: string } = { name: '' };
+  categoryForm: FormGroup;
+  subcategoryForm: FormGroup;
+  expandedCategoryId: number | null = null;
+  selectedCategoryId: number | null = null;
+  editingSubcategoryId: number | null = null;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private fb: FormBuilder) {
+    this.categoryForm = this.fb.group({
+      name: ['', Validators.required],
+      type: ['expense', Validators.required]
+    });
+
+    this.subcategoryForm = this.fb.group({
+      name: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.loadCategories();
@@ -20,48 +33,106 @@ export class CategoriesComponent implements OnInit {
 
   loadCategories(): void {
     this.categoryService.getAllCategories()
-      .subscribe((categories: Category[]) => { // Specify the type of categories as Category[]
-        this.categories = categories;
-      });
+      .subscribe((categories: Category[]) => this.categories = categories);
   }
 
   addCategory(): void {
-    this.categoryService.createCategory(this.newCategory)
-      .subscribe(() => {
-        this.loadCategories();
-        this.newCategory = { name: '', type: 'expense' };
-      });
-  }
-
-  editCategory(category: Category): void {
-    // Handle editing logic, e.g., show a modal or navigate to an edit page
-    console.log('Editing category:', category);
-  }
-
-  deleteCategory(categoryId: number): void {
-    this.categoryService.deleteCategory(categoryId)
-      .subscribe(() => {
-        this.loadCategories();
-      });
+    if (this.categoryForm.valid) {
+      this.categoryService.createCategory(this.categoryForm.value)
+        .subscribe(() => {
+          this.loadCategories();
+          this.categoryForm.reset({ type: 'expense' });
+        });
+    }
   }
 
   addSubcategory(categoryId: number): void {
-    this.categoryService.createSubcategory(categoryId, this.newSubcategory)
-      .subscribe(() => {
-        this.loadCategories();
-        this.newSubcategory = { name: '' };
-      });
+    if (this.subcategoryForm.valid) {
+      this.categoryService.createSubcategory(categoryId, this.subcategoryForm.value)
+        .subscribe(() => {
+          this.loadCategories();
+          this.subcategoryForm.reset();
+        });
+    }
+  }
+
+  toggleCategory(categoryId: number): void {
+    this.expandedCategoryId = this.expandedCategoryId === categoryId ? null : categoryId;
+  }
+
+  editCategory(category: Category): void {
+    this.selectedCategoryId = category.id;
+    this.categoryForm.setValue({
+      name: category.name,
+      type: category.type
+    });
+  }
+
+  saveCategory(): void {
+    if (this.categoryForm.valid && this.selectedCategoryId !== null) {
+      const updatedCategory = {
+        ...this.categoryForm.value,
+        id: this.selectedCategoryId
+      };
+
+      this.categoryService.updateCategory(updatedCategory)
+        .subscribe(() => {
+          this.loadCategories();
+          this.categoryForm.reset({ type: 'expense' });
+          this.selectedCategoryId = null;
+        });
+    }
+  }
+
+  cancelEditCategory(): void {
+    this.categoryForm.reset({ type: 'expense' });
+    this.selectedCategoryId = null;
   }
 
   editSubcategory(subcategory: Subcategory): void {
-    // Handle editing logic for subcategory
-    console.log('Editing subcategory:', subcategory);
+    this.editingSubcategoryId = subcategory.id;
+    this.subcategoryForm.setValue({
+      name: subcategory.name
+    });
   }
 
-  deleteSubcategory(subcategoryId: number): void {
-    this.categoryService.deleteSubcategory(subcategoryId)
-      .subscribe(() => {
-        this.loadCategories();
-      });
+  saveSubcategory(categoryId: number): void {
+    if (this.subcategoryForm.valid && this.editingSubcategoryId !== null) {
+      const updatedSubcategory = {
+        ...this.subcategoryForm.value,
+        id: this.editingSubcategoryId,
+        category_id: categoryId
+      };
+
+      this.categoryService.updateSubcategory(updatedSubcategory)
+        .subscribe(() => {
+          this.loadCategories();
+          this.subcategoryForm.reset();
+          this.editingSubcategoryId = null;
+        });
+    }
+  }
+
+  cancelEditSubcategory(): void {
+    this.subcategoryForm.reset();
+    this.editingSubcategoryId = null;
+  }
+
+  deleteCategory(id: number): void {
+    if (confirm('Are you sure you want to delete this category?')) {
+      this.categoryService.deleteCategory(id)
+        .subscribe(() => {
+          this.loadCategories();
+        });
+    }
+  }
+
+  deleteSubcategory(id: number): void {
+    if (confirm('Are you sure you want to delete this subcategory?')) {
+      this.categoryService.deleteSubcategory(id)
+        .subscribe(() => {
+          this.loadCategories();
+        });
+    }
   }
 }

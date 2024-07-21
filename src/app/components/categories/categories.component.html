@@ -1,26 +1,80 @@
-<div *ngFor="let category of categories">
-  <h2>{{ category.name }}</h2>
-  <p>Type: {{ category.type }}</p>
-  
-  <h3>Subcategories:</h3>
-  <ul>
-    <li *ngFor="let subcategory of category.subcategories">{{ subcategory.name }}</li>
-  </ul>
-  
-  <button (click)="editCategory(category)">Edit</button>
-  <button (click)="deleteCategory(category.id)">Delete</button>
+<div class="categories-container">
+  <mat-card *ngFor="let category of categories" class="category-card">
+    <mat-card-header>
+      <mat-card-title>{{ category.name }}</mat-card-title>
+      <mat-card-subtitle>Type: {{ category.type | titlecase }}</mat-card-subtitle>
+      <button mat-icon-button (click)="toggleCategory(category.id)">
+        <mat-icon>{{ expandedCategoryId === category.id ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </button>
+    </mat-card-header>
 
-  <div>
-    <input type="text" [(ngModel)]="newSubcategory.name" placeholder="New Subcategory Name">
-    <button (click)="addSubcategory(category.id)">Add Subcategory</button>
-  </div>
-</div>
+    <mat-card-content *ngIf="expandedCategoryId === category.id">
+      <mat-list>
+        <mat-list-item *ngFor="let subcategory of category.subcategories">
+          {{ subcategory.name }}
+          <button mat-icon-button (click)="editSubcategory(subcategory)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteSubcategory(subcategory.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+      <form [formGroup]="subcategoryForm">
+        <mat-form-field>
+          <input matInput placeholder="New Subcategory" formControlName="name">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="addSubcategory(category.id)">Add Subcategory</button>
+      </form>
 
-<div>
-  <input type="text" [(ngModel)]="newCategory.name" placeholder="New Category Name">
-  <select [(ngModel)]="newCategory.type">
-    <option value="income">Income</option>
-    <option value="expense">Expense</option>
-  </select>
-  <button (click)="addCategory()">Add Category</button>
+      <!-- Edit Category Form -->
+      <div *ngIf="selectedCategoryId === category.id">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Edit Category</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+              <mat-form-field>
+                <input matInput formControlName="name" placeholder="Category Name">
+              </mat-form-field>
+              <mat-form-field>
+                <mat-select formControlName="type" placeholder="Type">
+                  <mat-option value="income">Income</mat-option>
+                  <mat-option value="expense">Expense</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-raised-button color="primary" type="submit">Save</button>
+              <button mat-raised-button color="warn" (click)="cancelEditCategory()">Cancel</button>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button (click)="editCategory(category)">Edit Category</button>
+      <button mat-raised-button color="warn" (click)="deleteCategory(category.id)">Delete Category</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Add New Category</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
+        <mat-form-field>
+          <input matInput placeholder="Category Name" formControlName="name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Type" formControlName="type">
+            <mat-option value="income">Income</mat-option>
+            <mat-option value="expense">Expense</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Add Category</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>
