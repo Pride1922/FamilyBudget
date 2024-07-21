@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MFAService } from '../../services/mfa.service';
 import { HeaderVisibilityService } from '../../services/header-visibility.service';
+import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private mfaService: MFAService,
     private router: Router,
-    private headerVisibilityService: HeaderVisibilityService
+    private headerVisibilityService: HeaderVisibilityService,
+    private snackbarService: SnackbarService // Inject SnackbarService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -104,16 +106,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.setMFACompleted();
     this.authService.setLoggedInUser(response.user);
     this.router.navigate(['/home']);
+    this.snackbarService.showSuccess('Login successful!'); // Show success message
   }
 
   handleLoginError(error: any) {
     console.error('Error during login:', error.status);
     if (error.status === 401) {
       this.errorMessage = 'Invalid email or password';
+      this.snackbarService.showError(this.errorMessage); // Show error message
     } else if (error.status === 403) {
       this.errorMessage = 'User is disabled, please contact the administrator';
+      this.snackbarService.showError(this.errorMessage); // Show error message
     } else {
       this.errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+      this.snackbarService.showError(this.errorMessage); // Show error message
     }
   }
 
@@ -121,10 +127,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     console.error('Error verifying MFA:', error.status);
     if (error.status === 401) {
       this.errorMessage = 'Invalid MFA token';
+      this.snackbarService.showError(this.errorMessage); // Show error message
     } else if (error.status === 429) {
       this.errorMessage = 'Too many requests. Please try again later.';
+      this.snackbarService.showError(this.errorMessage); // Show error message
     } else {
       this.errorMessage = 'Error verifying MFA. Please try again.';
+      this.snackbarService.showError(this.errorMessage); // Show error message
     }
   }
 
@@ -137,10 +146,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       const email = this.recoverPasswordForm.value.email;
       this.authService.recoverPassword(email).subscribe(
         response => {
-          // Handle success (e.g., show a success message)
+          this.snackbarService.showSuccess('Password recovery email sent.'); // Show success message
         },
         error => {
-          // Handle error (e.g., show an error message)
+          this.snackbarService.showError('Error sending password recovery email.'); // Show error message
+          console.error('Error during password recovery:', error);
         }
       );
     }

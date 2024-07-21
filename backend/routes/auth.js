@@ -7,7 +7,6 @@ const db = require('../config/database'); // Database configuration
 const { errorLogger } = require('../config/logger'); // Logger configuration
 const { sendEmail } = require('../utils/emailService'); // Import sendEmail function
 
-
 // Login endpoint
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -81,6 +80,11 @@ router.get('/email-by-token', (req, res) => {
   });
 });
 
+// Function to generate the reset password link
+const generateResetPasswordLink = (token) => {
+  return `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+};
+
 // Endpoint for password recovery
 router.post('/recover-password', async (req, res) => {
   const { email } = req.body;
@@ -99,11 +103,9 @@ router.post('/recover-password', async (req, res) => {
       const resetToken = crypto.randomBytes(32).toString('hex');
       const resetTokenHash = await bcrypt.hash(resetToken, 10);
       const resetTokenExpires = new Date(Date.now() + 3600000); // 1 hour from now
-      const generateResetPasswordLink = (token) => {
-        return `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
-      };
 
-      
+      // Generate the reset password link
+      const resetPasswordLink = generateResetPasswordLink(resetToken);
 
       db.query('UPDATE Users SET resetPasswordToken = ?, resetPasswordExpires = ? WHERE email = ?', 
       [resetTokenHash, resetTokenExpires, email], async (error) => {
@@ -114,7 +116,7 @@ router.post('/recover-password', async (req, res) => {
 
         // Create the email options
         const mailOptions = {
-          to: userEmail,
+          to: email,
           from: process.env.SMTP_USER,
           subject: 'Budget: Password Reset Request',
           text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
@@ -138,7 +140,5 @@ router.post('/recover-password', async (req, res) => {
     res.status(500).send({ message: 'Server error', error });
   }
 });
-
-
 
 module.exports = router;

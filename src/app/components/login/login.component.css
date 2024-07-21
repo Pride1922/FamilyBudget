@@ -67,3 +67,19 @@ button[type="button"] {
   color: #721c24; /* Dark red text color */
   border: 1px solid #f5c6cb; /* Red border */
 }
+/* styles.css or similar */
+
+.snackbar-success {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.snackbar-error {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.snackbar-info {
+  background-color: #2196f3; /* Blue */
+  color: white;
+}

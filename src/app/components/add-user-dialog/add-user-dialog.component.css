@@ -65,3 +65,20 @@ button.mat-raised-button {
   color: #333; /* Dark text color */
   border-radius: 20px; /* Rounded corners */
 }
+
+/* styles.css or similar */
+
+.snackbar-success {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.snackbar-error {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.snackbar-info {
+  background-color: #2196f3; /* Blue */
+  color: white;
+}

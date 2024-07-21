@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../services/snackbar.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class AddUserDialogComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddUserDialogComponent>,
-    private snackBar: MatSnackBar,
+    private snackbarService: SnackbarService, // Inject SnackbarService
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -33,11 +33,11 @@ export class AddUserDialogComponent {
       const email = this.addUserForm.value.email;
       this.userService.addUserByEmail(email).subscribe(
         () => {
-          this.snackBar.open('Registration email sent successfully!', 'Close', { duration: 3000 });
+          this.snackbarService.showSuccess('Registration email sent successfully!');
           this.dialogRef.close(true);
         },
         (error) => {
-          this.snackBar.open('Failed to send registration email.', 'Close', { duration: 3000 });
+          this.snackbarService.showError('Failed to send registration email.');
           console.error('Error:', error);
         }
       );
