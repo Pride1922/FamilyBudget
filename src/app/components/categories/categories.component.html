@@ -1,79 +1,53 @@
 <div class="categories-container">
-  <mat-card *ngFor="let category of categories" class="category-card">
+  <!-- Categories List -->
+  <mat-card *ngFor="let category of categories" class="category-card" (click)="openCategoryDialog(category)">
     <mat-card-header>
-      <mat-card-title>{{ category.name }}</mat-card-title>
-      <mat-card-subtitle>Type: {{ category.type | titlecase }}</mat-card-subtitle>
-      <button mat-icon-button (click)="toggleCategory(category.id)">
-        <mat-icon>{{ expandedCategoryId === category.id ? 'expand_less' : 'expand_more' }}</mat-icon>
+      <mat-icon class="category-icon">{{ category.icon }}</mat-icon> <!-- Display category icon -->
+      <div class="text-container">
+        <mat-card-title>{{ category.name }}</mat-card-title>
+        <mat-card-subtitle>Type: {{ category.type | titlecase }}</mat-card-subtitle>
+      </div>
+      <button mat-icon-button class="delete-button" (click)="deleteCategory(category.id); $event.stopPropagation()">
+        <mat-icon>delete</mat-icon>
       </button>
     </mat-card-header>
-
-    <mat-card-content *ngIf="expandedCategoryId === category.id">
-      <mat-list>
-        <mat-list-item *ngFor="let subcategory of category.subcategories">
-          {{ subcategory.name }}
-          <button mat-icon-button (click)="editSubcategory(subcategory)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="deleteSubcategory(subcategory.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-list-item>
-      </mat-list>
-      <form [formGroup]="subcategoryForm">
-        <mat-form-field>
-          <input matInput placeholder="New Subcategory" formControlName="name">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="addSubcategory(category.id)">Add Subcategory</button>
-      </form>
-
-      <!-- Edit Category Form -->
-      <div *ngIf="selectedCategoryId === category.id">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Edit Category</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
-              <mat-form-field>
-                <input matInput formControlName="name" placeholder="Category Name">
-              </mat-form-field>
-              <mat-form-field>
-                <mat-select formControlName="type" placeholder="Type">
-                  <mat-option value="income">Income</mat-option>
-                  <mat-option value="expense">Expense</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <button mat-raised-button color="primary" type="submit">Save</button>
-              <button mat-raised-button color="warn" (click)="cancelEditCategory()">Cancel</button>
-            </form>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-raised-button (click)="editCategory(category)">Edit Category</button>
-      <button mat-raised-button color="warn" (click)="deleteCategory(category.id)">Delete Category</button>
-    </mat-card-actions>
   </mat-card>
 
-  <mat-card>
+  <!-- Add New Category Button -->
+  <mat-card class="add-category-card">
     <mat-card-header>
       <mat-card-title>Add New Category</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
-        <mat-form-field>
-          <input matInput placeholder="Category Name" formControlName="name">
+      <form [formGroup]="categoryForm" (ngSubmit)="onSubmitCategory()">
+        <mat-form-field appearance="fill">
+          <mat-label>Category Name</mat-label>
+          <input matInput formControlName="name">
+          <mat-error *ngIf="categoryForm.get('name')?.hasError('required')">
+            Category name is required
+          </mat-error>
         </mat-form-field>
-        <mat-form-field>
-          <mat-select placeholder="Type" formControlName="type">
+
+        <mat-form-field appearance="fill">
+          <mat-label>Type</mat-label>
+          <mat-select formControlName="type">
             <mat-option value="income">Income</mat-option>
             <mat-option value="expense">Expense</mat-option>
           </mat-select>
+          <mat-error *ngIf="categoryForm.get('type')?.hasError('required')">
+            Type is required
+          </mat-error>
         </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Add Category</button>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Icon</mat-label>
+          <input matInput formControlName="icon">
+          <mat-icon *ngIf="categoryForm.get('icon')?.value" class="category-icon-preview">
+            {{ categoryForm.get('icon')?.value }}
+          </mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Save Category</button>
       </form>
     </mat-card-content>
   </mat-card>

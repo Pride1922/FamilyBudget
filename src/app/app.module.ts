@@ -33,6 +33,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { MFASetupComponent } from './components/mfasetup/mfasetup.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { CategoryDialogComponent } from './components/categories/category-dialog/category-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { PasswordResetComponent } from './components/password-reset/password-res
     ProfileComponent,
     MFASetupComponent,
     CategoriesComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    CategoryDialogComponent
   ],
   imports: [
     BrowserModule,

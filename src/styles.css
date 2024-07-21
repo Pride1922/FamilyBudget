@@ -1,6 +1,7 @@
 /* Import Angular Material theme (ensure this is correct) */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+
 /* Reset styles */
 * {
   margin: 0;
