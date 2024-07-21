@@ -3,6 +3,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan'); // Import Morgan for request logging
+const publicRouter = require('./routes/public');
 const categoriesRouter = require('./routes/categories');
 const subcategoriesRouter = require('./routes/subcategories');
 const requestLogger = require('./middleware/requestLogger');
@@ -53,22 +54,23 @@ app.use(morgan('combined', { stream: { write: message => infoLogger.info(message
 // Custom request logger middleware
 app.use(requestLogger);
 
-// API Routes
-app.use('/api/categories', categoriesRouter); // Categories API routes
-app.use('/api/subcategories', subcategoriesRouter); // Subcategories API routes
+// Apply public routes first
+app.use('/api', publicRouter);
 
-// Authentication and Authorization Middleware
-app.use('/api/auth', authRouter); // Authentication routes (login)
-app.use('/api', registerRouter); // Registration route
+// Apply categories and subcategories routes
+app.use('/api/categories', categoriesRouter);
+app.use('/api/subcategories', subcategoriesRouter);
 
-// Middleware to rate limit MFA related routes
-app.use('/api/mfa', mfaRateLimiter);
-  
-// User Management Routes
+// Authentication and Authorization Routes
+app.use('/api/auth', authRouter);
+app.use('/api/register', registerRouter); // Adjust if necessary
+
+// Apply user management routes with authentication middleware
 app.use('/api/users', authenticateToken, usersRouter);
 
-// MFA related routes
-app.use('/api/mfa', mfaRoutes);
+// Apply MFA related routes and rate limiting middleware
+app.use('/api/mfa', mfaRateLimiter);
+app.use('/api/mfa', mfaRoutes); // Ensure this is correctly mapped
 
 // Error handling middleware (if required)
 // app.use(errorHandler); // Define your error handler function if needed

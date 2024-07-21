@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { User } from '../models/user.model'; // Adjust the path based on your project structure
+import { User } from '../models/user.model'; 
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -98,7 +98,10 @@ export class UserService {
         catchError(this.handleError)
       );
   }
-
+  //check token expired before open reset password form
+  verifyResetToken(token: string) {
+    return this.http.post<any>(`${this.apiUrl}/verify-reset-token`, { token });
+  }
   /**
    * Disable Multi-Factor Authentication (MFA) for a user.
    * @param userId The ID of the user.

@@ -92,7 +92,7 @@ export class AuthService {
 
   // Recover password
   recoverPassword(email: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/recover-password`, { email })
+    return this.http.post<any>(`${this.apiUrl}/recover-password`, { email })
       .pipe(
         catchError(error => {
           console.error('Recover password error:', error);
@@ -101,6 +101,14 @@ export class AuthService {
       );
   }
 
+  //Reset Password
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post<any>(`${this.apiUrl}/reset-password`, { token, newPassword })
+  }
+  // Verify reset token 
+  verifyResetToken(token: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/verify-reset-token`, { token });
+  }
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('mfa_completed'); // Clear MFA completion status on logout

@@ -1,5 +1,11 @@
 <div class="app-container">
   <div class="login-container mat-elevation-z2">
+    <!-- Spinner -->
+    <div *ngIf="isRecoveringPassword" class="spinner-overlay">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Header -->
     <h2 *ngIf="!showRecoverPassword">Login</h2>
     <h2 *ngIf="showRecoverPassword">Recover Password</h2>
 

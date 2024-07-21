@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   userId: number = 0;
 
   hidePassword: boolean = true;
+  isRecoveringPassword: boolean = false; // Add this flag for spinner control
 
   @ViewChild('mfaTokenInput') mfaTokenInput!: ElementRef;
 
@@ -143,16 +144,34 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   recoverPassword() {
     if (this.recoverPasswordForm.valid) {
+      this.isRecoveringPassword = true; // Show spinner
+  
       const email = this.recoverPasswordForm.value.email;
       this.authService.recoverPassword(email).subscribe(
         response => {
+          // Hide spinner and switch to login form
+          this.isRecoveringPassword = false;
           this.snackbarService.showSuccess('Password recovery email sent.'); // Show success message
+          
+          // Use setTimeout to ensure the spinner has time to be hidden
+          setTimeout(() => {
+            this.showRecoverPassword = false; // Hide recover password form
+            this.loginForm.reset(); // Reset the login form
+            this.showMFA = false; // Hide MFA form if visible
+            this.router.navigate(['/login']).then(() => {
+              console.log('Navigated to login');
+            }).catch(err => {
+              console.error('Navigation error:', err);
+            });
+          }, 500); // Short delay to ensure UI updates
         },
         error => {
+          this.isRecoveringPassword = false; // Hide spinner
           this.snackbarService.showError('Error sending password recovery email.'); // Show error message
           console.error('Error during password recovery:', error);
         }
       );
     }
   }
+  
 }

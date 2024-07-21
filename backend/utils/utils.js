@@ -15,6 +15,12 @@ function getUserById(userId, callback) {
   });
 }
 
+const generateResetPasswordLink = (token) => {
+  return `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+};
+
+
 module.exports = {
-  getUserById
+  getUserById,
+  generateResetPasswordLink
 };

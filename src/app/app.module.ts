@@ -30,6 +30,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { ProfileComponent } from './components/profile/profile.component';
 import { MFASetupComponent } from './components/mfasetup/mfasetup.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { CategoriesComponent } from './components/categories/categories.componen
     ConfirmationDialogComponent,
     ProfileComponent,
     MFASetupComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    PasswordResetComponent
   ],
   imports: [
     BrowserModule,

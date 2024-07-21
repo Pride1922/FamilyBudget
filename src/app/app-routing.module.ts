@@ -8,6 +8,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { MFASetupComponent } from './components/mfasetup/mfasetup.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+
 
 
 const routes: Routes = [
@@ -15,6 +17,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
+  { path: 'reset-password', component: PasswordResetComponent },
   {
     path: 'manage-users',
     component: ManageUsersComponent,
