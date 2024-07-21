@@ -17,8 +17,13 @@ const sendRegistrationEmail = async (req, res) => {
 
     db.query('INSERT INTO RegistrationTokens (email, token, createdAt, expiresAt) VALUES (?, ?, ?, ?)', [email, token, new Date(), expiresAt], (dbError) => {
       if (dbError) {
-        errorLogger.error('Database error occurred while saving registration token:', { error: dbError });
-        return res.status(500).json({ message: 'Database error', error: dbError });
+        errorLogger.error('Database error while saving registration token:', {
+          error: dbError.message,
+          stack: dbError.stack,
+          query: 'INSERT INTO RegistrationTokens (email, token, createdAt, expiresAt) VALUES (?, ?, ?, ?)',
+          params: [email, token, new Date(), expiresAt]
+        });
+        return res.status(500).json({ message: 'Database error', error: dbError.message });
       }
 
       const mailOptions = {
@@ -30,18 +35,28 @@ const sendRegistrationEmail = async (req, res) => {
 
       emailService.sendEmail(mailOptions)
         .then((info) => {
-          infoLogger.info('Registration email sent successfully:', { email, response: info.response });
+          infoLogger.info('Registration email sent successfully:', {
+            email,
+            response: info.response
+          });
           res.status(200).json({ message: 'Registration email sent successfully' });
         })
         .catch((emailError) => {
-          errorLogger.error('Error sending registration email:', { error: emailError });
-          res.status(500).json({ message: 'Error sending email', error: emailError });
+          errorLogger.error('Error sending registration email:', {
+            error: emailError.message,
+            stack: emailError.stack,
+            mailOptions
+          });
+          res.status(500).json({ message: 'Error sending email', error: emailError.message });
         });
     });
 
   } catch (error) {
-    errorLogger.error('Server error occurred during registration email process:', { error });
-    res.status(500).json({ message: 'Server error', error });
+    errorLogger.error('Server error during registration email process:', {
+      error: error.message,
+      stack: error.stack
+    });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -52,8 +67,13 @@ const registerUser = async (req, res) => {
   try {
     db.query('SELECT * FROM RegistrationTokens WHERE token = ? AND expiresAt > ?', [token, new Date()], (dbError, results) => {
       if (dbError) {
-        errorLogger.error('Database error occurred while verifying registration token:', { error: dbError });
-        return res.status(500).json({ message: 'Database error', error: dbError });
+        errorLogger.error('Database error while verifying registration token:', {
+          error: dbError.message,
+          stack: dbError.stack,
+          query: 'SELECT * FROM RegistrationTokens WHERE token = ? AND expiresAt > ?',
+          params: [token, new Date()]
+        });
+        return res.status(500).json({ message: 'Database error', error: dbError.message });
       }
 
       if (results.length === 0) {
@@ -62,8 +82,13 @@ const registerUser = async (req, res) => {
 
       db.query('SELECT * FROM Users WHERE email = ? OR username = ?', [email, username], (userError, userResults) => {
         if (userError) {
-          errorLogger.error('Database error occurred while checking if user exists:', { error: userError });
-          return res.status(500).json({ message: 'Database error', error: userError });
+          errorLogger.error('Database error while checking if user exists:', {
+            error: userError.message,
+            stack: userError.stack,
+            query: 'SELECT * FROM Users WHERE email = ? OR username = ?',
+            params: [email, username]
+          });
+          return res.status(500).json({ message: 'Database error', error: userError.message });
         }
 
         if (userResults.length > 0) {
@@ -73,14 +98,24 @@ const registerUser = async (req, res) => {
         const hashedPassword = bcrypt.hashSync(password, 10);
         db.query('INSERT INTO Users (username, email, password, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)', [username, email, hashedPassword, new Date(), new Date()], (insertError) => {
           if (insertError) {
-            errorLogger.error('Database error occurred while registering user:', { error: insertError });
-            return res.status(500).json({ message: 'Database error', error: insertError });
+            errorLogger.error('Database error while registering user:', {
+              error: insertError.message,
+              stack: insertError.stack,
+              query: 'INSERT INTO Users (username, email, password, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)',
+              params: [username, email, hashedPassword, new Date(), new Date()]
+            });
+            return res.status(500).json({ message: 'Database error', error: insertError.message });
           }
 
           db.query('DELETE FROM RegistrationTokens WHERE token = ?', [token], (deleteError) => {
             if (deleteError) {
-              errorLogger.error('Database error occurred while deleting registration token:', { error: deleteError });
-              return res.status(500).json({ message: 'Database error', error: deleteError });
+              errorLogger.error('Database error while deleting registration token:', {
+                error: deleteError.message,
+                stack: deleteError.stack,
+                query: 'DELETE FROM RegistrationTokens WHERE token = ?',
+                params: [token]
+              });
+              return res.status(500).json({ message: 'Database error', error: deleteError.message });
             }
 
             infoLogger.info('User registered successfully:', { email });
@@ -91,8 +126,11 @@ const registerUser = async (req, res) => {
     });
 
   } catch (error) {
-    errorLogger.error('Server error occurred during user registration:', { error });
-    res.status(500).json({ message: 'Server error', error });
+    errorLogger.error('Server error during user registration:', {
+      error: error.message,
+      stack: error.stack
+    });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 

@@ -1,12 +1,16 @@
 const winston = require('winston');
 const { combine, timestamp, printf } = winston.format;
-require('winston-daily-rotate-file'); // Import DailyRotateFile
+require('winston-daily-rotate-file');
+
+const logFormat = printf(({ timestamp, level, message, stack }) => {
+  return stack ? `${timestamp} [${level}]: ${message}\nStack: ${stack}` : `${timestamp} [${level}]: ${message}`;
+});
 
 const errorLogger = winston.createLogger({
   level: 'error',
   format: combine(
     timestamp(),
-    printf(({ timestamp, level, message, stack }) => `${timestamp} [${level}]: ${message} ${stack || ''}`)
+    logFormat
   ),
   transports: [
     new winston.transports.DailyRotateFile({

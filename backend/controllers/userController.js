@@ -17,8 +17,13 @@ const executeQuery = async (query, params) => {
 // Centralized response handling
 const handleResponse = (res, error, successMessage, successStatusCode = 200) => {
   if (error) {
-    errorLogger.error(error.message, { error });
-    return res.status(500).send({ message: "Internal server error", error });
+    errorLogger.error('Error response:', {
+      message: error.message,
+      stack: error.stack,
+      query: error.query || 'No query',
+      params: error.params || 'No params'
+    });
+    return res.status(500).send({ message: "Internal server error", error: error.message });
   }
   res.status(successStatusCode).send({ message: successMessage });
 };
@@ -52,11 +57,16 @@ const updateUser = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).send({ message: `No user found with ID ${id}` });
     }
-    infoLogger.info(`User with ID ${id} updated successfully`);
+    infoLogger.info('User updated successfully:', { id, updateParams });
     res.status(200).send({ message: `User with ID ${id} updated successfully` });
   } catch (error) {
-    errorLogger.error("Error updating user:", { error });
-    res.status(500).send({ message: "Error updating user", error });
+    errorLogger.error('Error updating user:', {
+      message: error.message,
+      stack: error.stack,
+      query: updateQuery || 'No query',
+      params: updateParams || 'No params'
+    });
+    res.status(500).send({ message: "Error updating user", error: error.message });
   }
 };
 
@@ -64,11 +74,16 @@ const updateUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const results = await executeQuery("SELECT * FROM Users", []);
-    infoLogger.info("Users fetched successfully");
+    infoLogger.info('All users fetched successfully');
     res.status(200).send(results);
   } catch (error) {
-    errorLogger.error("Database error:", { error });
-    res.status(500).send({ message: "Database error", error });
+    errorLogger.error('Database error while fetching users:', {
+      message: error.message,
+      stack: error.stack,
+      query: 'SELECT * FROM Users',
+      params: []
+    });
+    res.status(500).send({ message: "Database error", error: error.message });
   }
 };
 
@@ -77,17 +92,22 @@ const getUserById = async (req, res) => {
   const userId = req.user.id;
   try {
     const results = await executeQuery(
-      "SELECT id, username, email, role, isActive, createdat, mfa_enabled FROM Users WHERE id = ?",
+      "SELECT id, username, email, role, isActive, createdAt, mfa_enabled FROM Users WHERE id = ?",
       [userId]
     );
     if (results.length === 0) {
       return res.status(404).send({ message: "User not found" });
     }
-    infoLogger.info("User data fetched successfully", { userId });
+    infoLogger.info('User data fetched successfully:', { userId });
     res.status(200).send(results[0]);
   } catch (error) {
-    errorLogger.error("Database error:", { error });
-    res.status(500).send({ message: "Database error", error });
+    errorLogger.error('Database error while fetching user by ID:', {
+      message: error.message,
+      stack: error.stack,
+      query: 'SELECT id, username, email, role, isActive, createdAt, mfa_enabled FROM Users WHERE id = ?',
+      params: [userId]
+    });
+    res.status(500).send({ message: "Database error", error: error.message });
   }
 };
 
@@ -101,18 +121,28 @@ const addUser = async (username, email, hashedPassword, callback) => {
       "INSERT INTO Users (email, username, password, role, isActive, createdAt, updatedAt) VALUES (?, ?, ?, 'user', 1, ?, ?)",
       [email, username, hashedPassword, createdAt, updatedAt]
     );
-    infoLogger.info("User added successfully");
+    infoLogger.info('User added successfully:', { email, username });
     callback(null, { status: 201, message: "User added successfully" });
   } catch (error) {
     if (error.code === "ER_DUP_ENTRY") {
-      errorLogger.error("Duplicate entry error while adding user:", { error });
+      errorLogger.error('Duplicate entry error while adding user:', {
+        message: error.message,
+        stack: error.stack,
+        query: 'INSERT INTO Users ...',
+        params: [email, username, hashedPassword, createdAt, updatedAt]
+      });
       return callback({
         status: 400,
         message: "Username or email already exists",
       });
     }
-    errorLogger.error("Database error while adding user:", { error });
-    return callback({ status: 500, message: "Database error", error });
+    errorLogger.error('Database error while adding user:', {
+      message: error.message,
+      stack: error.stack,
+      query: 'INSERT INTO Users ...',
+      params: [email, username, hashedPassword, createdAt, updatedAt]
+    });
+    return callback({ status: 500, message: "Database error", error: error.message });
   }
 };
 
@@ -125,11 +155,16 @@ const deleteUser = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).send({ message: `No user found with ID ${id}` });
     }
-    infoLogger.info(`User with ID ${id} deleted successfully`);
+    infoLogger.info('User deleted successfully:', { id });
     res.status(200).send({ message: `User with ID ${id} deleted successfully` });
   } catch (error) {
-    errorLogger.error("Database error:", { error });
-    res.status(500).send({ message: "Database error", error });
+    errorLogger.error('Database error while deleting user:', {
+      message: error.message,
+      stack: error.stack,
+      query: 'DELETE FROM Users WHERE id = ?',
+      params: [id]
+    });
+    res.status(500).send({ message: "Database error", error: error.message });
   }
 };
 
@@ -144,28 +179,31 @@ const changePassword = async (req, res) => {
     }
 
     const user = results[0];
-
     const isMatch = await bcrypt.compare(oldPassword, user.password);
+
     if (!isMatch) {
       return res.status(400).json({ error: true, message: "Old password is incorrect" });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-
     await executeQuery("UPDATE Users SET password = ? WHERE id = ?", [hashedPassword, userId]);
 
-    infoLogger.info(`Password updated for user ID ${userId}`);
+    infoLogger.info('Password updated successfully for user ID:', { userId });
     res.status(200).json({ message: "Password changed successfully" });
   } catch (error) {
-    errorLogger.error("Server error:", { error });
-    res.status(500).json({ message: "Server error", error });
+    errorLogger.error('Server error while changing password:', {
+      message: error.message,
+      stack: error.stack,
+      query: 'UPDATE Users SET password = ? WHERE id = ?',
+      params: [hashedPassword, userId]
+    });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
 // Function to register a user
 const registerUser = async (req, res) => {
   const { email, username, password, token } = req.body;
-  console.log("Registration Request:", { email, username, password, token });
 
   if (!email || !username || !password || !token) {
     return res.status(400).send({ message: "All fields are required" });
@@ -190,12 +228,17 @@ const registerUser = async (req, res) => {
 
       await executeQuery("DELETE FROM RegistrationTokens WHERE token = ?", [token]);
 
-      infoLogger.info("User registered successfully", { email, username });
+      infoLogger.info('User registered successfully:', { email, username });
       res.status(201).send({ message: "Registration successful" });
     });
   } catch (error) {
-    errorLogger.error("Database error:", { error });
-    res.status(500).send({ message: "Database error", error });
+    errorLogger.error('Database error while registering user:', {
+      message: error.message,
+      stack: error.stack,
+      query: 'SELECT email FROM RegistrationTokens WHERE token = ? AND expiresAt > NOW()',
+      params: [token]
+    });
+    res.status(500).send({ message: "Database error", error: error.message });
   }
 };
 
@@ -206,5 +249,5 @@ module.exports = {
   addUser,
   deleteUser,
   changePassword,
-  registerUser,
+  registerUser
 };
