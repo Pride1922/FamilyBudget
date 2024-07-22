@@ -11,7 +11,7 @@
       </button>
     </mat-card-header>
 
-    <div class="expanded-content" [ngClass]="{'show-content': expandedCategoryId === category.id}">
+    <div class="expanded-content" [ngClass]="{'show-content': expandedCategoryId === category.id, 'hide-content': expandedCategoryId !== category.id}">
       <mat-card class="edit-category-form">
         <mat-card-header>Edit Category</mat-card-header>
         <mat-card-content>

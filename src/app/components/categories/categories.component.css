@@ -106,17 +106,17 @@ button {
 
 .subcategory-container {
   margin-top: 24px;
-  padding: 16px; /* Add padding inside the container */
-  background-color: #ffffff; /* Ensure a background color for contrast */
-  border-radius: 8px; /* Optional: Rounded corners for a softer look */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow */
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .subcategory-container h3 {
-  margin: 0 0 16px; /* Margin below the heading for spacing */
-  font-size: 20px; /* Adjust heading size if needed */
-  font-weight: 500; /* Ensure proper font weight */
-  color: #333; /* Consistent text color */
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
 }
 
 .subcategory-card {
@@ -135,15 +135,18 @@ button {
 }
 
 .expanded-content {
-  opacity: 0;
-  max-height: 0;
   overflow: hidden;
-  transition: opacity 0.3s ease, max-height 0.3s ease;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
 .show-content {
   opacity: 1;
-  max-height: 500px;
+  max-height: 1000px; /* Adjusted for a smoother transition */
+}
+
+.hide-content {
+  opacity: 0;
+  max-height: 0;
 }
 
 @media (max-width: 600px) {
