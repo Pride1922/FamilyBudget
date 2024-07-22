@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Category, Subcategory } from '../components/categories/category.interface';
+import { Category } from '../components/categories/category.interface';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -11,8 +11,6 @@ export class CategoryService {
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
-
-  // Categories Endpoints
 
   getAllCategories(): Observable<Category[]> {
     console.log('Getting all categories');
@@ -33,27 +31,5 @@ export class CategoryService {
 
   deleteCategory(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/categories/${id}`);
-  }
-
-  // Subcategories Endpoints
-
-  getSubcategoriesByCategoryId(categoryId: number): Observable<Subcategory[]> {
-    return this.http.get<Subcategory[]>(`${this.apiUrl}/categories/${categoryId}/subcategories`);
-  }
-
-  getSubcategoryById(id: number): Observable<Subcategory> {
-    return this.http.get<Subcategory>(`${this.apiUrl}/subcategories/${id}`);
-  }
-
-  createSubcategory(categoryId: number, subcategory: Omit<Subcategory, 'id' | 'category_id'>): Observable<Subcategory> {
-    return this.http.post<Subcategory>(`${this.apiUrl}/categories/${categoryId}/subcategories`, subcategory);
-  }
-
-  updateSubcategory(subcategory: Subcategory): Observable<Subcategory> {
-    return this.http.put<Subcategory>(`${this.apiUrl}/subcategories/${subcategory.id}`, subcategory);
-  }
-
-  deleteSubcategory(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/subcategories/${id}`);
   }
 }
