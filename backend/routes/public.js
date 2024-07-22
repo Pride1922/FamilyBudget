@@ -13,5 +13,3 @@ router.post('/verify-reset-token', verifyResetToken);
 
 module.exports = router;
 
-
-module.exports = router;

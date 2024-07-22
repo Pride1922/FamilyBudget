@@ -63,7 +63,7 @@ app.use('/api/subcategories', subcategoriesRouter);
 
 // Authentication and Authorization Routes
 app.use('/api/auth', authRouter);
-app.use('/api/register', registerRouter); // Adjust if necessary
+app.use('/api/register', registerRouter); 
 
 // Apply user management routes with authentication middleware
 app.use('/api/users', authenticateToken, usersRouter);

@@ -60,6 +60,7 @@ const sendRegistrationEmail = async (req, res) => {
   }
 };
 
+
 // Function to handle user registration
 const registerUser = async (req, res) => {
   const { email, username, password, token } = req.body;

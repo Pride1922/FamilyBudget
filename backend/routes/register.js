@@ -1,14 +1,13 @@
-// backend/routes/register.js
-
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
 const registerController = require('../controllers/registerController');
+const userController = require('../controllers/userController');
+
+// Send Registration Email
+router.post('/sendregistrationemail', registerController.sendRegistrationEmail);
 
 // Register endpoint
-router.post('/register', userController.registerUser);
+router.post('/registeruser', userController.registerUser);
 
-//Send Registration Email
-router.post('/sendregistrationemail', registerController.sendRegistrationEmail);
 
 module.exports = router;

@@ -35,7 +35,7 @@ export class UserService {
 
   
   addUserByEmail(email: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/sendRegistrationEmail`, { email })
+    return this.http.post<any>(`${this.apiUrl}/register/sendregistrationemail`, { email })
       .pipe(
         catchError(this.handleError)
       );
