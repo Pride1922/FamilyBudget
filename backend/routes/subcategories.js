@@ -8,4 +8,10 @@ router.get('/:id', authenticateToken, subcategoryController.getSubcategoryById);
 router.post('/', authenticateToken, subcategoryController.addSubcategory);
 router.put('/:id', authenticateToken, subcategoryController.editSubcategory);
 router.delete('/:id', authenticateToken, subcategoryController.deleteSubcategory);
+
+router.get('/category/:categoryId', authenticateToken, subcategoryController.getSubcategoriesByCategory);
+
+
+
+
 module.exports = router;

@@ -21,9 +21,8 @@ export class SubcategoryService {
   }
 
   createSubcategory(categoryId: number, subcategory: Omit<Subcategory, 'id' | 'category_id'>): Observable<Subcategory> {
-    return this.http.post<Subcategory>(`${this.apiUrl}/categories/${categoryId}/subcategories`, subcategory);
-  }
-
+    return this.http.post<Subcategory>(`${this.apiUrl}/subcategories`, { ...subcategory, categoryId });
+}
   updateSubcategory(subcategory: Subcategory): Observable<Subcategory> {
     return this.http.put<Subcategory>(`${this.apiUrl}/subcategories/${subcategory.id}`, subcategory);
   }

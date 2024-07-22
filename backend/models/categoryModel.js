@@ -18,9 +18,14 @@ const deleteCategory = (categoryId, callback) => {
   db.query('DELETE FROM Categories WHERE id = ?', [categoryId], callback);
 };
 
+const getCategoryById = (categoryId, callback) => {
+  db.query('SELECT * FROM Categories WHERE id = ?', [categoryId], callback);
+};
+
 module.exports = {
   createCategory,
   getAllCategories,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  getCategoryById
 };

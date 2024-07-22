@@ -13,13 +13,20 @@ const getSubcategoriesByCategoryId = (categoryId, callback) => {
   db.query('SELECT * FROM Subcategories WHERE category_id = ?', [categoryId], callback);
 };
 
-const deleteSubcategoriesByCategoryId = (categoryId, callback) => {
-  db.query('DELETE FROM Subcategories WHERE category_id = ?', [categoryId], callback);
+const getAllSubcategories = (callback) => {
+  db.query('SELECT * FROM Subcategories', callback);
 };
+
+const getSubcategoryById = (id, callback) => {
+  db.query('SELECT * FROM Subcategories WHERE id = ?', [id], callback);
+};
+
+
 
 module.exports = {
   createSubcategory,
   deleteSubcategory,
   getSubcategoriesByCategoryId,
-  deleteSubcategoriesByCategoryId
+  getAllSubcategories,
+  getSubcategoryById
 };

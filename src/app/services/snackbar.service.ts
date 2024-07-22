@@ -1,6 +1,5 @@
-// src/app/services/snackbar.service.ts
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +10,13 @@ export class SnackbarService {
 
   // Generic show method for displaying snackbars
   private show(message: string, action: string = 'Close', duration: number = 3000, panelClass: string[] = []): void {
-    this.snackBar.open(message, action, {
+    const config: MatSnackBarConfig = {
       duration,
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
+      horizontalPosition: 'end', // Always on the right side
+      verticalPosition: 'top',   // Always on the top
       panelClass
-    });
+    };
+    this.snackBar.open(message, action, config);
   }
 
   // Method for showing success messages

@@ -78,31 +78,55 @@ const editCategory = (req, res) => {
 };
 
 // Delete Category
-const deleteCategory = (req, res) => {
+const deleteCategory = async (req, res) => {
     const { id } = req.params;
-    subcategoryModel.deleteSubcategoriesByCategoryId(id, (err) => {
-        if (err) {
-            errorLogger.error(err.message);
-            return res.status(500).json({ error: 'Internal server error' });
+    try {
+        // Check if there are any merchants associated with the category
+        const merchants = await new Promise((resolve, reject) => {
+            merchantModel.getMerchantsByCategoryId(id, (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
+        });
+
+        if (merchants.length > 0) {
+            return res.status(400).json({ error: 'Cannot delete category with existing merchants' });
         }
-        merchantModel.getMerchantsByCategoryId(id, (err) => {
+
+        // Check if there are any subcategories associated with the category
+        const subcategories = await new Promise((resolve, reject) => {
+            subcategoryModel.getSubcategoriesByCategoryId(id, (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(results);
+            });
+        });
+
+        if (subcategories.length > 0) {
+            return res.status(400).json({ error: 'Cannot delete category with existing subcategories' });
+        }
+
+        // Delete the category itself
+        db.query('DELETE FROM Categories WHERE id = ?', [id], (err, result) => {
             if (err) {
                 errorLogger.error(err.message);
                 return res.status(500).json({ error: 'Internal server error' });
             }
-            db.query('DELETE FROM Categories WHERE id = ?', [id], (err, result) => {
-                if (err) {
-                    errorLogger.error(err.message);
-                    return res.status(500).json({ error: 'Internal server error' });
-                }
-                if (result.affectedRows === 0) {
-                    return res.status(404).json({ error: 'Category not found' });
-                }
-                res.status(204).send();
-            });
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Category not found' });
+            }
+            res.status(204).send();
         });
-    });
+    } catch (error) {
+        errorLogger.error(error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 };
+
+
 
 module.exports = {
     getCategories,

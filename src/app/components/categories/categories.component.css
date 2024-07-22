@@ -39,7 +39,6 @@
 
 .category-icon {
   font-size: 24px;
-  top: -25px;
   color: #00796b;
   margin-right: 16px;
 }
@@ -100,8 +99,6 @@ button {
 
 .delete-button {
   color: #d32f2f;
-  position: relative;
-  top: -4px;
 }
 
 .subcategory-container {
@@ -135,18 +132,16 @@ button {
 }
 
 .expanded-content {
+  max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease, opacity 0.3s ease;
+  height: auto; /* Allows dynamic height adjustment */
 }
 
 .show-content {
+  max-height: 1000px; /* Increased limit to handle larger content */
   opacity: 1;
-  max-height: 1000px; /* Adjusted for a smoother transition */
-}
-
-.hide-content {
-  opacity: 0;
-  max-height: 0;
+  height: auto; /* Ensures content height adjusts */
 }
 
 @media (max-width: 600px) {

@@ -11,7 +11,7 @@
       </button>
     </mat-card-header>
 
-    <div class="expanded-content" [ngClass]="{'show-content': expandedCategoryId === category.id, 'hide-content': expandedCategoryId !== category.id}">
+    <div class="expanded-content" [ngClass]="{'show-content': expandedCategoryId === category.id}">
       <mat-card class="edit-category-form">
         <mat-card-header>Edit Category</mat-card-header>
         <mat-card-content>
@@ -52,7 +52,8 @@
       </mat-card>
 
       <div class="subcategory-container">
-        <h3>Subcategories</h3>
+        <h3 *ngIf="category.subcategories && category.subcategories.length">Subcategories</h3>
+
         <mat-card *ngFor="let subcategory of category.subcategories" class="subcategory-card">
           <mat-card-header>
             <mat-card-title>{{ subcategory.name }}</mat-card-title>
@@ -62,12 +63,11 @@
           </mat-card-header>
         </mat-card>
 
-        <mat-card class="add-subcategory-form">
+        <mat-card class="add-subcategory-form" *ngIf="expandedCategoryId === category.id">
           <mat-card-header>Add New Subcategory</mat-card-header>
           <mat-card-content>
             <form [formGroup]="subcategoryForm" (ngSubmit)="onSubmitSubcategory()">
-              <input type="hidden" formControlName="id">
-              <input type="hidden" formControlName="category_id" [value]="category.id">
+              <input type="hidden" formControlName="category_id">
               <mat-form-field appearance="fill">
                 <mat-label>Subcategory Name</mat-label>
                 <input matInput formControlName="name">
@@ -85,7 +85,7 @@
     </div>
   </mat-card>
 
-  <mat-card class="add-category-card" (click)="openCategoryDialog()">
+  <mat-card class="add-category-card">
     <mat-card-header>
       <mat-card-title>Add New Category</mat-card-title>
     </mat-card-header>

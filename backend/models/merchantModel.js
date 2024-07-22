@@ -60,10 +60,26 @@ const deleteMerchant = (id, callback) => {
   });
 };
 
+const getMerchantsByCategoryId = (categoryId, callback) => {
+  db.query('SELECT * FROM Merchants WHERE category_id = ?', [categoryId], callback);
+};
+
+const getMerchantsBySubcategoryId = (subcategoryId, callback) => {
+  db.query('SELECT COUNT(*) AS count FROM Merchants WHERE subcategory_id = ?', [subcategoryId], (err, results) => {
+      if (err) {
+          return callback(err);
+      }
+      callback(null, results[0].count > 0);
+  });
+};
+
+
 module.exports = {
   getAllMerchants,
   getMerchantById,
   createMerchant,
   updateMerchant,
-  deleteMerchant
+  deleteMerchant,
+  getMerchantsByCategoryId,
+  getMerchantsBySubcategoryId
 };
