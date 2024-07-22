@@ -80,51 +80,53 @@ const editCategory = (req, res) => {
 // Delete Category
 const deleteCategory = async (req, res) => {
     const { id } = req.params;
+
     try {
         // Check if there are any merchants associated with the category
         const merchants = await new Promise((resolve, reject) => {
             merchantModel.getMerchantsByCategoryId(id, (err, results) => {
                 if (err) {
-                    return reject(err);
+                    return reject(new Error('Error fetching merchants for the category.'));
                 }
                 resolve(results);
             });
         });
 
         if (merchants.length > 0) {
-            return res.status(400).json({ error: 'Cannot delete category with existing merchants' });
+            return res.status(400).json({ error: 'Category cannot be deleted because there are associated merchants. Please remove the merchants before deleting the category.' });
         }
 
         // Check if there are any subcategories associated with the category
         const subcategories = await new Promise((resolve, reject) => {
             subcategoryModel.getSubcategoriesByCategoryId(id, (err, results) => {
                 if (err) {
-                    return reject(err);
+                    return reject(new Error('Error fetching subcategories for the category.'));
                 }
                 resolve(results);
             });
         });
 
         if (subcategories.length > 0) {
-            return res.status(400).json({ error: 'Cannot delete category with existing subcategories' });
+            return res.status(400).json({ error: 'Category cannot be deleted because there are existing subcategories. Please remove the subcategories before deleting the category.' });
         }
 
         // Delete the category itself
         db.query('DELETE FROM Categories WHERE id = ?', [id], (err, result) => {
             if (err) {
-                errorLogger.error(err.message);
-                return res.status(500).json({ error: 'Internal server error' });
+                errorLogger.error(`Database error while deleting category with ID ${id}: ${err.message}`);
+                return res.status(500).json({ error: 'An error occurred while attempting to delete the category. Please try again later.' });
             }
             if (result.affectedRows === 0) {
-                return res.status(404).json({ error: 'Category not found' });
+                return res.status(404).json({ error: 'Category not found. It may have already been deleted.' });
             }
-            res.status(204).send();
+            res.status(204).send(); // Successfully deleted
         });
     } catch (error) {
-        errorLogger.error(error.message);
-        res.status(500).json({ error: 'Internal server error' });
+        errorLogger.error(`Error in deleteCategory function: ${error.message}`);
+        res.status(500).json({ error: 'An unexpected error occurred. Please try again later.' });
     }
 };
+
 
 
 

@@ -115,20 +115,21 @@ export class CategoriesComponent implements OnInit {
   }
 
   deleteCategory(id: number): void {
-    if (confirm('Are you sure you want to delete this category?')) {
-      this.categoryService.deleteCategory(id).subscribe(
-        () => {
-          this.loadCategories();
-          this.snackbarService.showSuccess('Category deleted successfully!');
-        },
-        error => {
-          this.snackbarService.showError('Failed to delete category.');
-          console.error(error);
-        }
-      );
+    if (confirm('Are you sure you want to delete this category? This action cannot be undone.')) {
+        this.categoryService.deleteCategory(id).subscribe(
+            () => {
+                this.loadCategories();
+                this.snackbarService.showSuccess('Category deleted successfully!');
+            },
+            error => {
+                // Assuming the error object has a message property with the server's error message
+                const errorMessage = error.error?.error || 'Failed to delete category. Please try again later.';
+                this.snackbarService.showError(errorMessage);
+                console.error('Deletion failed:', error);
+            }
+        );
     }
-  }
-
+}
   openSubcategoryForm(categoryId: number): void {
     this.subcategoryForm.reset(); // Reset form
     this.subcategoryForm.patchValue({ category_id: categoryId }); // Set category_id
