@@ -20,7 +20,7 @@ export class ConfirmationDialogComponent {
   }
 
   onYesClick(): void {
-    this.snackbarService.showSuccess('User Deleted!', 'Close', 2000); // Show the Snackbar message
+    this.snackbarService.showSuccess('User Deleted!', 2000); // Show the Snackbar message
     setTimeout(() => {
       this.dialogRef.close(true); // Close the dialog with a result of true after 2 seconds
     }, 2000);

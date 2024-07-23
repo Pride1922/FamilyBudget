@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MFAService } from '../../services/mfa.service';
 import { HeaderVisibilityService } from '../../services/header-visibility.service';
-import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
+import { SnackbarService } from '../../services/snackbar.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   userId: number = 0;
 
   hidePassword: boolean = true;
-  isRecoveringPassword: boolean = false; // Add this flag for spinner control
+  isRecoveringPassword: boolean = false;
+
+  selectedLanguage: string = 'nl';
+  languages = [
+    { code: 'en', name: 'English', flag: 'assets/flags/en.ico' },
+    { code: 'pt', name: 'Portuguese', flag: 'assets/flags/pt.ico' },
+    { code: 'nl', name: 'Dutch', flag: 'assets/flags/nl.ico' }
+  ];
 
   @ViewChild('mfaTokenInput') mfaTokenInput!: ElementRef;
 
@@ -31,8 +39,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private mfaService: MFAService,
     private router: Router,
     private headerVisibilityService: HeaderVisibilityService,
-    private snackbarService: SnackbarService // Inject SnackbarService
+    private snackbarService: SnackbarService,
+    private translate: TranslateService // Inject TranslateService
   ) {
+    this.selectedLanguage = localStorage.getItem('language') || 'en';
+    this.translate.setDefaultLang(this.selectedLanguage);
+    this.translate.use(this.selectedLanguage);
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]]
@@ -54,6 +67,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.headerVisibilityService.hideHeader();
+    this.selectedLanguage = localStorage.getItem('language') || 'en';
+    this.translate.use(this.selectedLanguage);
   }
 
   ngOnDestroy() {
@@ -62,6 +77,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
+  }
+
+  getFlagByCode(code: string): string {
+    const lang = this.languages.find(lang => lang.code === code);
+    return lang ? lang.flag : '';
+  }
+  
+  getLanguageNameByCode(code: string): string {
+    const lang = this.languages.find(lang => lang.code === code);
+    return lang ? lang.name : '';
   }
 
   loginFormSubmit() {
@@ -106,28 +131,28 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.setMFACompleted();
     this.authService.setLoggedInUser(response.user);
     this.router.navigate(['/home']);
-    this.snackbarService.showSuccess('Login successful!'); // Show success message
+    this.snackbarService.showSuccess(this.translate.instant('LOGIN.SUCCESS_MESSAGE')); // Use translation
   }
 
   handleLoginError(error: any) {
     console.error('Error during login:', error.status);
     if (error.status === 401) {
-      this.snackbarService.showError('Invalid email or password'); // Show error message
+      this.snackbarService.showError(this.translate.instant('ERRORS.EMAIL_REQUIRED')); // Use translation
     } else if (error.status === 403) {
-      this.snackbarService.showError('User is disabled, please contact the administrator'); // Show error message
+      this.snackbarService.showError(this.translate.instant('ERRORS.USER_DISABLED')); // Use translation
     } else {
-      this.snackbarService.showError(error.error?.message || 'An unexpected error occurred. Please try again later.'); // Show error message
+      this.snackbarService.showError(error.error?.message || this.translate.instant('ERRORS.UNEXPECTED_ERROR')); // Use translation
     }
   }
 
   handleMFAError(error: any) {
     console.error('Error verifying MFA:', error.status);
     if (error.status === 401) {
-      this.snackbarService.showError('Invalid MFA token'); // Show error message
+      this.snackbarService.showError(this.translate.instant('ERRORS.MFA_TOKEN_REQUIRED')); // Use translation
     } else if (error.status === 429) {
-      this.snackbarService.showError('Too many requests. Please try again later.'); // Show error message
+      this.snackbarService.showError(this.translate.instant('ERRORS.TOO_MANY_REQUESTS')); // Use translation
     } else {
-      this.snackbarService.showError('Error verifying MFA. Please try again.'); // Show error message
+      this.snackbarService.showError(this.translate.instant('ERRORS.MFA_ERROR')); // Use translation
     }
   }
 
@@ -137,33 +162,41 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   recoverPassword() {
     if (this.recoverPasswordForm.valid) {
-      this.isRecoveringPassword = true; // Show spinner
-  
+      this.isRecoveringPassword = true;
+
       const email = this.recoverPasswordForm.value.email;
       this.authService.recoverPassword(email).subscribe(
         response => {
-          // Hide spinner and switch to login form
           this.isRecoveringPassword = false;
-          this.snackbarService.showSuccess('Password recovery email sent.'); // Show success message
-          
-          // Use setTimeout to ensure the spinner has time to be hidden
+          this.snackbarService.showSuccess(this.translate.instant('LOGIN.PASSWORD_RECOVERY_EMAIL_SENT')); // Use translation
           setTimeout(() => {
-            this.showRecoverPassword = false; // Hide recover password form
-            this.loginForm.reset(); // Reset the login form
-            this.showMFA = false; // Hide MFA form if visible
+            this.showRecoverPassword = false;
+            this.loginForm.reset();
+            this.showMFA = false;
             this.router.navigate(['/login']).then(() => {
               console.log('Navigated to login');
             }).catch(err => {
               console.error('Navigation error:', err);
             });
-          }, 500); // Short delay to ensure UI updates
+          }, 500);
         },
         error => {
-          this.isRecoveringPassword = false; // Hide spinner
-          this.snackbarService.showError('Error sending password recovery email.'); // Show error message
+          this.isRecoveringPassword = false;
+          this.snackbarService.showError(this.translate.instant('ERRORS.PASSWORD_RECOVERY_ERROR')); // Use translation
           console.error('Error during password recovery:', error);
         }
       );
     }
+  }
+
+  cancelRecoverPassword() {
+    this.showRecoverPassword = false;
+    this.recoverPasswordForm.reset();
+    this.router.navigate(['/login']);
+  }
+
+  changeLanguage(language: string) {
+    this.translate.use(language);
+    localStorage.setItem('language', language);
   }
 }

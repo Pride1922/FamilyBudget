@@ -5,7 +5,6 @@
   align-items: center;
   height: 100vh;
   background-color: #5ea8f2; /* Light blue background */
-  /*background-image: url('../../../assets/background.jpg');  Adjust path to your background image */
   background-size: cover;
   background-position: center;
 }
@@ -68,7 +67,7 @@ button[type="button"] {
   border: 1px solid #f5c6cb; /* Red border */
 }
 
-/* login.component.css */
+/* Styles for the spinner overlay */
 .spinner-overlay {
   position: fixed;
   top: 0;
@@ -80,4 +79,25 @@ button[type="button"] {
   justify-content: center;
   background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
   z-index: 1000; /* Ensure it's on top of other content */
+}
+
+/* Styles for the language switcher */
+.language-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0; /* Space above and below the switcher */
+}
+
+.language-switcher img.flag {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px; /* Space between the flags */
+  cursor: pointer; /* Change cursor to pointer to indicate clickability */
+  border: 1px solid transparent; /* Initial transparent border */
+  transition: border 0.3s ease; /* Smooth transition for border */
+}
+
+.language-switcher img.flag:hover {
+  border: 1px solid #333; /* Dark border on hover */
 }

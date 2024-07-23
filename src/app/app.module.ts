@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http'; // Add HttpClient
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,6 +33,13 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { MFASetupComponent } from './components/mfasetup/mfasetup.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// Define the HttpLoaderFactory function
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -71,7 +78,14 @@ import { PasswordResetComponent } from './components/password-reset/password-res
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

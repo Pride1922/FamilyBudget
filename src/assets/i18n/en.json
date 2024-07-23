@@ -1,0 +1,46 @@
+{
+  "SNACKBAR": {
+    "CLOSE": "Close"
+  },
+  
+  "LOGIN": {
+    "HEADER": "Login",
+    "RECOVER_PASSWORD_HEADER": "Recover Password",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "LOGIN_BUTTON": "Login",
+    "FORGOT_PASSWORD": "Forgot Password?",
+    "RECOVER_PASSWORD_BUTTON": "Recover Password",
+    "MFA_TOKEN": "MFA Token",
+    "VERIFY_MFA": "Verify MFA",
+    "PASSWORD_RECOVERY_EMAIL_SENT": "Password recovery email sent!",
+    "SUCCESS_MESSAGE": "Login successful!"
+  },
+  "ERRORS": {
+    "EMAIL_REQUIRED": "Email is required",
+    "EMAIL_INVALID": "Invalid email address",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_MINLENGTH": "Password must be at least 4 characters",
+    "PASSWORD_MAXLENGTH": "Password cannot exceed 20 characters",
+    "MFA_TOKEN_REQUIRED": "MFA token is required",
+    "MFA_TOKEN_MINLENGTH": "MFA token must be 6 digits",
+    "MFA_TOKEN_MAXLENGTH": "MFA token must be 6 digits",
+    "MFA_TOKEN_PATTERN": "MFA token must be numeric",
+    "USER_DISABLED": "User is disabled",
+    "TOO_MANY_REQUESTS": "Too many requests. Please try again later.",
+    "MFA_ERROR": "Error verifying MFA token",
+    "UNEXPECTED_ERROR": "Unexpected error occurred",
+    "PASSWORD_RECOVERY_ERROR": "Error during password recovery"
+  },
+  "RECOVER_PASSWORD": {
+    "HEADER": "Recover Password",
+    "EMAIL_LABEL": "Enter your email to recover your password",
+    "SUBMIT_BUTTON": "Send Recovery Email",
+    "CANCEL_BUTTON": "Cancel"
+  },
+  "MFA": {
+    "HEADER": "Verify MFA",
+    "TOKEN_LABEL": "Enter your MFA token",
+    "SUBMIT_BUTTON": "Verify"
+  }
+}

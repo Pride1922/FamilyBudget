@@ -1,0 +1,46 @@
+{
+  "SNACKBAR": {
+    "CLOSE": "Sluiten"
+  },
+  
+  "LOGIN": {
+    "HEADER": "Inloggen",
+    "RECOVER_PASSWORD_HEADER": "Wachtwoord Herstellen",
+    "EMAIL": "Email",
+    "PASSWORD": "Wachtwoord",
+    "LOGIN_BUTTON": "Inloggen",
+    "FORGOT_PASSWORD": "Wachtwoord Vergeten?",
+    "RECOVER_PASSWORD_BUTTON": "Wachtwoord Herstellen",
+    "MFA_TOKEN": "MFA Token",
+    "VERIFY_MFA": "Verifieer MFA",
+    "PASSWORD_RECOVERY_EMAIL_SENT": "Wachtwoordherstel e-mail verzonden!",
+    "SUCCESS_MESSAGE": "Inloggen succesvol!"
+  },
+  "ERRORS": {
+    "EMAIL_REQUIRED": "Email is verplicht",
+    "EMAIL_INVALID": "Ongeldig e-mailadres",
+    "PASSWORD_REQUIRED": "Wachtwoord is verplicht",
+    "PASSWORD_MINLENGTH": "Wachtwoord moet minimaal 4 tekens bevatten",
+    "PASSWORD_MAXLENGTH": "Wachtwoord mag niet langer zijn dan 20 tekens",
+    "MFA_TOKEN_REQUIRED": "MFA token is verplicht",
+    "MFA_TOKEN_MINLENGTH": "MFA token moet 6 cijfers bevatten",
+    "MFA_TOKEN_MAXLENGTH": "MFA token moet 6 cijfers bevatten",
+    "MFA_TOKEN_PATTERN": "MFA token moet numeriek zijn",
+    "USER_DISABLED": "Gebruiker is uitgeschakeld",
+    "TOO_MANY_REQUESTS": "Te veel verzoeken. Probeer het later opnieuw.",
+    "MFA_ERROR": "Fout bij het verifiëren van MFA token",
+    "UNEXPECTED_ERROR": "Onverwachte fout opgetreden",
+    "PASSWORD_RECOVERY_ERROR": "Fout tijdens wachtwoordherstel"
+  },
+  "RECOVER_PASSWORD": {
+    "HEADER": "Wachtwoord Herstellen",
+    "EMAIL_LABEL": "Voer uw email in om uw wachtwoord te herstellen",
+    "SUBMIT_BUTTON": "Verzend Herstel Email",
+    "CANCEL_BUTTON": "Annuleren"
+  },
+  "MFA": {
+    "HEADER": "Verifieer MFA",
+    "TOKEN_LABEL": "Voer uw MFA token in",
+    "SUBMIT_BUTTON": "Verifiëren"
+  }
+}

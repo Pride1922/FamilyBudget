@@ -1,0 +1,45 @@
+{
+  "SNACKBAR": {
+    "CLOSE": "Fechar"
+  },
+  "LOGIN": {
+    "HEADER": "Entrar",
+    "RECOVER_PASSWORD_HEADER": "Recuperar Senha",
+    "EMAIL": "Email",
+    "PASSWORD": "Senha",
+    "LOGIN_BUTTON": "Entrar",
+    "FORGOT_PASSWORD": "Esqueceu a Senha?",
+    "RECOVER_PASSWORD_BUTTON": "Recuperar Senha",
+    "MFA_TOKEN": "Token MFA",
+    "VERIFY_MFA": "Verificar MFA",
+    "PASSWORD_RECOVERY_EMAIL_SENT": "Email de recuperação de senha enviado!",
+    "SUCCESS_MESSAGE": "Login bem-sucedido!"
+  },
+  "ERRORS": {
+    "EMAIL_REQUIRED": "Email é obrigatório",
+    "EMAIL_INVALID": "Endereço de email inválido",
+    "PASSWORD_REQUIRED": "Senha é obrigatória",
+    "PASSWORD_MINLENGTH": "A senha deve ter pelo menos 4 caracteres",
+    "PASSWORD_MAXLENGTH": "A senha não pode exceder 20 caracteres",
+    "MFA_TOKEN_REQUIRED": "Token MFA é obrigatório",
+    "MFA_TOKEN_MINLENGTH": "O token MFA deve ter 6 dígitos",
+    "MFA_TOKEN_MAXLENGTH": "O token MFA deve ter 6 dígitos",
+    "MFA_TOKEN_PATTERN": "O token MFA deve ser numérico",
+    "USER_DISABLED": "Usuário está desativado",
+    "TOO_MANY_REQUESTS": "Muitas solicitações. Por favor, tente novamente mais tarde.",
+    "MFA_ERROR": "Erro ao verificar o token MFA",
+    "UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
+    "PASSWORD_RECOVERY_ERROR": "Erro durante a recuperação da senha"
+  },
+  "RECOVER_PASSWORD": {
+    "HEADER": "Recuperar Senha",
+    "EMAIL_LABEL": "Digite seu email para recuperar sua senha",
+    "SUBMIT_BUTTON": "Enviar Email de Recuperação",
+    "CANCEL_BUTTON": "Cancelar"
+  },
+  "MFA": {
+    "HEADER": "Verificar MFA",
+    "TOKEN_LABEL": "Digite seu token MFA",
+    "SUBMIT_BUTTON": "Verificar"
+  }
+}
