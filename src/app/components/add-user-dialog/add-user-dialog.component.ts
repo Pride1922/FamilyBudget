@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UserService } from '../../services/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-user-dialog',
@@ -17,6 +18,7 @@ export class AddUserDialogComponent {
     private dialogRef: MatDialogRef<AddUserDialogComponent>,
     private snackbarService: SnackbarService, // Inject SnackbarService
     private userService: UserService,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.addUserForm = this.fb.group({
@@ -33,11 +35,11 @@ export class AddUserDialogComponent {
       const email = this.addUserForm.value.email;
       this.userService.addUserByEmail(email).subscribe(
         () => {
-          this.snackbarService.showSuccess('Registration email sent successfully!');
+          this.snackbarService.showSuccess(this.translate.instant('ADD_USER.EMAIL_SENT_SUCCESS'));
           this.dialogRef.close(true);
         },
         (error) => {
-          this.snackbarService.showError('Failed to send registration email.');
+          this.snackbarService.showError(this.translate.instant('ADD_USER.EMAIL_SENT_FAILED'));
           console.error('Error:', error);
         }
       );

@@ -3,13 +3,13 @@
 <div class="home-container">
   <ng-container *ngIf="loggedInUser$ | async as loggedInUser">
     <h2 class="welcome-message">
-      Welcome, {{ loggedInUser.username }}!
+      {{ 'HOME.WELCOME' | translate }}, {{ loggedInUser.username }}!
     </h2>
     <p class="role-info">
-      Your role: {{ loggedInUser.role }}
+      {{ 'HOME.ROLE_INFO' | translate }}: {{ loggedInUser.role }}
     </p>
   </ng-container>
   <ng-container *ngIf="!(loggedInUser$ | async)">
-    <p>Loading...</p>
+    <p>{{ 'HOME.LOADING' | translate }}</p>
   </ng-container>
 </div>

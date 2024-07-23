@@ -4,6 +4,7 @@ import { CategoryService } from '../../services/category.service';
 import { SubcategoryService } from '../../services/subcategory.service';
 import { Category, Subcategory } from '../categories/category.interface';
 import { SnackbarService } from '../../services/snackbar.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-categories',
@@ -21,7 +22,8 @@ export class CategoriesComponent implements OnInit {
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private fb: FormBuilder,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private translate: TranslateService
   ) {
     this.categoryForm = this.fb.group({
       id: [null],
@@ -73,7 +75,6 @@ export class CategoriesComponent implements OnInit {
       this.openSubcategoryForm(id); // Set the category ID when opening the form
     }
   }
-  
 
   openCategoryDialog(category: Category | null): void {
     if (category) {
@@ -90,10 +91,10 @@ export class CategoriesComponent implements OnInit {
         this.categoryService.updateCategory(categoryData).subscribe(
           () => {
             this.loadCategories();
-            this.snackbarService.showSuccess('Category updated successfully!');
+            this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.UPDATED_SUCCESS'));
           },
           error => {
-            this.snackbarService.showError('Failed to update category.');
+            this.snackbarService.showError(this.translate.instant('CATEGORIES.UPDATE_FAILED'));
             console.error(error);
           }
         );
@@ -101,10 +102,10 @@ export class CategoriesComponent implements OnInit {
         this.categoryService.createCategory(categoryData).subscribe(
           () => {
             this.loadCategories();
-            this.snackbarService.showSuccess('Category created successfully!');
+            this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.CREATED_SUCCESS'));
           },
           error => {
-            this.snackbarService.showError('Failed to create category.');
+            this.snackbarService.showError(this.translate.instant('CATEGORIES.CREATE_FAILED'));
             console.error(error);
           }
         );
@@ -115,28 +116,27 @@ export class CategoriesComponent implements OnInit {
   }
 
   deleteCategory(id: number): void {
-    if (confirm('Are you sure you want to delete this category? This action cannot be undone.')) {
+    if (confirm(this.translate.instant('CATEGORIES.DELETE_CONFIRM'))) {
         this.categoryService.deleteCategory(id).subscribe(
             () => {
                 this.loadCategories();
-                this.snackbarService.showSuccess('Category deleted successfully!');
+                this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.DELETED_SUCCESS'));
             },
             error => {
-                // Assuming the error object has a message property with the server's error message
-                const errorMessage = error.error?.error || 'Failed to delete category. Please try again later.';
+                const errorMessage = error.error?.error || this.translate.instant('CATEGORIES.DELETE_FAILED');
                 this.snackbarService.showError(errorMessage);
                 console.error('Deletion failed:', error);
             }
         );
     }
-}
+  }
+
   openSubcategoryForm(categoryId: number): void {
     this.subcategoryForm.reset(); // Reset form
     this.subcategoryForm.patchValue({ category_id: categoryId }); // Set category_id
     console.log('Subcategory form opened with category_id:', categoryId);
     console.log('Subcategory form values:', this.subcategoryForm.value); // Inspect form values
   }
-  
 
   onSubmitSubcategory(): void {
     if (this.subcategoryForm.valid) {
@@ -147,10 +147,10 @@ export class CategoriesComponent implements OnInit {
           this.subcategoryService.updateSubcategory(subcategoryData).subscribe(
             () => {
               this.loadCategories();
-              this.snackbarService.showSuccess('Subcategory updated successfully!');
+              this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.SUBCATEGORY.UPDATED_SUCCESS'));
             },
             error => {
-              this.snackbarService.showError('Failed to update subcategory.');
+              this.snackbarService.showError(this.translate.instant('CATEGORIES.SUBCATEGORY.UPDATE_FAILED'));
               console.error(error);
             }
           );
@@ -158,30 +158,30 @@ export class CategoriesComponent implements OnInit {
           this.subcategoryService.createSubcategory(subcategoryData.category_id, subcategoryData).subscribe(
             () => {
               this.loadCategories();
-              this.snackbarService.showSuccess('Subcategory created successfully!');
+              this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.SUBCATEGORY.CREATED_SUCCESS'));
             },
             error => {
-              this.snackbarService.showError('Failed to create subcategory.');
+              this.snackbarService.showError(this.translate.instant('CATEGORIES.SUBCATEGORY.CREATE_FAILED'));
               console.error(error);
             }
           );
         }
         this.subcategoryForm.reset();
       } else {
-        this.snackbarService.showError('Category ID is missing.');
+        this.snackbarService.showError(this.translate.instant('CATEGORIES.CATEGORY_ID_MISSING'));
       }
     }
   }
-  
+
   deleteSubcategory(id: number): void {
-    if (confirm('Are you sure you want to delete this subcategory?')) {
+    if (confirm(this.translate.instant('CATEGORIES.SUBCATEGORY.DELETE_CONFIRM'))) {
       this.subcategoryService.deleteSubcategory(id).subscribe(
         () => {
           this.loadCategories();
-          this.snackbarService.showSuccess('Subcategory deleted successfully!');
+          this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.SUBCATEGORY.DELETED_SUCCESS'));
         },
         error => {
-          this.snackbarService.showError('Failed to delete subcategory.');
+          this.snackbarService.showError(this.translate.instant('CATEGORIES.SUBCATEGORY.DELETE_FAILED'));
           console.error(error);
         }
       );

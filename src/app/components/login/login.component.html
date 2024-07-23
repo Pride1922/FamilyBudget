@@ -16,10 +16,10 @@
         <mat-label>{{ 'LOGIN.EMAIL' | translate }}</mat-label>
         <input matInput formControlName="email" required>
         <mat-error *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
-          {{ 'ERRORS.EMAIL_REQUIRED' | translate }}
+          {{ 'LOGIN.ERRORS.EMAIL_REQUIRED' | translate }}
         </mat-error>
         <mat-error *ngIf="loginForm.get('email')?.hasError('email') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
-          {{ 'ERRORS.EMAIL_INVALID' | translate }}
+          {{ 'LOGIN.ERRORS.EMAIL_INVALID' | translate }}
         </mat-error>
       </mat-form-field>
 
@@ -28,13 +28,13 @@
         <mat-label>{{ 'LOGIN.PASSWORD' | translate }}</mat-label>
         <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" required minlength="4" maxlength="20">
         <mat-error *ngIf="loginForm.get('password')?.hasError('required') && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
-          {{ 'ERRORS.PASSWORD_REQUIRED' | translate }}
+          {{ 'LOGIN.ERRORS.PASSWORD_REQUIRED' | translate }}
         </mat-error>
         <mat-error *ngIf="loginForm.get('password')?.hasError('minlength') && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
-          {{ 'ERRORS.PASSWORD_MINLENGTH' | translate }}
+          {{ 'LOGIN.ERRORS.PASSWORD_MINLENGTH' | translate }}
         </mat-error>
         <mat-error *ngIf="loginForm.get('password')?.hasError('maxlength') && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
-          {{ 'ERRORS.PASSWORD_MAXLENGTH' | translate }}
+          {{ 'LOGIN.ERRORS.PASSWORD_MAXLENGTH' | translate }}
         </mat-error>
         <button mat-icon-button type="button" (click)="togglePasswordVisibility()" matSuffix>
           <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -55,19 +55,20 @@
         {{ 'LOGIN.FORGOT_PASSWORD' | translate }}
       </button>
     </form>
+
     <!-- MFA Form -->
     <form [formGroup]="mfaForm" (ngSubmit)="verifyMFA()" *ngIf="showMFA">
       <!-- MFA Token Field -->
       <div class="mfa-token-field">
         <mat-form-field appearance="fill">
-          <mat-label>{{ 'MFA.TOKEN_LABEL' | translate }}</mat-label>
+          <mat-label>{{ 'LOGIN.MFA.TOKEN_LABEL' | translate }}</mat-label>
           <input matInput #mfaTokenInput formControlName="mfaToken" type="text" required>
         </mat-form-field>
       </div>
 
       <!-- Verify MFA Button -->
       <button mat-raised-button color="primary" type="submit" class="full-width">
-        {{ 'MFA.SUBMIT_BUTTON' | translate }}
+        {{ 'LOGIN.MFA.SUBMIT_BUTTON' | translate }}
       </button>
     </form>
 
@@ -75,17 +76,17 @@
     <form [formGroup]="recoverPasswordForm" (ngSubmit)="recoverPassword()" *ngIf="showRecoverPassword">
       <!-- Email Field -->
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'RECOVER_PASSWORD.EMAIL_LABEL' | translate }}</mat-label>
+        <mat-label>{{ 'LOGIN.RECOVER_PASSWORD.EMAIL_LABEL' | translate }}</mat-label>
         <input matInput formControlName="email" required>
       </mat-form-field>
 
       <!-- Recover Password Button -->
       <button mat-raised-button color="primary" type="submit" class="full-width">
-        {{ 'RECOVER_PASSWORD.SUBMIT_BUTTON' | translate }}
+        {{ 'LOGIN.RECOVER_PASSWORD.SUBMIT_BUTTON' | translate }}
       </button>
       <!-- Cancel Button -->
       <button mat-button type="button" (click)="cancelRecoverPassword()" class="full-width">
-        {{ 'RECOVER_PASSWORD.CANCEL_BUTTON' | translate }}
+        {{ 'LOGIN.RECOVER_PASSWORD.CANCEL_BUTTON' | translate }}
       </button>
     </form>
   </div>

@@ -1,39 +1,39 @@
-<h2 mat-dialog-title class="dialog-title">Edit User</h2>
+<h2 mat-dialog-title class="dialog-title">{{ 'EDIT_USER.TITLE' | translate }}</h2>
 <mat-dialog-content class="mat-dialog-content">
   <form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="onSave()" class="user-form">
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Username</mat-label>
+      <mat-label>{{ 'EDIT_USER.USERNAME' | translate }}</mat-label>
       <input matInput formControlName="username">
       <mat-error *ngIf="username && username.invalid && (username.dirty || username.touched)">
-        <span *ngIf="username.errors && username.errors['required']">Username is required.</span>
+        <span *ngIf="username.errors && username.errors['required']">{{ 'EDIT_USER.USERNAME_REQUIRED' | translate }}</span>
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Email</mat-label>
+      <mat-label>{{ 'EDIT_USER.EMAIL' | translate }}</mat-label>
       <input matInput formControlName="email" type="email">
       <mat-error *ngIf="email && email.invalid && (email.dirty || email.touched)">
-        <span *ngIf="email.errors && email.errors['required']">Email is required.</span>
-        <span *ngIf="email.errors && email.errors['email']">Invalid email format.</span>
+        <span *ngIf="email.errors && email.errors['required']">{{ 'EDIT_USER.EMAIL_REQUIRED' | translate }}</span>
+        <span *ngIf="email.errors && email.errors['email']">{{ 'EDIT_USER.EMAIL_INVALID' | translate }}</span>
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Password</mat-label>
+      <mat-label>{{ 'EDIT_USER.PASSWORD' | translate }}</mat-label>
       <input matInput [type]="passwordFields.hide ? 'password' : 'text'" formControlName="password">
       <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" aria-label="Toggle password visibility">
         <mat-icon>{{ passwordFields.hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Role</mat-label>
+      <mat-label>{{ 'EDIT_USER.ROLE' | translate }}</mat-label>
       <mat-select formControlName="role">
-        <mat-option value="admin">Admin</mat-option>
-        <mat-option value="user">User</mat-option>
+        <mat-option value="admin">{{ 'EDIT_USER.ROLE_ADMIN' | translate }}</mat-option>
+        <mat-option value="user">{{ 'EDIT_USER.ROLE_USER' | translate }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-checkbox formControlName="isActive" class="full-width-checkbox">Active</mat-checkbox>
+    <mat-checkbox formControlName="isActive" class="full-width-checkbox">{{ 'EDIT_USER.ACTIVE' | translate }}</mat-checkbox>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button [disabled]="isSaving" (click)="onSave()">Save</button>
+  <button mat-button (click)="onCancel()" class="cancel-button">{{ 'EDIT_USER.CANCEL_BUTTON' | translate }}</button>
+  <button mat-button [disabled]="isSaving" (click)="onSave()" class="save-button">{{ 'EDIT_USER.SAVE_BUTTON' | translate }}</button>
 </mat-dialog-actions>

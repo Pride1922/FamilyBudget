@@ -131,28 +131,28 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.setMFACompleted();
     this.authService.setLoggedInUser(response.user);
     this.router.navigate(['/home']);
-    this.snackbarService.showSuccess(this.translate.instant('LOGIN.SUCCESS_MESSAGE')); // Use translation
+    this.snackbarService.showSuccess(this.translate.instant('LOGIN.SUCCESS_MESSAGE'));
   }
 
   handleLoginError(error: any) {
     console.error('Error during login:', error.status);
     if (error.status === 401) {
-      this.snackbarService.showError(this.translate.instant('ERRORS.EMAIL_REQUIRED')); // Use translation
+      this.snackbarService.showError(this.translate.instant('LOGIN.ERRORS.EMAIL_REQUIRED'));
     } else if (error.status === 403) {
-      this.snackbarService.showError(this.translate.instant('ERRORS.USER_DISABLED')); // Use translation
+      this.snackbarService.showError(this.translate.instant('LOGIN.ERRORS.USER_DISABLED'));
     } else {
-      this.snackbarService.showError(error.error?.message || this.translate.instant('ERRORS.UNEXPECTED_ERROR')); // Use translation
+      this.snackbarService.showError(error.error?.message || this.translate.instant('LOGIN.ERRORS.UNEXPECTED_ERROR'));
     }
   }
 
   handleMFAError(error: any) {
     console.error('Error verifying MFA:', error.status);
     if (error.status === 401) {
-      this.snackbarService.showError(this.translate.instant('ERRORS.MFA_TOKEN_REQUIRED')); // Use translation
+      this.snackbarService.showError(this.translate.instant('LOGIN.ERRORS.MFA_TOKEN_REQUIRED'));
     } else if (error.status === 429) {
-      this.snackbarService.showError(this.translate.instant('ERRORS.TOO_MANY_REQUESTS')); // Use translation
+      this.snackbarService.showError(this.translate.instant('LOGIN.ERRORS.TOO_MANY_REQUESTS'));
     } else {
-      this.snackbarService.showError(this.translate.instant('ERRORS.MFA_ERROR')); // Use translation
+      this.snackbarService.showError(this.translate.instant('LOGIN.ERRORS.MFA_ERROR'));
     }
   }
 
@@ -168,7 +168,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.recoverPassword(email).subscribe(
         response => {
           this.isRecoveringPassword = false;
-          this.snackbarService.showSuccess(this.translate.instant('LOGIN.PASSWORD_RECOVERY_EMAIL_SENT')); // Use translation
+          this.snackbarService.showSuccess(this.translate.instant('LOGIN.PASSWORD_RECOVERY_EMAIL_SENT'));
           setTimeout(() => {
             this.showRecoverPassword = false;
             this.loginForm.reset();
@@ -182,7 +182,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         error => {
           this.isRecoveringPassword = false;
-          this.snackbarService.showError(this.translate.instant('ERRORS.PASSWORD_RECOVERY_ERROR')); // Use translation
+          this.snackbarService.showError(this.translate.instant('LOGIN.ERRORS.PASSWORD_RECOVERY_ERROR'));
           console.error('Error during password recovery:', error);
         }
       );

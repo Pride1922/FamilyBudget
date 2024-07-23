@@ -2,7 +2,6 @@
   "SNACKBAR": {
     "CLOSE": "Sluiten"
   },
-  
   "LOGIN": {
     "HEADER": "Inloggen",
     "RECOVER_PASSWORD_HEADER": "Wachtwoord Herstellen",
@@ -13,34 +12,144 @@
     "RECOVER_PASSWORD_BUTTON": "Wachtwoord Herstellen",
     "MFA_TOKEN": "MFA Token",
     "VERIFY_MFA": "Verifieer MFA",
-    "PASSWORD_RECOVERY_EMAIL_SENT": "Wachtwoordherstel e-mail verzonden!",
-    "SUCCESS_MESSAGE": "Inloggen succesvol!"
+    "PASSWORD_RECOVERY_EMAIL_SENT": "Email voor wachtwoordherstel verzonden!",
+    "SUCCESS_MESSAGE": "Inloggen succesvol!",
+    "ERRORS": {
+      "EMAIL_REQUIRED": "Email is verplicht",
+      "EMAIL_INVALID": "Ongeldig emailadres",
+      "PASSWORD_REQUIRED": "Wachtwoord is verplicht",
+      "PASSWORD_MINLENGTH": "Wachtwoord moet minimaal 4 tekens bevatten",
+      "PASSWORD_MAXLENGTH": "Wachtwoord mag niet meer dan 20 tekens bevatten",
+      "MFA_TOKEN_REQUIRED": "MFA token is verplicht",
+      "MFA_TOKEN_MINLENGTH": "MFA token moet 6 cijfers bevatten",
+      "MFA_TOKEN_MAXLENGTH": "MFA token moet 6 cijfers bevatten",
+      "MFA_TOKEN_PATTERN": "MFA token moet numeriek zijn",
+      "USER_DISABLED": "Gebruiker is uitgeschakeld",
+      "TOO_MANY_REQUESTS": "Te veel verzoeken. Probeer het later opnieuw.",
+      "MFA_ERROR": "Fout bij het verifiëren van MFA token",
+      "UNEXPECTED_ERROR": "Onverwachte fout opgetreden",
+      "PASSWORD_RECOVERY_ERROR": "Fout tijdens wachtwoordherstel"
+    },
+    "RECOVER_PASSWORD": {
+      "HEADER": "Wachtwoord Herstellen",
+      "EMAIL_LABEL": "Voer uw email in om uw wachtwoord te herstellen",
+      "SUBMIT_BUTTON": "Herstel Email Verzenden",
+      "CANCEL_BUTTON": "Annuleren"
+    },
+    "MFA": {
+      "HEADER": "Verifieer MFA",
+      "TOKEN_LABEL": "Voer uw MFA token in",
+      "SUBMIT_BUTTON": "Verifieer"
+    }
   },
-  "ERRORS": {
-    "EMAIL_REQUIRED": "Email is verplicht",
-    "EMAIL_INVALID": "Ongeldig e-mailadres",
-    "PASSWORD_REQUIRED": "Wachtwoord is verplicht",
-    "PASSWORD_MINLENGTH": "Wachtwoord moet minimaal 4 tekens bevatten",
-    "PASSWORD_MAXLENGTH": "Wachtwoord mag niet langer zijn dan 20 tekens",
-    "MFA_TOKEN_REQUIRED": "MFA token is verplicht",
-    "MFA_TOKEN_MINLENGTH": "MFA token moet 6 cijfers bevatten",
-    "MFA_TOKEN_MAXLENGTH": "MFA token moet 6 cijfers bevatten",
-    "MFA_TOKEN_PATTERN": "MFA token moet numeriek zijn",
-    "USER_DISABLED": "Gebruiker is uitgeschakeld",
-    "TOO_MANY_REQUESTS": "Te veel verzoeken. Probeer het later opnieuw.",
-    "MFA_ERROR": "Fout bij het verifiëren van MFA token",
-    "UNEXPECTED_ERROR": "Onverwachte fout opgetreden",
-    "PASSWORD_RECOVERY_ERROR": "Fout tijdens wachtwoordherstel"
+  "CATEGORIES": {
+    "TYPE": "Type",
+    "EDIT": "Categorie Bewerken",
+    "NAME": "Categorienaam",
+    "NAME_REQUIRED": "Categorienaam is verplicht",
+    "TYPE_REQUIRED": "Type is verplicht",
+    "TYPE_INCOME": "Inkomen",
+    "TYPE_EXPENSE": "Uitgave",
+    "ICON": "Icoon",
+    "ADD_NEW": "Nieuwe Categorie Toevoegen",
+    "DELETE_CONFIRM": "Weet u zeker dat u deze categorie wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+    "UPDATED_SUCCESS": "Categorie succesvol bijgewerkt!",
+    "UPDATE_FAILED": "Categorie bijwerken mislukt.",
+    "CREATED_SUCCESS": "Categorie succesvol aangemaakt!",
+    "CREATE_FAILED": "Categorie aanmaken mislukt.",
+    "DELETED_SUCCESS": "Categorie succesvol verwijderd!",
+    "DELETE_FAILED": "Categorie verwijderen mislukt. Probeer het later opnieuw.",
+    "CATEGORY_ID_MISSING": "Categorie-ID ontbreekt.",
+    "SUBCATEGORY": {
+      "HEADER": "Subcategorieën",
+      "ADD_NEW": "Nieuwe Subcategorie Toevoegen",
+      "NAME": "Subcategorienaam",
+      "NAME_REQUIRED": "Subcategorienaam is verplicht",
+      "UPDATED_SUCCESS": "Subcategorie succesvol bijgewerkt!",
+      "UPDATE_FAILED": "Subcategorie bijwerken mislukt.",
+      "CREATED_SUCCESS": "Subcategorie succesvol aangemaakt!",
+      "CREATE_FAILED": "Subcategorie aanmaken mislukt.",
+      "DELETED_SUCCESS": "Subcategorie succesvol verwijderd!",
+      "DELETE_FAILED": "Subcategorie verwijderen mislukt.",
+      "DELETE_CONFIRM": "Weet u zeker dat u deze subcategorie wilt verwijderen?"
+    }
   },
-  "RECOVER_PASSWORD": {
-    "HEADER": "Wachtwoord Herstellen",
-    "EMAIL_LABEL": "Voer uw email in om uw wachtwoord te herstellen",
-    "SUBMIT_BUTTON": "Verzend Herstel Email",
-    "CANCEL_BUTTON": "Annuleren"
+  "ADD_USER": {
+    "TITLE": "Gebruiker Toevoegen",
+    "USER_EMAIL": "Gebruikers E-mail",
+    "EMAIL_PLACEHOLDER": "Voer e-mail in",
+    "EMAIL_REQUIRED": "E-mail is verplicht.",
+    "EMAIL_INVALID": "Voer een geldig e-mailadres in.",
+    "CANCEL_BUTTON": "Annuleren",
+    "ADD_BUTTON": "Gebruiker Toevoegen",
+    "EMAIL_SENT_SUCCESS": "Registratie-e-mail succesvol verzonden!",
+    "EMAIL_SENT_FAILED": "Registratie-e-mail verzenden mislukt."
   },
-  "MFA": {
-    "HEADER": "Verifieer MFA",
-    "TOKEN_LABEL": "Voer uw MFA token in",
-    "SUBMIT_BUTTON": "Verifiëren"
+    "CONFIRMATION_DIALOG": {
+      "TITLE": "Bevestigen",
+      "USER_DELETED": "Gebruiker Verwijderd!",
+      "MESSAGE": "Weet u zeker dat u de gebruiker wilt verwijderen?",
+      "NO": "Nee",
+      "YES": "Ja"
+    },
+  "EDIT_USER": {
+    "TITLE": "Gebruiker Bewerken",
+    "USERNAME": "Gebruikersnaam",
+    "EMAIL": "Email",
+    "PASSWORD": "Wachtwoord",
+    "ROLE": "Rol",
+    "ACTIVE": "Actief",
+    "USER_UPDATED": "Gebruiker succesvol bijgewerkt!",
+    "UPDATE_FAILED": "Gebruiker bijwerken mislukt.",
+    "TOGGLE_PASSWORD_VISIBILITY": "Wachtwoord zichtbaarheid wisselen",
+    "USERNAME_REQUIRED": "Gebruikersnaam is verplicht.",
+    "EMAIL_REQUIRED": "Email is verplicht.",
+    "EMAIL_INVALID": "Ongeldig emailadres.",
+    "ROLE_ADMIN": "Beheerder",
+    "ROLE_USER": "Gebruiker",
+    "CANCEL_BUTTON": "Annuleren",
+    "SAVE_BUTTON": "Opslaan"
+  },
+  "HEADER": {
+    "HOME": "Home",
+    "CATEGORIES": "Categorieën",
+    "ACCOUNT": "Account",
+    "MANAGE_USERS": "Gebruikers Beheren",
+    "LOGOUT": "Uitloggen"
+  },
+  "HOME": {
+    "WELCOME": "Welkom",
+    "ROLE_INFO": "Uw rol",
+    "LOADING": "Laden..."
+  },
+  "MANAGE_USERS": {
+    "TITLE": "Gebruikers Beheren",
+    "ADD_USER": "Gebruiker Toevoegen",
+    "SEARCH": "Zoeken",
+    "FILTER": "Filteren",
+    "CLEAR": "Wissen",
+    "ID": "ID",
+    "USERNAME": "Gebruikersnaam",
+    "EMAIL": "Email",
+    "ROLE": "Rol",
+    "ACTIVE": "Actief",
+    "YES": "Ja",
+    "NO": "Nee",
+    "ACTIONS": "Acties",
+    "EDIT": "Bewerken",
+    "DELETE": "Verwijderen",
+    "DISABLE": "Deactiveren",
+    "ENABLE": "Activeren",
+    "DISABLE_MFA": "MFA Uitschakelen",
+    "LOAD_ERROR": "Laden van gebruikers mislukt.",
+    "MFA_DISABLED_SUCCESS": "MFA succesvol uitgeschakeld!",
+    "MFA_DISABLED_ERROR": "MFA uitschakelen mislukt.",
+    "UPDATE_SUCCESS": "Gebruiker succesvol bijgewerkt!",
+    "UPDATE_ERROR": "Bijwerken van gebruiker mislukt.",
+    "DELETE_CONFIRM": "Weet u zeker dat u deze gebruiker wilt verwijderen?",
+    "DELETE_SUCCESS": "Gebruiker succesvol verwijderd!",
+    "DELETE_ERROR": "Verwijderen van gebruiker mislukt.",
+    "STATUS_UPDATE_SUCCESS": "Gebruikersstatus succesvol bijgewerkt!",
+    "STATUS_UPDATE_ERROR": "Bijwerken van gebruikersstatus mislukt."
   }
 }

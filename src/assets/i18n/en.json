@@ -2,7 +2,6 @@
   "SNACKBAR": {
     "CLOSE": "Close"
   },
-  
   "LOGIN": {
     "HEADER": "Login",
     "RECOVER_PASSWORD_HEADER": "Recover Password",
@@ -14,33 +13,143 @@
     "MFA_TOKEN": "MFA Token",
     "VERIFY_MFA": "Verify MFA",
     "PASSWORD_RECOVERY_EMAIL_SENT": "Password recovery email sent!",
-    "SUCCESS_MESSAGE": "Login successful!"
+    "SUCCESS_MESSAGE": "Login successful!",
+    "ERRORS": {
+      "EMAIL_REQUIRED": "Email is required",
+      "EMAIL_INVALID": "Invalid email address",
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_MINLENGTH": "Password must be at least 4 characters",
+      "PASSWORD_MAXLENGTH": "Password cannot exceed 20 characters",
+      "MFA_TOKEN_REQUIRED": "MFA token is required",
+      "MFA_TOKEN_MINLENGTH": "MFA token must be 6 digits",
+      "MFA_TOKEN_MAXLENGTH": "MFA token must be 6 digits",
+      "MFA_TOKEN_PATTERN": "MFA token must be numeric",
+      "USER_DISABLED": "User is disabled",
+      "TOO_MANY_REQUESTS": "Too many requests. Please try again later.",
+      "MFA_ERROR": "Error verifying MFA token",
+      "UNEXPECTED_ERROR": "Unexpected error occurred",
+      "PASSWORD_RECOVERY_ERROR": "Error during password recovery"
+    },
+    "RECOVER_PASSWORD": {
+      "HEADER": "Recover Password",
+      "EMAIL_LABEL": "Enter your email to recover your password",
+      "SUBMIT_BUTTON": "Send Recovery Email",
+      "CANCEL_BUTTON": "Cancel"
+    },
+    "MFA": {
+      "HEADER": "Verify MFA",
+      "TOKEN_LABEL": "Enter your MFA token",
+      "SUBMIT_BUTTON": "Verify"
+    }
   },
-  "ERRORS": {
-    "EMAIL_REQUIRED": "Email is required",
-    "EMAIL_INVALID": "Invalid email address",
-    "PASSWORD_REQUIRED": "Password is required",
-    "PASSWORD_MINLENGTH": "Password must be at least 4 characters",
-    "PASSWORD_MAXLENGTH": "Password cannot exceed 20 characters",
-    "MFA_TOKEN_REQUIRED": "MFA token is required",
-    "MFA_TOKEN_MINLENGTH": "MFA token must be 6 digits",
-    "MFA_TOKEN_MAXLENGTH": "MFA token must be 6 digits",
-    "MFA_TOKEN_PATTERN": "MFA token must be numeric",
-    "USER_DISABLED": "User is disabled",
-    "TOO_MANY_REQUESTS": "Too many requests. Please try again later.",
-    "MFA_ERROR": "Error verifying MFA token",
-    "UNEXPECTED_ERROR": "Unexpected error occurred",
-    "PASSWORD_RECOVERY_ERROR": "Error during password recovery"
+  "CATEGORIES": {
+    "TYPE": "Type",
+    "EDIT": "Edit Category",
+    "NAME": "Category Name",
+    "NAME_REQUIRED": "Category name is required",
+    "TYPE_REQUIRED": "Type is required",
+    "TYPE_INCOME": "Income",
+    "TYPE_EXPENSE": "Expense",
+    "ICON": "Icon",
+    "ADD_NEW": "Add New Category",
+    "DELETE_CONFIRM": "Are you sure you want to delete this category? This action cannot be undone.",
+    "UPDATED_SUCCESS": "Category updated successfully!",
+    "UPDATE_FAILED": "Failed to update category.",
+    "CREATED_SUCCESS": "Category created successfully!",
+    "CREATE_FAILED": "Failed to create category.",
+    "DELETED_SUCCESS": "Category deleted successfully!",
+    "DELETE_FAILED": "Failed to delete category. Please try again later.",
+    "CATEGORY_ID_MISSING": "Category ID is missing.",
+    "SUBCATEGORY": {
+      "HEADER": "Subcategories",
+      "ADD_NEW": "Add New Subcategory",
+      "NAME": "Subcategory Name",
+      "NAME_REQUIRED": "Subcategory name is required",
+      "UPDATED_SUCCESS": "Subcategory updated successfully!",
+      "UPDATE_FAILED": "Failed to update subcategory.",
+      "CREATED_SUCCESS": "Subcategory created successfully!",
+      "CREATE_FAILED": "Failed to create subcategory.",
+      "DELETED_SUCCESS": "Subcategory deleted successfully!",
+      "DELETE_FAILED": "Failed to delete subcategory.",
+      "DELETE_CONFIRM": "Are you sure you want to delete this subcategory?"
+    }
   },
-  "RECOVER_PASSWORD": {
-    "HEADER": "Recover Password",
-    "EMAIL_LABEL": "Enter your email to recover your password",
-    "SUBMIT_BUTTON": "Send Recovery Email",
-    "CANCEL_BUTTON": "Cancel"
+  "ADD_USER": {
+    "TITLE": "Add User",
+    "USER_EMAIL": "User Email",
+    "EMAIL_PLACEHOLDER": "Enter email",
+    "EMAIL_REQUIRED": "Email is required.",
+    "EMAIL_INVALID": "Enter a valid email address.",
+    "CANCEL_BUTTON": "Cancel",
+    "ADD_BUTTON": "Add User",
+    "EMAIL_SENT_SUCCESS": "Registration email sent successfully!",
+    "EMAIL_SENT_FAILED": "Failed to send registration email."
   },
-  "MFA": {
-    "HEADER": "Verify MFA",
-    "TOKEN_LABEL": "Enter your MFA token",
-    "SUBMIT_BUTTON": "Verify"
+  "CONFIRMATION_DIALOG": {
+    "TITLE": "Confirm",
+    "MESSAGE": "Are you sure you want to delete the user?",
+    "USER_DELETED": "User Deleted!",
+    "NO": "No",
+    "YES": "Yes"
+  },
+  "EDIT_USER": {
+    "TITLE": "Edit User",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "ROLE": "Role",
+    "ACTIVE": "Active",
+    "USER_UPDATED": "User updated successfully!",
+    "UPDATE_FAILED": "Failed to update user.",
+    "TOGGLE_PASSWORD_VISIBILITY": "Toggle password visibility",
+    "USERNAME_REQUIRED": "Username is required.",
+    "EMAIL_REQUIRED": "Email is required.",
+    "EMAIL_INVALID": "Invalid email format.",
+    "ROLE_ADMIN": "Admin",
+    "ROLE_USER": "User",
+    "CANCEL_BUTTON": "Cancel",
+    "SAVE_BUTTON": "Save"
+  },
+    "HEADER": {
+      "HOME": "Home",
+      "CATEGORIES": "Categories",
+      "ACCOUNT": "Account",
+      "MANAGE_USERS": "Manage Users",
+      "LOGOUT": "Logout"
+    },
+    "HOME": {
+    "WELCOME": "Welcome",
+    "ROLE_INFO": "Your role",
+    "LOADING": "Loading..."
+  },
+  "MANAGE_USERS": {
+    "TITLE": "Manage Users",
+    "ADD_USER": "Add User",
+    "SEARCH": "Search",
+    "FILTER": "Filter",
+    "CLEAR": "Clear",
+    "ID": "ID",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "ROLE": "Role",
+    "ACTIVE": "Active",
+    "YES": "Yes",
+    "NO": "No",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "DISABLE": "Disable",
+    "ENABLE": "Enable",
+    "DISABLE_MFA": "Disable MFA",
+    "LOAD_ERROR": "Failed to load users.",
+    "MFA_DISABLED_SUCCESS": "MFA disabled successfully!",
+    "MFA_DISABLED_ERROR": "Failed to disable MFA.",
+    "UPDATE_SUCCESS": "User updated successfully!",
+    "UPDATE_ERROR": "Failed to update user.",
+    "DELETE_CONFIRM": "Are you sure you want to delete this user?",
+    "DELETE_SUCCESS": "User deleted successfully!",
+    "DELETE_ERROR": "Failed to delete user.",
+    "STATUS_UPDATE_SUCCESS": "User status updated successfully!",
+    "STATUS_UPDATE_ERROR": "Failed to update user status."
   }
 }

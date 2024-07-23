@@ -4,7 +4,7 @@
       <mat-icon class="category-icon">{{ category.icon }}</mat-icon>
       <div class="text-container">
         <mat-card-title>{{ category.name }}</mat-card-title>
-        <mat-card-subtitle>Type: {{ category.type | titlecase }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ 'CATEGORIES.TYPE' | translate }}: {{ category.type | titlecase }}</mat-card-subtitle>
       </div>
       <button mat-icon-button class="delete-button" (click)="deleteCategory(category.id); $event.stopPropagation()">
         <mat-icon>delete</mat-icon>
@@ -13,31 +13,31 @@
 
     <div class="expanded-content" [ngClass]="{'show-content': expandedCategoryId === category.id}">
       <mat-card class="edit-category-form">
-        <mat-card-header>Edit Category</mat-card-header>
+        <mat-card-header>{{ 'CATEGORIES.EDIT' | translate }}</mat-card-header>
         <mat-card-content>
           <form [formGroup]="categoryForm" (ngSubmit)="onSubmitCategory()">
             <input type="hidden" formControlName="id">
             <mat-form-field appearance="fill">
-              <mat-label>Category Name</mat-label>
+              <mat-label>{{ 'CATEGORIES.NAME' | translate }}</mat-label>
               <input matInput formControlName="name">
               <mat-error *ngIf="categoryForm.get('name')?.hasError('required')">
-                Category name is required
+                {{ 'CATEGORIES.NAME_REQUIRED' | translate }}
               </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
-              <mat-label>Type</mat-label>
+              <mat-label>{{ 'CATEGORIES.TYPE' | translate }}</mat-label>
               <mat-select formControlName="type">
-                <mat-option value="income">Income</mat-option>
-                <mat-option value="expense">Expense</mat-option>
+                <mat-option value="income">{{ 'CATEGORIES.TYPE_INCOME' | translate }}</mat-option>
+                <mat-option value="expense">{{ 'CATEGORIES.TYPE_EXPENSE' | translate }}</mat-option>
               </mat-select>
               <mat-error *ngIf="categoryForm.get('type')?.hasError('required')">
-                Type is required
+                {{ 'CATEGORIES.TYPE_REQUIRED' | translate }}
               </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
-              <mat-label>Icon</mat-label>
+              <mat-label>{{ 'CATEGORIES.ICON' | translate }}</mat-label>
               <input matInput formControlName="icon">
               <mat-icon *ngIf="categoryForm.get('icon')?.value" class="category-icon-preview">
                 {{ categoryForm.get('icon')?.value }}
@@ -52,7 +52,7 @@
       </mat-card>
 
       <div class="subcategory-container">
-        <h3 *ngIf="category.subcategories && category.subcategories.length">Subcategories</h3>
+        <h3 *ngIf="category.subcategories && category.subcategories.length">{{ 'CATEGORIES.SUBCATEGORY.HEADER' | translate }}</h3>
 
         <mat-card *ngFor="let subcategory of category.subcategories" class="subcategory-card">
           <mat-card-header>
@@ -64,15 +64,15 @@
         </mat-card>
 
         <mat-card class="add-subcategory-form" *ngIf="expandedCategoryId === category.id">
-          <mat-card-header>Add New Subcategory</mat-card-header>
+          <mat-card-header>{{ 'CATEGORIES.SUBCATEGORY.ADD_NEW' | translate }}</mat-card-header>
           <mat-card-content>
             <form [formGroup]="subcategoryForm" (ngSubmit)="onSubmitSubcategory()">
               <input type="hidden" formControlName="category_id">
               <mat-form-field appearance="fill">
-                <mat-label>Subcategory Name</mat-label>
+                <mat-label>{{ 'CATEGORIES.SUBCATEGORY.NAME' | translate }}</mat-label>
                 <input matInput formControlName="name">
                 <mat-error *ngIf="subcategoryForm.get('name')?.hasError('required')">
-                  Subcategory name is required
+                  {{ 'CATEGORIES.SUBCATEGORY.NAME_REQUIRED' | translate }}
                 </mat-error>
               </mat-form-field>
               <button mat-icon-button color="primary" type="submit" aria-label="Add Subcategory">
@@ -87,31 +87,31 @@
 
   <mat-card class="add-category-card">
     <mat-card-header>
-      <mat-card-title>Add New Category</mat-card-title>
+      <mat-card-title>{{ 'CATEGORIES.ADD_NEW' | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="categoryForm" (ngSubmit)="onSubmitCategory()">
         <mat-form-field appearance="fill">
-          <mat-label>Category Name</mat-label>
+          <mat-label>{{ 'CATEGORIES.NAME' | translate }}</mat-label>
           <input matInput formControlName="name">
           <mat-error *ngIf="categoryForm.get('name')?.hasError('required')">
-            Category name is required
+            {{ 'CATEGORIES.NAME_REQUIRED' | translate }}
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Type</mat-label>
+          <mat-label>{{ 'CATEGORIES.TYPE' | translate }}</mat-label>
           <mat-select formControlName="type">
-            <mat-option value="income">Income</mat-option>
-            <mat-option value="expense">Expense</mat-option>
+            <mat-option value="income">{{ 'CATEGORIES.TYPE_INCOME' | translate }}</mat-option>
+            <mat-option value="expense">{{ 'CATEGORIES.TYPE_EXPENSE' | translate }}</mat-option>
           </mat-select>
           <mat-error *ngIf="categoryForm.get('type')?.hasError('required')">
-            Type is required
+            {{ 'CATEGORIES.TYPE_REQUIRED' | translate }}
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Icon</mat-label>
+          <mat-label>{{ 'CATEGORIES.ICON' | translate }}</mat-label>
           <input matInput formControlName="icon">
           <mat-icon *ngIf="categoryForm.get('icon')?.value" class="category-icon-preview">
             {{ categoryForm.get('icon')?.value }}

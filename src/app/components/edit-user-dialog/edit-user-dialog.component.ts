@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
 import { User } from '../../models/user.model';
+import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -21,7 +22,8 @@ export class EditUserDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: { user: User },
     private fb: FormBuilder,
     private userService: UserService,
-    private snackBar: SnackbarService // Inject SnackbarService
+    private snackBar: SnackbarService, // Inject SnackbarService
+    private translate: TranslateService // Inject TranslateService
   ) {
     this.user = { ...data.user };
 
@@ -50,11 +52,11 @@ export class EditUserDialogComponent {
 
       this.userService.updateUser(this.user).subscribe(
         () => {
-          this.snackBar.showSuccess('User updated successfully!');
+          this.snackBar.showSuccess(this.translate.instant('EDIT_USER.USER_UPDATED'));
           this.dialogRef.close(this.user);
         },
         (error) => {
-          this.snackBar.showError('Failed to update user.');
+          this.snackBar.showError(this.translate.instant('EDIT_USER.UPDATE_FAILED'));
           console.error('Error updating user:', error);
           this.isSaving = false; // Enable the form submission button on error
         },

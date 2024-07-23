@@ -9,6 +9,7 @@ import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.co
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component'; 
 import { MatSort, Sort } from '@angular/material/sort';
 import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
+import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
 
 @Component({
   selector: 'app-manage-users',
@@ -28,7 +29,8 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private mfaService: MFAService,
     public dialog: MatDialog,
-    private snackBar: SnackbarService // Inject SnackbarService
+    private snackBar: SnackbarService, // Inject SnackbarService
+    private translate: TranslateService // Inject TranslateService
   ) {
     this.users = new MatTableDataSource<User>([]);
     this.filteredUsers = new MatTableDataSource<User>([]);
@@ -53,7 +55,7 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       },
       (error) => {
         console.error('Error loading users:', error);
-        this.snackBar.showError('Failed to load users.');
+        this.snackBar.showError(this.translate.instant('MANAGE_USERS.LOAD_ERROR'));
       }
     );
   }
@@ -83,12 +85,12 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   disableMFA(userId: number) {
     this.mfaService.disableMFA(userId).subscribe(
       response => {
-        this.snackBar.showSuccess('MFA disabled successfully!');
+        this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.MFA_DISABLED_SUCCESS'));
         this.loadUsers(); // Refresh the user list
       },
       error => {
         console.error('Error disabling MFA', error);
-        this.snackBar.showError('Failed to disable MFA.');
+        this.snackBar.showError(this.translate.instant('MANAGE_USERS.MFA_DISABLED_ERROR'));
       }
     );
   }
@@ -116,12 +118,12 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       if (result) {
         this.userService.updateUser(result).subscribe(
           () => {
-            this.snackBar.showSuccess('User updated successfully!');
+            this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.UPDATE_SUCCESS'));
             this.loadUsers(); // Refresh the user list
           },
           error => {
             console.error('Error updating user:', error);
-            this.snackBar.showError('Failed to update user.');
+            this.snackBar.showError(this.translate.instant('MANAGE_USERS.UPDATE_ERROR'));
           }
         );
       }
@@ -135,19 +137,19 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   openConfirmationDialog(userId: number): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
-      data: 'Are you sure you want to delete this user?',
+      data: this.translate.instant('MANAGE_USERS.DELETE_CONFIRM'),
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.userService.deleteUser(userId).subscribe(
           () => {
-            this.snackBar.showSuccess('User deleted successfully!');
+            this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.DELETE_SUCCESS'));
             this.loadUsers(); // Reload users after deletion
           },
           error => {
             console.error('Error deleting user:', error);
-            this.snackBar.showError('Failed to delete user.');
+            this.snackBar.showError(this.translate.instant('MANAGE_USERS.DELETE_ERROR'));
           }
         );
       }
@@ -158,12 +160,12 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
     user.isActive = !user.isActive;
     this.userService.updateUser(user).subscribe(
       () => {
-        this.snackBar.showSuccess('User status updated successfully!');
+        this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.STATUS_UPDATE_SUCCESS'));
         this.loadUsers();
       },
       error => {
         console.error('Error updating user status:', error);
-        this.snackBar.showError('Failed to update user status.');
+        this.snackBar.showError(this.translate.instant('MANAGE_USERS.STATUS_UPDATE_ERROR'));
       }
     );
   }

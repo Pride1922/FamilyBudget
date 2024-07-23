@@ -2,8 +2,8 @@
   <nav>
     <div class="container">
       <ul>
-        <li><a routerLink="/home" class="home-link">Home</a></li>
-        <li><a routerLink="/categories" class="home-link">Categories</a></li>
+        <li><a routerLink="/home" class="home-link">{{ 'HEADER.HOME' | translate }}</a></li>
+        <li><a routerLink="/categories" class="home-link">{{ 'HEADER.CATEGORIES' | translate }}</a></li>
         <!-- Other navigation items -->
       </ul>
     </div>
@@ -13,9 +13,9 @@
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/profile">Account</button> <!-- New Account button -->
-          <button mat-menu-item *ngIf="isAdmin()" (click)="onManageUsers()">Manage Users</button>
-          <button mat-menu-item (click)="onLogout()">Logout</button>
+          <button mat-menu-item routerLink="/profile">{{ 'HEADER.ACCOUNT' | translate }}</button> <!-- New Account button -->
+          <button mat-menu-item *ngIf="isAdmin()" (click)="onManageUsers()">{{ 'HEADER.MANAGE_USERS' | translate }}</button>
+          <button mat-menu-item (click)="onLogout()">{{ 'HEADER.LOGOUT' | translate }}</button>
         </mat-menu>
       </div>
     </div>

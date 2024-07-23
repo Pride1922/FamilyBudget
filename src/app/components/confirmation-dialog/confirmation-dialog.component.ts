@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from '../../services/snackbar.service'; // Adjust the path if necessary
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -12,7 +13,8 @@ export class ConfirmationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackbarService: SnackbarService // Inject the SnackbarService
+    private snackbarService: SnackbarService, // Inject the SnackbarService
+    private translate: TranslateService // Inject the TranslateService
   ) { }
 
   onNoClick(): void {
@@ -20,7 +22,7 @@ export class ConfirmationDialogComponent {
   }
 
   onYesClick(): void {
-    this.snackbarService.showSuccess('User Deleted!', 2000); // Show the Snackbar message
+    this.snackbarService.showSuccess(this.translate.instant('CONFIRMATION_DIALOG.USER_DELETED'), 2000); // Show the Snackbar message
     setTimeout(() => {
       this.dialogRef.close(true); // Close the dialog with a result of true after 2 seconds
     }, 2000);

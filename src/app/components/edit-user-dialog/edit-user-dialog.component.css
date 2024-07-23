@@ -1,41 +1,45 @@
 .dialog-title {
-  text-align: center;
-  margin: 0 auto;
-  width: 100%;
   font-size: 24px;
   font-weight: bold;
+  color: #3f51b5;
+  margin-bottom: 20px; /* Add margin to create space below the title */
 }
 
 .mat-dialog-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.user-form {
-  width: 100%;
+  gap: 20px; /* Add gap between form fields */
 }
 
 .full-width {
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .full-width-checkbox {
-  width: 100%;
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-mat-dialog-actions {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 }
 
-button[mat-button] {
-  min-width: 80px;
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* Add gap between buttons */
 }
 
-mat-checkbox {
-  margin-top: 10px;
+.mat-form-field {
+  margin-bottom: 20px; /* Add margin to create space below each field */
+}
+
+.mat-dialog-actions .mat-button {
+  min-width: 80px; /* Ensure buttons have a minimum width */
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.save-button {
+  background-color: #3f51b5;
+  color: white;
 }
