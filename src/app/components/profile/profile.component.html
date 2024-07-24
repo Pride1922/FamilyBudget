@@ -18,7 +18,7 @@
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>{{ 'PROFILE.OLD_PASSWORD' | translate }}</mat-label>
             <input matInput [type]="passwordFields['oldPassword'].hide ? 'password' : 'text'" formControlName="oldPassword" required>
-            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('oldPassword')" aria-label="Toggle password visibility">
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('oldPassword')">
               <mat-icon class="small-icon">{{ passwordFields['oldPassword'].hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             <mat-error *ngIf="changePasswordForm.get('oldPassword')?.hasError('required') && (changePasswordForm.get('oldPassword')?.dirty || changePasswordForm.get('oldPassword')?.touched)">
@@ -34,7 +34,7 @@
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>{{ 'PROFILE.NEW_PASSWORD' | translate }}</mat-label>
             <input matInput [type]="passwordFields['newPassword'].hide ? 'password' : 'text'" formControlName="newPassword" required>
-            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('newPassword')" aria-label="Toggle password visibility">
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('newPassword')">
               <mat-icon class="small-icon">{{ passwordFields['newPassword'].hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             <mat-error *ngIf="changePasswordForm.get('newPassword')?.hasError('required') && (changePasswordForm.get('newPassword')?.dirty || changePasswordForm.get('newPassword')?.touched)">
@@ -47,7 +47,7 @@
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>{{ 'PROFILE.CONFIRM_NEW_PASSWORD' | translate }}</mat-label>
             <input matInput [type]="passwordFields['confirmNewPassword'].hide ? 'password' : 'text'" formControlName="confirmNewPassword" required>
-            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('confirmNewPassword')" aria-label="Toggle password visibility">
+            <button mat-icon-button matSuffix (click)="togglePasswordVisibility('confirmNewPassword')">
               <mat-icon class="small-icon">{{ passwordFields['confirmNewPassword'].hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             <mat-error *ngIf="changePasswordForm.get('confirmNewPassword')?.hasError('passwordMismatch') && (changePasswordForm.get('confirmNewPassword')?.dirty || changePasswordForm.get('confirmNewPassword')?.touched)">
