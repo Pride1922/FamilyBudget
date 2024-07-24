@@ -1,3 +1,4 @@
+<!-- header.component.html -->
 <header *ngIf="headerVisible">
   <nav>
     <div class="container">
@@ -6,16 +7,26 @@
         <li><a routerLink="/categories" class="home-link">{{ 'HEADER.CATEGORIES' | translate }}</a></li>
         <!-- Other navigation items -->
       </ul>
-    </div>
-    <div class="container">
       <div class="user-menu" *ngIf="isLoggedIn()">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/profile">{{ 'HEADER.ACCOUNT' | translate }}</button> <!-- New Account button -->
+          <button mat-menu-item routerLink="/profile">{{ 'HEADER.ACCOUNT' | translate }}</button>
           <button mat-menu-item *ngIf="isAdmin()" (click)="onManageUsers()">{{ 'HEADER.MANAGE_USERS' | translate }}</button>
           <button mat-menu-item (click)="onLogout()">{{ 'HEADER.LOGOUT' | translate }}</button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item [matMenuTriggerFor]="languageMenu">
+            <mat-icon>language</mat-icon>
+            {{ 'HEADER.LANGUAGE' | translate }}
+          </button>
+        </mat-menu>
+        <mat-menu #languageMenu="matMenu">
+          <div class="language-menu-content">
+            <button *ngFor="let lang of languages" mat-menu-item (click)="switchLanguage(lang)">
+              <img [src]="'assets/flags/' + lang + '.ico'" alt="{{ lang }}" class="flag-icon">
+            </button>
+          </div>
         </mat-menu>
       </div>
     </div>

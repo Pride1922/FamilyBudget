@@ -85,13 +85,13 @@
     "EMAIL_SENT_SUCCESS": "Registratie-e-mail succesvol verzonden!",
     "EMAIL_SENT_FAILED": "Registratie-e-mail verzenden mislukt."
   },
-    "CONFIRMATION_DIALOG": {
-      "TITLE": "Bevestigen",
-      "USER_DELETED": "Gebruiker Verwijderd!",
-      "MESSAGE": "Weet u zeker dat u de gebruiker wilt verwijderen?",
-      "NO": "Nee",
-      "YES": "Ja"
-    },
+  "CONFIRMATION_DIALOG": {
+    "TITLE": "Bevestigen",
+    "USER_DELETED": "Gebruiker Verwijderd!",
+    "MESSAGE": "Weet u zeker dat u de gebruiker wilt verwijderen?",
+    "NO": "Nee",
+    "YES": "Ja"
+  },
   "EDIT_USER": {
     "TITLE": "Gebruiker Bewerken",
     "USERNAME": "Gebruikersnaam",
@@ -115,7 +115,8 @@
     "CATEGORIES": "Categorieën",
     "ACCOUNT": "Account",
     "MANAGE_USERS": "Gebruikers Beheren",
-    "LOGOUT": "Uitloggen"
+    "LOGOUT": "Uitloggen",
+    "LANGUAGE": "Taal"
   },
   "HOME": {
     "WELCOME": "Welkom",
@@ -234,6 +235,6 @@
     "INVALID_FORM": "Vul het formulier correct in"
   },
   "ERRORS": {
-  "TOKEN_EXPIRED": "Uw sessie is verlopen. Log opnieuw in."
-}
+    "TOKEN_EXPIRED": "Uw sessie is verlopen. Log opnieuw in."
+  }
 }

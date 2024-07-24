@@ -1,7 +1,6 @@
 /* Import Angular Material theme (ensure this is correct) */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-
 /* Reset styles */
 * {
   margin: 0;
@@ -51,21 +50,6 @@ a {
   font-size: 16px;
 }
 
-.logout-button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-  background-color: #d32f2f;
-}
-
 .home-link {
   font-size: 18px;
 }
@@ -113,30 +97,24 @@ html, body {
   border-radius: 20px;
 }
 
-
 /* snackbar for notifications */
-
-/* Position the snackbar in the middle right */
 .mat-snack-bar-container {
-  /* Center vertically and align to the right */
   right: 0 !important;
   transform: translateX(-100%) translateY(calc(50% - 24px)) !important;
-  /* Adjust the vertical positioning if needed */
   top: 50% !important;
 }
 
-
 .snackbar-success {
-  background-color: #4caf50; /* Green */
+  background-color: #4caf50;
   color: white;
 }
 
 .snackbar-error {
-  background-color: #f44336; /* Red */
+  background-color: #f44336;
   color: white;
 }
 
 .snackbar-info {
-  background-color: #2196f3; /* Blue */
+  background-color: #2196f3;
   color: white;
 }

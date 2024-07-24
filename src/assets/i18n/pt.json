@@ -72,7 +72,7 @@
       "DELETED_SUCCESS": "Subcategoria eliminada com sucesso!",
       "DELETE_FAILED": "Falha ao eliminar subcategoria.",
       "DELETE_CONFIRM": "Tem a certeza de que deseja eliminar esta subcategoria?"
-    }  
+    }
   },
   "ADD_USER": {
     "TITLE": "Adicionar Utilizador",
@@ -115,7 +115,8 @@
     "CATEGORIES": "Categorias",
     "ACCOUNT": "Conta",
     "MANAGE_USERS": "Gerir Utilizadores",
-    "LOGOUT": "Sair"
+    "LOGOUT": "Sair",
+    "LANGUAGE": "Idioma"
   },
   "HOME": {
     "WELCOME": "Bem-vindo",
@@ -194,7 +195,7 @@
     "OLD_PASSWORD_REQUIRED": "Palavra-passe Antiga é obrigatória.",
     "NEW_PASSWORD": "Nova Palavra-passe",
     "NEW_PASSWORD_REQUIRED": "Nova Palavra-passe é obrigatória e deve ter pelo menos 6 caracteres.",
-    "CONFIRM_NEW_PASSWORD": "Confirmar Nova Palavra-passe",
+    "CONFIRM_NEW_PASSWORD": "Confirmar Palavra-passe",
     "PASSWORD_MISMATCH": "As novas palavras-passe não coincidem.",
     "CHANGE_PASSWORD_BUTTON": "Alterar Palavra-passe",
     "CHANGE_PASSWORD_SUCCESS": "Palavra-passe alterada com sucesso.",

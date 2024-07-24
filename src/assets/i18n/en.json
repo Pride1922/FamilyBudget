@@ -115,7 +115,8 @@
       "CATEGORIES": "Categories",
       "ACCOUNT": "Account",
       "MANAGE_USERS": "Manage Users",
-      "LOGOUT": "Logout"
+      "LOGOUT": "Logout",
+      "LANGUAGE": "Language"
     },
     "HOME": {
     "WELCOME": "Welcome",

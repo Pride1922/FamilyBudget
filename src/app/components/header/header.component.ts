@@ -1,7 +1,9 @@
+// header.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HeaderVisibilityService } from '../../services/header-visibility.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -12,11 +14,13 @@ export class HeaderComponent implements OnInit {
   headerVisible = true;
   userMenuOpen = false; // Track if user menu is open
   loggedInUser: any;
+  languages = ['en', 'pt', 'nl']; // Add your supported languages here
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private headerVisibilityService: HeaderVisibilityService // Inject the service
+    private headerVisibilityService: HeaderVisibilityService, // Inject the service
+    private translateService: TranslateService // Inject TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -48,5 +52,9 @@ export class HeaderComponent implements OnInit {
 
   toggleUserMenu(): void {
     this.userMenuOpen = !this.userMenuOpen;
+  }
+
+  switchLanguage(lang: string): void {
+    this.translateService.use(lang);
   }
 }

@@ -1,9 +1,10 @@
+/* Ensure styles for the header component */
 header {
-  background-color: #6dabe4; /* Header background color */
-  position: fixed; /* Fixed position */
-    width: 100%;
-  top: 0; /* Stick to the top */
-  z-index: 1000; /* Higher z-index for stacking order */
+  background-color: #6dabe4;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 nav {
@@ -11,24 +12,22 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  width: 100%; /* Ensure nav spans the full width */
+  width: 100%;
 }
 
 .container {
   display: flex;
   align-items: center;
-  width: 100%; /* Ensure container spans the full width */
+  justify-content: space-between;
+  width: 100%;
 }
 
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-li {
-  display: inline;
-  margin-right: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 a {
@@ -39,41 +38,27 @@ a {
 }
 
 .user-menu {
-  position: absolute;
-  right: 20px; /* Adjust as needed */
-  top: 50%; /* Vertical centering */
-  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
-.logout-button {
-  background-color: #f44336; /* Red color for logout button */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+.flag-icon {
+  width: 30px; /* Adjust flag icon size */
+  height: 30px;
+  display: block;
+  margin: 0 auto; /* Center flags vertically */
 }
 
-.logout-button:hover {
-  background-color: #d32f2f; /* Darker red on hover */
-}
-
-.home-link {
-  font-size: 18px; /* Larger font size for home link */
+.language-menu-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 }
 
 html, body {
   height: 100%;
-}
-
-body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #cbe7ff; /* Baby blue background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Ensure body takes full height */
+  background-color: #cbe7ff;
 }
