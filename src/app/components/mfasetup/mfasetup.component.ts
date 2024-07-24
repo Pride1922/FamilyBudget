@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MFAService } from '../../services/mfa.service';
 import { AuthService } from '../../services/auth.service';
 import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
+import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
 
 @Component({
   selector: 'app-mfasetup',
@@ -23,7 +24,8 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
     private mfaService: MFAService,
     private authService: AuthService,
     private router: Router,
-    private snackBar: SnackbarService // Inject SnackbarService
+    private snackBar: SnackbarService, // Inject SnackbarService
+    private translate: TranslateService // Inject TranslateService
   ) {
     this.mfaForm = this.fb.group({
       mfaToken: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]] // Only allow 6-digit numbers
@@ -35,12 +37,12 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
     this.mfaService.setupMFA().subscribe(
       (data: any) => {
         this.qrCodeUrl = data.qrCodeUrl;
-        this.snackBar.showSuccess('MFA setup initialized successfully!');
+        this.snackBar.showSuccess(this.translate.instant('MFA.SETUP_INITIALIZED'));
       },
       error => {
         console.error('Failed to setup MFA:', error);
-        this.errorMessage = 'Failed to setup MFA. Please try again.';
-        this.snackBar.showError('Failed to setup MFA. Please try again.');
+        this.errorMessage = this.translate.instant('MFA.SETUP_FAILED');
+        this.snackBar.showError(this.translate.instant('MFA.SETUP_FAILED'));
       }
     );
   }
@@ -57,13 +59,13 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
     const userId = this.authService.getUserId();
     if (!userId) {
       console.error('User ID not found');
-      this.errorMessage = 'User ID not found. Please login again.';
-      this.snackBar.showError('User ID not found. Please login again.');
+      this.errorMessage = this.translate.instant('MFA.USER_ID_NOT_FOUND');
+      this.snackBar.showError(this.translate.instant('MFA.USER_ID_NOT_FOUND'));
       return;
     }
 
     if (this.mfaForm.invalid) {
-      this.snackBar.showError('Please enter a valid MFA token.');
+      this.snackBar.showError(this.translate.instant('MFA.INVALID_TOKEN'));
       return; // Form is invalid
     }
 
@@ -76,13 +78,13 @@ export class MFASetupComponent implements OnInit, AfterViewInit {
       () => {
         this.mfaConfirmed = true;
         this.authService.setMFACompleted();
-        this.snackBar.showSuccess('MFA confirmed successfully!');
+        this.snackBar.showSuccess(this.translate.instant('MFA.CONFIRM_SUCCESS'));
         this.navigateBackToProfile(); // Navigate back to profile on success
       },
       error => {
         console.error('Failed to confirm MFA:', error);
-        this.errorMessage = 'Failed to confirm MFA. Please verify the code and try again.';
-        this.snackBar.showError('Failed to confirm MFA. Please verify the code and try again.');
+        this.errorMessage = this.translate.instant('MFA.CONFIRM_FAILED');
+        this.snackBar.showError(this.translate.instant('MFA.CONFIRM_FAILED'));
       }
     );
   }

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
 import { HeaderVisibilityService } from '../../services/header-visibility.service';
+import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
 
 @Component({
   selector: 'app-password-reset',
@@ -24,8 +25,9 @@ export class PasswordResetComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private headerVisibilityService: HeaderVisibilityService
+    private snackBar: SnackbarService, // Inject SnackbarService
+    private headerVisibilityService: HeaderVisibilityService,
+    private translate: TranslateService // Inject TranslateService
   ) {
     this.passwordResetForm = this.fb.group({
       newPassword: ['', [
@@ -44,7 +46,7 @@ export class PasswordResetComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.token = params['token'];
       if (!this.token) {
-        this.errorMessage = 'Invalid or missing token.';
+        this.errorMessage = this.translate.instant('PASSWORD_RESET.INVALID_TOKEN');
         return;
       }
 
@@ -55,7 +57,7 @@ export class PasswordResetComponent implements OnInit {
         },
         error => {
           this.isValidToken = false;
-          this.errorMessage = error.error.message || 'Token is invalid or has expired';
+          this.errorMessage = error.error.message || this.translate.instant('PASSWORD_RESET.TOKEN_EXPIRED');
         }
       );
     });
@@ -74,25 +76,25 @@ export class PasswordResetComponent implements OnInit {
 
   resetPassword() {
     if (!this.isValidToken || this.passwordResetForm.invalid) {
-      this.errorMessage = 'Invalid form submission.';
+      this.errorMessage = this.translate.instant('PASSWORD_RESET.INVALID_FORM');
       return;
     }
 
     this.isLoading = true;
     const { newPassword } = this.passwordResetForm.value;
     if (!this.token) {
-      this.errorMessage = 'Token is missing.';
+      this.errorMessage = this.translate.instant('PASSWORD_RESET.TOKEN_MISSING');
       this.isLoading = false;
       return;
     }
 
     this.authService.resetPassword(this.token, newPassword).subscribe(
       () => {
-        this.snackBar.open('Password has been reset successfully!', 'Close', { duration: 3000 });
+        this.snackBar.showSuccess(this.translate.instant('PASSWORD_RESET.SUCCESS_MESSAGE'), this.translate.instant('SNACKBAR.CLOSE'));
         this.router.navigate(['/login']);
       },
       error => {
-        this.errorMessage = 'An error occurred while resetting the password.';
+        this.errorMessage = this.translate.instant('PASSWORD_RESET.ERROR_MESSAGE');
         console.error(error);
       },
       () => {

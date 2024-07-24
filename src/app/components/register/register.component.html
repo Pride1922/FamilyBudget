@@ -1,18 +1,18 @@
 <div class="app-container">
   <div class="register-container mat-elevation-z2">
-    <h2>Register</h2>
+    <h2>{{ 'REGISTRATION.TITLE' | translate }}</h2>
     <form [formGroup]="registrationForm" (ngSubmit)="register()">
       <!-- Hidden Field to Store Email -->
       <input type="hidden" formControlName="email" />
 
       <!-- Email Field (Visible but Disabled) -->
       <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
+        <mat-label>{{ 'REGISTRATION.EMAIL' | translate }}</mat-label>
         <input
           matInput
           formControlName="email"
           type="email"
-          placeholder="Enter your email"
+          placeholder="{{ 'REGISTRATION.EMAIL_PLACEHOLDER' | translate }}"
           readonly
         />
         <mat-error
@@ -22,7 +22,7 @@
               registrationForm.get('email')?.dirty)
           "
         >
-          Email is required.
+          {{ 'REGISTRATION.EMAIL_REQUIRED' | translate }}
         </mat-error>
         <mat-error
           *ngIf="
@@ -31,18 +31,18 @@
               registrationForm.get('email')?.dirty)
           "
         >
-          Invalid email format.
+          {{ 'REGISTRATION.EMAIL_INVALID' | translate }}
         </mat-error>
       </mat-form-field>
 
       <!-- Username Field -->
       <mat-form-field appearance="fill">
-        <mat-label>Username</mat-label>
+        <mat-label>{{ 'REGISTRATION.USERNAME' | translate }}</mat-label>
         <input
           matInput
           formControlName="username"
           type="text"
-          placeholder="Enter your username"
+          placeholder="{{ 'REGISTRATION.USERNAME_PLACEHOLDER' | translate }}"
           required
           minlength="4"
           maxlength="20"
@@ -54,7 +54,7 @@
               registrationForm.get('username')?.dirty)
           "
         >
-          Username is required.
+          {{ 'REGISTRATION.USERNAME_REQUIRED' | translate }}
         </mat-error>
         <mat-error
           *ngIf="
@@ -63,7 +63,7 @@
               registrationForm.get('username')?.dirty)
           "
         >
-          Username must be at least 4 characters.
+          {{ 'REGISTRATION.USERNAME_MINLENGTH' | translate }}
         </mat-error>
         <mat-error
           *ngIf="
@@ -72,18 +72,18 @@
               registrationForm.get('username')?.dirty)
           "
         >
-          Username cannot exceed 20 characters.
+          {{ 'REGISTRATION.USERNAME_MAXLENGTH' | translate }}
         </mat-error>
       </mat-form-field>
 
       <!-- Password Field -->
       <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
+        <mat-label>{{ 'REGISTRATION.PASSWORD' | translate }}</mat-label>
         <input
           matInput
           formControlName="password"
           [type]="hidePassword ? 'password' : 'text'"
-          placeholder="Enter your password"
+          placeholder="{{ 'REGISTRATION.PASSWORD_PLACEHOLDER' | translate }}"
           required
           minlength="6"
           maxlength="20"
@@ -95,7 +95,7 @@
               registrationForm.get('password')?.dirty)
           "
         >
-          Password is required.
+          {{ 'REGISTRATION.PASSWORD_REQUIRED' | translate }}
         </mat-error>
         <mat-error
           *ngIf="
@@ -104,7 +104,7 @@
               registrationForm.get('password')?.dirty)
           "
         >
-          Password must be at least 6 characters.
+          {{ 'REGISTRATION.PASSWORD_MINLENGTH' | translate }}
         </mat-error>
         <mat-error
           *ngIf="
@@ -113,7 +113,7 @@
               registrationForm.get('password')?.dirty)
           "
         >
-          Password cannot exceed 20 characters.
+          {{ 'REGISTRATION.PASSWORD_MAXLENGTH' | translate }}
         </mat-error>
         <button
           mat-icon-button
@@ -129,12 +129,12 @@
 
       <!-- Confirm Password Field -->
       <mat-form-field appearance="fill">
-        <mat-label>Confirm Password</mat-label>
+        <mat-label>{{ 'REGISTRATION.CONFIRM_PASSWORD' | translate }}</mat-label>
         <input
           matInput
           formControlName="confirmPassword"
           [type]="hideConfirmPassword ? 'password' : 'text'"
-          placeholder="Confirm your password"
+          placeholder="{{ 'REGISTRATION.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
           required
         />
         <mat-error
@@ -144,7 +144,7 @@
               registrationForm.get('confirmPassword')?.dirty)
           "
         >
-          Passwords do not match.
+          {{ 'REGISTRATION.PASSWORD_MISMATCH' | translate }}
         </mat-error>
         <button
           mat-icon-button
@@ -166,7 +166,7 @@
         class="full-width"
         [disabled]="registrationForm.invalid"
       >
-        Register
+        {{ 'REGISTRATION.REGISTER_BUTTON' | translate }}
       </button>
 
       <!-- Error and Success Messages -->

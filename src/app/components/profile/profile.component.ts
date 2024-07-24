@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
+import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,8 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private snackBar: SnackbarService // Inject SnackbarService
+    private snackBar: SnackbarService, // Inject SnackbarService
+    private translate: TranslateService // Inject TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +48,7 @@ export class ProfileComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching user data:', error);
-        this.snackBar.showError('Error fetching user data. Please try again later.');
+        this.snackBar.showError(this.translate.instant('PROFILE.ERROR_FETCHING_USER'));
       }
     });
 
@@ -79,18 +81,18 @@ export class ProfileComponent implements OnInit {
           if (response.error) {
             this.errorMessage = response.message;
             this.passwordChangeSuccess = false;
-            this.snackBar.showError('Failed to change password: ' + response.message);
+            this.snackBar.showError(this.translate.instant('PROFILE.CHANGE_PASSWORD_FAILED', { message: response.message }));
           } else {
             this.passwordChangeSuccess = true;
             this.errorMessage = null;
             this.changePasswordForm.reset();
-            this.snackBar.showSuccess('Password changed successfully!');
+            this.snackBar.showSuccess(this.translate.instant('PROFILE.CHANGE_PASSWORD_SUCCESS'));
           }
         },
         error: (error) => {
           console.error('Change password error:', error);
-          this.errorMessage = 'An error occurred while changing password.';
-          this.snackBar.showError('An error occurred while changing password.');
+          this.errorMessage = this.translate.instant('PROFILE.ERROR_CHANGE_PASSWORD');
+          this.snackBar.showError(this.translate.instant('PROFILE.ERROR_CHANGE_PASSWORD'));
         }
       });
     }

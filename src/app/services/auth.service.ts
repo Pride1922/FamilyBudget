@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { SnackbarService } from './snackbar.service'; // Import SnackbarService
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class AuthService {
   private loggedInUserSubject = new BehaviorSubject<any>(null);
   loggedInUser = this.loggedInUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackbarService: SnackbarService, private router: Router) {
     this.loadUser(); // Load user details from localStorage on service initialization
   }
 
@@ -78,7 +80,6 @@ export class AuthService {
     localStorage.setItem('mfa_completed', 'true');
   }
 
-  // Get email by registration token
   getEmailByToken(token: string): Observable<{ email: string }> {
     const params = new HttpParams().set('token', token);
     return this.http.get<{ email: string }>(`${this.apiUrl}/auth/email-by-token`, { params })
@@ -90,7 +91,6 @@ export class AuthService {
       );
   }
 
-  // Recover password
   recoverPassword(email: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/recover-password`, { email })
       .pipe(
@@ -101,18 +101,19 @@ export class AuthService {
       );
   }
 
-  //Reset Password
   resetPassword(token: string, newPassword: string) {
-    return this.http.post<any>(`${this.apiUrl}/reset-password`, { token, newPassword })
+    return this.http.post<any>(`${this.apiUrl}/reset-password`, { token, newPassword });
   }
-  // Verify reset token 
+
   verifyResetToken(token: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/verify-reset-token`, { token });
   }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('mfa_completed'); // Clear MFA completion status on logout
     this.loggedInUserSubject.next(null);
+    this.router.navigate(['/login']); // Redirect to login page
   }
 
   private parseJwt(token: string) {

@@ -1,9 +1,9 @@
 <div class="mfa-setup-container">
-  <h2>MFA Setup</h2>
+  <h2>{{ 'MFA.SETUP_TITLE' | translate }}</h2>
 
   <!-- Display QR Code and instructions -->
   <div *ngIf="!mfaConfirmed && qrCodeUrl" class="qr-code-container">
-    <p>Scan the QR code below with your authenticator app:</p>
+    <p>{{ 'MFA.SCAN_QR_CODE' | translate }}</p>
     <div class="qr-code">
       <img [src]="qrCodeUrl" alt="QR Code">
     </div>
@@ -11,19 +11,18 @@
 
   <!-- MFA Token Input -->
   <form *ngIf="!mfaConfirmed && qrCodeUrl" [formGroup]="mfaForm" (ngSubmit)="confirmMFA()" class="mfa-token-form">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Enter Token:</mat-label>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'MFA.ENTER_TOKEN' | translate }}</mat-label>
       <input matInput formControlName="mfaToken" type="number" id="mfaToken" required pattern="[0-9]{6}" #mfaTokenInput>
-      
-      <mat-error *ngIf="mfaForm.get('mfaToken')?.invalid">Please enter a valid 6-digit token</mat-error>
+      <mat-error *ngIf="mfaForm.get('mfaToken')?.invalid">{{ 'MFA.INVALID_TOKEN_ERROR' | translate }}</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Confirm MFA Setup</button>
+    <button mat-raised-button color="primary" type="submit">{{ 'MFA.CONFIRM_BUTTON' | translate }}</button>
   </form>
 
   <!-- Success Message -->
   <div *ngIf="mfaConfirmed" class="success-message">
-    <p>MFA successfully setup and confirmed!</p>
-    <button mat-raised-button color="primary" (click)="navigateBackToProfile()">Back to Profile</button>
+    <p>{{ 'MFA.CONFIRM_SUCCESS_MESSAGE' | translate }}</p>
+    <button mat-raised-button color="primary" (click)="navigateBackToProfile()">{{ 'MFA.BACK_TO_PROFILE' | translate }}</button>
   </div>
 
   <!-- Error Message -->

@@ -139,14 +139,15 @@ router.post('/verify-mfa', authenticateToken, (req, res) => {
 // Endpoint to disable MFA for a user
 router.post('/disable-mfa', authenticateToken, async (req, res) => {
   const { userId } = req.body;
+
   try {
     // Clear the user's MFA secret from the database
-    db.query('UPDATE Users SET mfa_enabled = ?, mfaSecret = NULL WHERE id = ?', [false, userId], (error, result) => {
+    db.query('UPDATE Users SET mfa_enabled = ?, mfaSecret = NULL WHERE id = ?', [false, userId.id], (error, result) => {
       if (error) {
         errorLogger.error('Error disabling MFA in database:', {
           message: 'Error executing query to disable MFA',
           query: 'UPDATE Users SET mfa_enabled = ?, mfaSecret = NULL WHERE id = ?',
-          params: [false, userId],
+          params: [false, userId.id],
           error: error.message,
           stack: error.stack
         });
