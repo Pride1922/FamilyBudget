@@ -1,0 +1,17 @@
+/* icon-search.component.css */
+.icon-search-container {
+    padding: 20px;
+  }
+  
+  .icons-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  mat-icon {
+    font-size: 40px;
+    cursor: pointer;
+  }
+  

@@ -60,6 +60,7 @@
     "DELETED_SUCCESS": "Categorie succesvol verwijderd!",
     "DELETE_FAILED": "Categorie verwijderen mislukt. Probeer het later opnieuw.",
     "CATEGORY_ID_MISSING": "Categorie-ID ontbreekt.",
+    "SEARCH_ICON": "Zoek Icoon",
     "SUBCATEGORY": {
       "HEADER": "Subcategorieën",
       "ADD_NEW": "Nieuwe Subcategorie Toevoegen",

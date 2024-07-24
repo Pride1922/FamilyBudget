@@ -60,6 +60,7 @@
     "DELETED_SUCCESS": "Categoria eliminada com sucesso!",
     "DELETE_FAILED": "Falha ao eliminar categoria. Por favor, tente novamente mais tarde.",
     "CATEGORY_ID_MISSING": "ID da categoria está em falta.",
+    "SEARCH_ICON": "Procurar Ícone",
     "SUBCATEGORY": {
       "HEADER": "Subcategorias",
       "ADD_NEW": "Adicionar Nova Subcategoria",

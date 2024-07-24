@@ -47,6 +47,23 @@
   font-size: 24px;
   color: #00796b;
   margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.category-icon-preview::after {
+  content: attr(data-icon);
+  font-family: 'Material Icons';
+  font-size: 24px;
+  color: #00796b;
+}
+
+.category-icon-preview::before {
+  content: "";
+  display: block;
+  width: 24px;  /* Ensure this matches the icon size */
+  height: 24px; /* Ensure this matches the icon size */
+  visibility: hidden;
 }
 
 .text-container {
@@ -80,6 +97,50 @@
 
 .mat-form-field .mat-form-field-ripple {
   background-color: #1976d2;
+}
+
+.form-group {
+  display: flex;
+  gap: 16px;
+}
+
+.icon-field {
+  flex: 1;
+  position: relative;
+}
+
+.search-icon-field {
+  flex: 2;
+}
+
+.icon-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.icon-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.icon-item span {
+  display: none;
+}
+
+.icon-item mat-icon {
+  margin-right: 0;
+}
+
+.icon-item:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button.mat-icon-button {
@@ -151,6 +212,10 @@ button {
 
   .category-card, .add-category-card, .subcategory-card {
     padding: 12px;
+  }
+
+  .form-group {
+    flex-direction: column;
   }
 }
 

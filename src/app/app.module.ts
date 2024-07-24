@@ -37,6 +37,8 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { IconsService } from './services/icons.service';
+import { IconSearchComponent } from './components/icon-search-component/icon-search.component';
 
 // Define the HttpLoaderFactory function
 export function HttpLoaderFactory(http: HttpClient) {
@@ -57,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProfileComponent,
     MFASetupComponent,
     CategoriesComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    IconSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +95,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true } // Add ErrorInterceptor
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    IconsService
   ],
   bootstrap: [AppComponent]
 })

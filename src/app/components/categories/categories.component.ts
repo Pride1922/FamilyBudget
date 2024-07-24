@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 import { SubcategoryService } from '../../services/subcategory.service';
+import { IconsService } from '../../services/icons.service'; // Import IconsService
 import { Category, Subcategory } from '../categories/category.interface';
 import { SnackbarService } from '../../services/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs'; // Import Observable and of from rxjs
 
 @Component({
   selector: 'app-categories',
@@ -17,13 +19,15 @@ export class CategoriesComponent implements OnInit {
   subcategoryForm: FormGroup;
   selectedCategory: Category | null = null;
   expandedCategoryId: number | null = null;
+  filteredIcons: Observable<string[]> = of([]); // Update the type and initialize with an empty array
 
   constructor(
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private iconsService: IconsService
   ) {
     this.categoryForm = this.fb.group({
       id: [null],
@@ -43,17 +47,28 @@ export class CategoriesComponent implements OnInit {
     this.loadCategories();
   }
 
+  onSearchIcon(searchTerm: string) {
+    console.log('Searching for icon:', searchTerm);
+
+    this.filteredIcons = this.iconsService.searchIcons(searchTerm);
+  }
+
+  selectIcon(iconName: string) {
+    this.categoryForm.patchValue({ icon: iconName });
+    this.filteredIcons = of([]);
+  }
+
   loadCategories(): void {
     this.categoryService.getAllCategories().subscribe((categories: Category[]) => {
       this.categories = categories.map(category => ({
         ...category,
-        subcategories: typeof category.subcategories === 'string' 
-          ? this.parseSubcategories(category.subcategories) 
+        subcategories: typeof category.subcategories === 'string'
+          ? this.parseSubcategories(category.subcategories)
           : category.subcategories
       }));
     });
   }
-  
+
   private parseSubcategories(subcategories: string): Subcategory[] {
     try {
       const parsed = JSON.parse(subcategories);
@@ -117,17 +132,17 @@ export class CategoriesComponent implements OnInit {
 
   deleteCategory(id: number): void {
     if (confirm(this.translate.instant('CATEGORIES.DELETE_CONFIRM'))) {
-        this.categoryService.deleteCategory(id).subscribe(
-            () => {
-                this.loadCategories();
-                this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.DELETED_SUCCESS'));
-            },
-            error => {
-                const errorMessage = error.error?.error || this.translate.instant('CATEGORIES.DELETE_FAILED');
-                this.snackbarService.showError(errorMessage);
-                console.error('Deletion failed:', error);
-            }
-        );
+      this.categoryService.deleteCategory(id).subscribe(
+        () => {
+          this.loadCategories();
+          this.snackbarService.showSuccess(this.translate.instant('CATEGORIES.DELETED_SUCCESS'));
+        },
+        error => {
+          const errorMessage = error.error?.error || this.translate.instant('CATEGORIES.DELETE_FAILED');
+          this.snackbarService.showError(errorMessage);
+          console.error('Deletion failed:', error);
+        }
+      );
     }
   }
 
@@ -183,5 +198,5 @@ export class CategoriesComponent implements OnInit {
         }
       );
     }
-  } 
+  }
 }

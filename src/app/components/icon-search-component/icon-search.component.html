@@ -1,0 +1,13 @@
+<!-- icon-search.component.html -->
+<div class="icon-search-container">
+    <form [formGroup]="searchForm">
+      <mat-form-field>
+        <mat-label>Search Icons</mat-label>
+        <input matInput formControlName="searchTerm" placeholder="Enter icon name">
+      </mat-form-field>
+    </form>
+    <div class="icons-list">
+      <mat-icon *ngFor="let icon of icons">{{ icon }}</mat-icon>
+    </div>
+  </div>
+  
