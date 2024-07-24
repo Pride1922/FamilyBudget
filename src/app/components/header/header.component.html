@@ -1,11 +1,9 @@
-<!-- header.component.html -->
 <header *ngIf="headerVisible">
-  <nav>
-    <div class="container">
-      <ul>
+  <nav class="navbar">
+    <div class="nav-container">
+      <ul class="nav-links">
         <li><a routerLink="/home" class="home-link">{{ 'HEADER.HOME' | translate }}</a></li>
         <li><a routerLink="/categories" class="home-link">{{ 'HEADER.CATEGORIES' | translate }}</a></li>
-        <!-- Other navigation items -->
       </ul>
       <div class="user-menu" *ngIf="isLoggedIn()">
         <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -22,11 +20,9 @@
           </button>
         </mat-menu>
         <mat-menu #languageMenu="matMenu">
-          <div class="language-menu-content">
-            <button *ngFor="let lang of languages" mat-menu-item (click)="switchLanguage(lang)">
-              <img [src]="'assets/flags/' + lang + '.ico'" alt="{{ lang }}" class="flag-icon">
-            </button>
-          </div>
+          <button *ngFor="let lang of languages" mat-menu-item (click)="switchLanguage(lang)">
+            <img [src]="'assets/flags/' + lang + '.ico'" alt="{{ lang }}" class="flag-icon">
+          </button>
         </mat-menu>
       </div>
     </div>

@@ -11,8 +11,11 @@
 /* Global styles */
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #cbe7ff; /* Baby blue background */
+  background-color: #cbe7ff;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* Header styles */
@@ -24,39 +27,59 @@ header {
   z-index: 1000;
 }
 
-.container {
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
-ul {
+.nav-links {
   list-style-type: none;
+  display: flex;
+  align-items: center;
   margin: 0;
   padding: 0;
 }
 
-li {
-  display: inline;
+.nav-links li {
   margin-right: 20px;
 }
 
-a {
+.nav-links a {
   text-decoration: none;
   color: white;
   font-weight: bold;
   font-size: 16px;
 }
 
-.home-link {
-  font-size: 18px;
+.user-menu {
+  display: flex;
+  align-items: center;
 }
 
-/* Ensure the entire HTML and body cover full height */
+.flag-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  margin: 0 auto;
+}
+
 html, body {
   height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #cbe7ff;
 }
 
 /* Dialog container styles */
@@ -98,6 +121,8 @@ html, body {
 }
 
 /* snackbar for notifications */
+
+/* Position the snackbar in the middle right */
 .mat-snack-bar-container {
   right: 0 !important;
   transform: translateX(-100%) translateY(calc(50% - 24px)) !important;

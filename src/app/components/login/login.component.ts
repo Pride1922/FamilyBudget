@@ -174,7 +174,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.loginForm.reset();
             this.showMFA = false;
             this.router.navigate(['/login']).then(() => {
-              console.log('Navigated to login');
             }).catch(err => {
               console.error('Navigation error:', err);
             });

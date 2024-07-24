@@ -1,19 +1,16 @@
-/* home.component.css */
-
 .home-container {
   padding: 20px;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /*margin-top: 80px;  Adjust the margin-top as needed */
+  margin-top: 80px; /* Adjust the margin-top to ensure it is not hidden behind the header */
 }
 
 .welcome-message {
   font-size: 24px;
   color: #333;
   margin-bottom: 10px;
-  margin-top: 50px;
 }
 
 .role-info {

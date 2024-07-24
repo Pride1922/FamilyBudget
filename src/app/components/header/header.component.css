@@ -1,4 +1,3 @@
-/* Ensure styles for the header component */
 header {
   background-color: #6dabe4;
   position: fixed;
@@ -7,30 +6,33 @@ header {
   z-index: 1000;
 }
 
-nav {
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
-.container {
+.nav-links {
+  list-style-type: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-ul {
-  list-style-type: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  gap: 20px;
 }
 
-a {
+.nav-links li {
+  margin-right: 20px;
+}
+
+.nav-links a {
   text-decoration: none;
   color: white;
   font-weight: bold;
@@ -40,25 +42,11 @@ a {
 .user-menu {
   display: flex;
   align-items: center;
-  position: relative;
 }
 
 .flag-icon {
-  width: 30px; /* Adjust flag icon size */
-  height: 30px;
+  width: 24px;
+  height: 24px;
   display: block;
-  margin: 0 auto; /* Center flags vertically */
-}
-
-.language-menu-content {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #cbe7ff;
+  margin: 0 auto;
 }

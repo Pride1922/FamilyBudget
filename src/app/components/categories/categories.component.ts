@@ -134,14 +134,11 @@ export class CategoriesComponent implements OnInit {
   openSubcategoryForm(categoryId: number): void {
     this.subcategoryForm.reset(); // Reset form
     this.subcategoryForm.patchValue({ category_id: categoryId }); // Set category_id
-    console.log('Subcategory form opened with category_id:', categoryId);
-    console.log('Subcategory form values:', this.subcategoryForm.value); // Inspect form values
   }
 
   onSubmitSubcategory(): void {
     if (this.subcategoryForm.valid) {
       const subcategoryData = this.subcategoryForm.value;
-      console.log('Submitting subcategory data:', subcategoryData); // Check form data
       if (subcategoryData.category_id) {
         if (subcategoryData.id) {
           this.subcategoryService.updateSubcategory(subcategoryData).subscribe(
