@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.selectedLanguage = localStorage.getItem('language') || 'en';
     this.translate.use(this.selectedLanguage);
   }
-
+  
   ngOnDestroy() {
     this.headerVisibilityService.showHeader();
   }
@@ -195,6 +195,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   changeLanguage(language: string) {
+    this.selectedLanguage = language;
     this.translate.use(language);
     localStorage.setItem('language', language);
   }

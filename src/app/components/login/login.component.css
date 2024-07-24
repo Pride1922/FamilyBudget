@@ -86,18 +86,38 @@ button[type="button"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 16px 0; /* Space above and below the switcher */
+  
 }
 
-.language-switcher img.flag {
+.language-switcher .language-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10;
+}
+
+.language-switcher img.selected-flag {
   width: 30px;
   height: 30px;
-  margin: 0 5px; /* Space between the flags */
+  border-radius: 50%; /* Circular flags */
+  border: 0px solid #333; /* Dark border */
   cursor: pointer; /* Change cursor to pointer to indicate clickability */
-  border: 1px solid transparent; /* Initial transparent border */
   transition: border 0.3s ease; /* Smooth transition for border */
 }
 
-.language-switcher img.flag:hover {
-  border: 1px solid #333; /* Dark border on hover */
+.language-switcher img.selected-flag:hover {
+  border: 10px solid #555; /* Darker border on hover */
+  align-items: center;
+}
+
+.language-switcher mat-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.language-switcher mat-menu-item img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  align-items: center;
 }

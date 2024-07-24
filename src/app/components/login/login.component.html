@@ -41,9 +41,16 @@
         </button>
       </mat-form-field>
 
-      <!-- Language Switcher -->
+      <!-- Language Switcher Dropdown -->
       <div class="language-switcher">
-        <img *ngFor="let lang of languages" [src]="lang.flag" alt="{{ lang.name }}" class="flag" (click)="changeLanguage(lang.code)">
+        <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="language-button">
+          <img [src]="getFlagByCode(selectedLanguage)" alt="Selected language" class="selected-flag">
+        </button>
+        <mat-menu #languageMenu="matMenu">
+          <button mat-menu-item *ngFor="let lang of languages" (click)="changeLanguage(lang.code)">
+            <img [src]="lang.flag" alt="{{ lang.name }}" class="flag">
+          </button>
+        </mat-menu>
       </div>
 
       <!-- Login Button -->
