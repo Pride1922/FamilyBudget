@@ -11,6 +11,7 @@
 /* Global styles */
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  position: relative;
   background-color: #cbe7ff;
   margin: 0;
   display: flex;
@@ -18,14 +19,6 @@ body {
   min-height: 100vh;
 }
 
-/* Header styles */
-header {
-  background-color: #6dabe4;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-}
 
 .navbar {
   display: flex;
@@ -72,14 +65,93 @@ header {
   margin: 0 auto;
 }
 
-html, body {
-  height: 100%;
+#app-container {
+  display: flex;
 }
 
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #cbe7ff;
+.sidebar {
+  background-color: #333;
+  color: white;
+  width: 250px;
+  height: 100vh;
+  padding: 20px;
+  transition: 0.5s;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 1rem;
+  transition: margin-left 0.5s ease;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+.sidebar ul li a:hover {
+  color: #f3f3f3;
+}
+
+.sidebar ul li.active {
+  background-color: #f3f3f3;
+  color: #333;
+}
+
+.sidebar ul li.active a {
+  color: #333;
+}
+
+.sidebar ul li.active a:hover {
+  color: #333;
+}
+
+.sidebar ul li a .icon {
+  margin-right: 10px;
+}
+
+.sidebar-toggle {
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Styling for the dialog */
+.sidenav {
+  background: #0b6ff3;
+  transition: width 0.5s ease;
+  height: 100vh;
+  overflow: hidden;
+  box-shadow: 0.063rem 0 1.25rem 0 #0491f0;
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 70px; /* Default width when collapsed */
+}
+
+.sidenav.sidenav-collapsed {
+  width: 250px; /* Width when expanded */
+}
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 70px; /* Default margin when sidebar is collapsed */
+  padding: 1rem;
+  transition: margin-left 0.5s ease;
+}
+
+.sidenav.sidenav-collapsed + .main-content {
+  margin-left: 250px; /* Margin when sidebar is expanded */
 }
 
 /* Dialog container styles */

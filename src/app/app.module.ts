@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http'; // Add HttpClient
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common'; // Import CommonModule
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,6 +40,8 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IconsService } from './services/icons.service';
 import { IconSearchComponent } from './components/icon-search-component/icon-search.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SublevelMenuComponent } from './components/sidebar/sublevel-menu/sublevel-menu.component';
 
 // Define the HttpLoaderFactory function
 export function HttpLoaderFactory(http: HttpClient) {
@@ -61,6 +64,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CategoriesComponent,
     PasswordResetComponent,
     IconSearchComponent,
+    SidebarComponent,
+    SublevelMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +77,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatMenuModule,
     MatIconModule,
     MatTooltipModule,
+    CommonModule,
     MatButtonModule,
     MatTableModule,
     MatDialogModule,
