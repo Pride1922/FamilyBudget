@@ -236,6 +236,7 @@
     "INVALID_FORM": "Preencha o formulário corretamente"
   },
   "ERRORS": {
-    "TOKEN_EXPIRED": "A sua sessão expirou. Por favor, faça login novamente."
+    "TOKEN_EXPIRED": "A sua sessão expirou. Por favor, faça login novamente.",
+    "ACCESS_FORBIDDEN": "Não tem permissão para aceder este recurso."
   }
 }

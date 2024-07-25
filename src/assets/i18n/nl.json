@@ -236,6 +236,7 @@
     "INVALID_FORM": "Vul het formulier correct in"
   },
   "ERRORS": {
-    "TOKEN_EXPIRED": "Uw sessie is verlopen. Log opnieuw in."
+    "TOKEN_EXPIRED": "Uw sessie is verlopen. Log opnieuw in.",
+    "ACCESS_FORBIDDEN": "Je hebt geen toestemming om deze bron te openen."
   }
 }

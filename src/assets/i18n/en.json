@@ -236,6 +236,7 @@
     "INVALID_FORM": "Please fill out the form correctly"
   },
   "ERRORS": {
-    "TOKEN_EXPIRED": "Your session has expired. Please log in again."
+    "TOKEN_EXPIRED": "Your session has expired. Please log in again.",
+    "ACCESS_FORBIDDEN": "You do not have permission to access this resource."
   }
 }

@@ -25,6 +25,11 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.authService.logout(); // Clear any stored user data and token
           this.snackbarService.showError(this.translate.instant('ERRORS.TOKEN_EXPIRED')); // Show a Snackbar message
           this.router.navigate(['/login']); // Redirect to the login page
+        } else if (error.status === 403) {
+          // User is forbidden from accessing the resource
+          this.authService.logout(); // Clear any stored user data and token
+          this.snackbarService.showError(this.translate.instant('ERRORS.ACCESS_FORBIDDEN')); // Show a Snackbar message
+          this.router.navigate(['/login']); // Redirect to the login page
         }
         return throwError(error);
       })
