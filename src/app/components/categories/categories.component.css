@@ -1,10 +1,12 @@
 .categories-container {
   max-width: 900px;
-  margin: 70px auto 20px;
+  width: 100%;
+  margin: 0 auto; /* Center horizontally */
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .category-card, .add-category-card {

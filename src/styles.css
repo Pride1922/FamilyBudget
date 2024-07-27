@@ -20,17 +20,17 @@ html, body {
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #5ea8f2; /* Light blue background */
 }
 
 /* Main content styling */
 .main-content {
   flex-grow: 1;
-  margin-left: 5rem; /* Adjust this value based on sidebar width */
-  transition: margin-left 0.5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the start for proper vertical positioning */
+  padding: 20px;
+  overflow-y: auto; /* Ensure vertical scrolling */
 }
 
 /* Expanded sidebar adjustment */
