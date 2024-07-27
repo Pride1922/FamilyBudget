@@ -2,13 +2,15 @@
   background: #263238;
   transition: all 0.5s ease;
   position: fixed;
-  z-index: 1000; /* Ensure it's above the header */
+  z-index: 1000;
   top: 0;
   left: 0;
   width: 5rem;
   height: 100vh;
-  box-shadow: none; /* Remove shadow for smooth transition */
-  overflow: hidden; /* Ensure no overflow */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensure space between nav and footer */
 }
 
 .sidenav-collapsed {
@@ -20,27 +22,26 @@
   align-items: center;
   padding: 0.938rem;
   width: 100%;
-  overflow: hidden; /* Ensure no overflow */
 }
 
 .logo {
-  background: #fff; /* Logo background should contrast */
+  background: #fff;
   text-align: center;
-  width: 100%; /* Ensure the logo takes full width of the container */
+  width: 100%;
   border-radius: 0.313rem;
-  padding: 0.5rem 1rem; /* Increase padding for wider background */
+  padding: 0.5rem 1rem;
   cursor: pointer;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #263238; /* Ensure text color contrasts with background */
+  color: #263238;
   font-size: 24px;
   font-weight: 900;
 }
 
 .logo-collapsed {
-  width: auto; /* Adjust width based on content */
+  width: auto;
   min-width: 3rem;
 }
 
@@ -55,23 +56,21 @@
 }
 
 .fa-times {
-  color: #fff; /* Close button color should contrast */
+  color: #fff;
   font-size: 24px;
 }
 
 .sidenav-nav {
-  list-style: none; /* Remove default list styles */
+  list-style: none;
   padding: 0.938rem;
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  overflow: hidden; /* Ensure no overflow */
+  flex-grow: 1;
 }
 
 .sidenav-nav-item {
-  list-style: none; /* Ensure list items have no markers */
   width: 100%;
   margin-bottom: 0.625rem;
 }
@@ -80,7 +79,7 @@
   display: flex;
   align-items: center;
   height: 3rem;
-  color: #f3f3f3; /* Original text color */
+  color: #f3f3f3;
   text-decoration: none;
   border-radius: 0.625rem;
   transition: all 0.3s ease;
@@ -101,14 +100,14 @@
 .sidenav-nav-link:hover,
 .sidenav-nav-link:focus,
 .active {
-  background-color: #fff; /* Change background to white */
-  color: #263238; /* Change text color to contrast with white */
+  background-color: #fff;
+  color: #263238;
 }
 
 .sidenav-nav-link:hover .menu-collapse-icon,
 .sidenav-nav-link:focus .menu-collapse-icon,
 .active .menu-collapse-icon {
-  color: #263238; /* Change icon color to contrast with white */
+  color: #263238;
 }
 
 .menu-collapse-icon {
@@ -117,27 +116,12 @@
   min-width: 2rem;
   margin: auto 0.5rem auto auto;
   text-align: center;
-  color: #f3f3f3; /* Original icon color */
+  color: #f3f3f3;
 }
 
 .scrollwrap {
   overflow-y: auto;
-  visibility: hidden;
   height: calc(100% - 3.65rem);
-}
-
-.sidenav-nav,
-.scrollwrap:hover,
-.scrollwrap:focus {
-  visibility: visible;
-}
-
-.scrollwrap_delayed {
-  transition: visibility 0.5s 0.2s;
-}
-
-.scrollwrap_delayed:hover {
-  transition: visibility 0.2s 0.2s;
 }
 
 .scrollwrap::-webkit-scrollbar {
@@ -156,4 +140,18 @@
 .scrollwrap {
   scrollbar-width: thin;
   scrollbar-color: #556268 transparent;
+}
+
+.language-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  background-color: #263238; /* Match sidebar color */
+}
+
+.flag-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin: 0 0.5rem;
 }

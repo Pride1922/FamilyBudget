@@ -15,11 +15,6 @@ export class HeaderComponent {
     // Implement sidebar toggle logic if needed
   }
 
-  changeLanguage(language: string): void {
-    this.translate.use(language);
-    localStorage.setItem('language', language);
-  }
-
   onLogout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

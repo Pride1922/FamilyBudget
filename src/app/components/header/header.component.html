@@ -1,23 +1,14 @@
 <header class="app-header">
-    <div class="header-right">
-      <div class="dropdown">
-        <button class="dropbtn">
-          <i class="fal fa-user-circle"></i>
-        </button>
-        <div class="dropdown-content">
-          <a routerLink="/profile">{{ 'SIDEBAR.PROFILE' | translate }}</a>
-          <a routerLink="/manage-users">{{ 'SIDEBAR.MANAGE_USERS' | translate }}</a>
-          <a class="dropdown-language">
-            {{ 'SIDEBAR.LANGUAGE' | translate }}
-            <div class="language-options">
-              <img src="assets/flags/en.ico" (click)="changeLanguage('en')" alt="English" class="flag-icon">
-              <img src="assets/flags/pt.ico" (click)="changeLanguage('pt')" alt="Portuguese" class="flag-icon">
-              <img src="assets/flags/nl.ico" (click)="changeLanguage('nl')" alt="Dutch" class="flag-icon">
-            </div>
-          </a>
-          <a (click)="onLogout()">{{ 'SIDEBAR.LOGOUT' | translate }}</a>
-        </div>
+  <div class="header-right">
+    <div class="dropdown">
+      <button class="dropbtn">
+        <i class="fal fa-user-circle"></i>
+      </button>
+      <div class="dropdown-content">
+        <a routerLink="/profile">{{ 'SIDEBAR.PROFILE' | translate }}</a>
+        <a routerLink="/manage-users">{{ 'SIDEBAR.MANAGE_USERS' | translate }}</a>
+        <a (click)="onLogout()">{{ 'SIDEBAR.LOGOUT' | translate }}</a>
       </div>
     </div>
-  </header>
-  
+  </div>
+</header>

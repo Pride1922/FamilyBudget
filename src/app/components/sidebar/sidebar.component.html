@@ -1,6 +1,6 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
   <div class="logo-container">
-    <button class="logo" [ngClass]="collapsed ? 'logo-collapsed' : ''" (click)="toggleCollapse()">
+    <button class="logo" (click)="toggleCollapse()">
       <span *ngIf="collapsed">Budget</span>
       <span *ngIf="!collapsed">B</span>
     </button>
@@ -45,5 +45,10 @@
         </ng-template>
       </li>
     </ul>
+  </div>
+  <div *ngIf="collapsed" class="language-container">
+    <img src="assets/flags/en.ico" (click)="changeLanguage('en')" alt="English" class="flag-icon">
+    <img src="assets/flags/pt.ico" (click)="changeLanguage('pt')" alt="Portuguese" class="flag-icon">
+    <img src="assets/flags/nl.ico" (click)="changeLanguage('nl')" alt="Dutch" class="flag-icon">
   </div>
 </div>
