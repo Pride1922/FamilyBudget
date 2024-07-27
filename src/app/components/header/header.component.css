@@ -1,0 +1,85 @@
+.app-header {
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center;
+    height: 60px;
+    background-color: #263238; /* Original color */
+    color: white;
+    padding: 0 1rem;
+    width: calc(100% - 5rem); /* Adjust width based on sidebar width */
+    position: fixed;
+    top: 0;
+    left: 5rem; /* Align with the right edge of the sidebar */
+    z-index: 999; /* Ensure it appears above main content but below sidebar */
+    border-bottom: none; /* Remove border if any */
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropbtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #263238; /* Match sidebar color */
+    color: white; /* Match sidebar text color */
+    min-width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    z-index: 1;
+    flex-direction: column;
+    border-radius: 8px; /* Add rounded corners */
+  }
+  
+  .dropdown-content a {
+    color: white; /* Match sidebar text color */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover,
+  .dropdown-content a:focus {
+    background-color: #fff; /* Change background to white */
+    color: #263238; /* Change text color to contrast with white */
+  }
+  
+  .dropdown:hover .dropdown-content,
+  .dropdown:focus .dropdown-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown-language {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .language-options {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+  }
+  
+  .flag-icon {
+    width: 24px; /* Adjust size as needed */
+    height: 24px; /* Adjust size as needed */
+    cursor: pointer;
+  }
+  

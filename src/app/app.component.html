@@ -1,6 +1,7 @@
 <div class="app-container">
   <app-sidebar *ngIf="!hideSidebar"></app-sidebar>
-  <div class="main-content">
+  <app-header *ngIf="!hideHeader"></app-header>
+  <div class="main-content" [ngClass]="{'with-header': !hideHeader}">
     <router-outlet></router-outlet>
   </div>
 </div>

@@ -1,11 +1,17 @@
 .app-container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .main-content {
-    flex-grow: 1;
-    padding: 1rem;
-    transition: margin-left 0.5s ease;
-  }
-  
+  display: flex;
+  flex-direction: row;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #5ea8f2; /* Light blue background */
+  min-height: calc(100vh - 60px); /* Adjust based on header height */
+  margin-left: 5rem; /* Adjust based on sidebar width */
+  margin-top: 60px; /* Ensure content is below the header */
+}
+
+.with-header {
+  margin-top: 60px; /* Ensure content is below the header */
+}

@@ -1,7 +1,9 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
   <div class="logo-container">
-    <button class="logo" (click)="toggleCollapse()">F</button>
-    <div class="logo-text" *ngIf="collapsed">{{ 'Budget' | translate }}</div>
+    <button class="logo" [ngClass]="collapsed ? 'logo-collapsed' : ''" (click)="toggleCollapse()">
+      <span *ngIf="collapsed">Budget</span>
+      <span *ngIf="!collapsed">B</span>
+    </button>
     <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
       <i class="fal fa-times close-icon"></i>
     </button>
@@ -35,7 +37,8 @@
             </a>
             <ng-container *ngIf="data.routeLink.indexOf('/lang/') !== -1">
               <a class="sidenav-nav-link" (click)="handleLanguageClick(data.routeLink)">
-                <img [src]="data.icon" alt="{{ data.label }}" class="flag-icon">
+                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed">{{ 'SIDEBAR.' + data.label | translate }}</span>
               </a>
             </ng-container>
           </ng-template>

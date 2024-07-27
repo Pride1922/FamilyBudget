@@ -2,12 +2,13 @@
   background: #263238;
   transition: all 0.5s ease;
   position: fixed;
-  z-index: 1;
+  z-index: 1000; /* Ensure it's above the header */
   top: 0;
   left: 0;
   width: 5rem;
   height: 100vh;
-  box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+  box-shadow: none; /* Remove shadow for smooth transition */
+  overflow: hidden; /* Ensure no overflow */
 }
 
 .sidenav-collapsed {
@@ -19,26 +20,28 @@
   align-items: center;
   padding: 0.938rem;
   width: 100%;
+  overflow: hidden; /* Ensure no overflow */
 }
 
 .logo {
-  background: #fff;
+  background: #fff; /* Logo background should contrast */
   text-align: center;
-  width: 3rem;
-  min-width: 3rem;
+  width: 100%; /* Ensure the logo takes full width of the container */
   border-radius: 0.313rem;
-  padding: 0.313rem;
-  font-size: 24px;
-  font-weight: 900;
+  padding: 0.5rem 1rem; /* Increase padding for wider background */
   cursor: pointer;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #263238; /* Ensure text color contrasts with background */
+  font-size: 24px;
+  font-weight: 900;
 }
 
-.logo-text {
-  margin-left: 1.5rem;
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
+.logo-collapsed {
+  width: auto; /* Adjust width based on content */
+  min-width: 3rem;
 }
 
 .btn-close {
@@ -52,7 +55,7 @@
 }
 
 .fa-times {
-  color: #fff;
+  color: #fff; /* Close button color should contrast */
   font-size: 24px;
 }
 
@@ -64,6 +67,7 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  overflow: hidden; /* Ensure no overflow */
 }
 
 .sidenav-nav-item {
@@ -72,21 +76,11 @@
   margin-bottom: 0.625rem;
 }
 
-.sidenav-nav-item ul {
-  list-style: none; /* Remove markers for nested list */
-  padding-left: 1.25rem; /* Optional: Indent nested items */
-}
-
-.sidenav-nav-item ul li {
-  list-style: none; /* Ensure nested list items have no markers */
-  padding-left: 1.25rem; /* Optional: Further indent nested items */
-}
-
 .sidenav-nav-link {
   display: flex;
   align-items: center;
   height: 3rem;
-  color: #f3f3f3;
+  color: #f3f3f3; /* Original text color */
   text-decoration: none;
   border-radius: 0.625rem;
   transition: all 0.3s ease;
@@ -104,28 +98,17 @@
   margin-left: 1.5rem;
 }
 
-.sidenav-nav-link:hover {
-  background-color: #fff;
-  color: #000;
-}
-
-.sidenav-nav-link:hover .menu-collapse-icon {
-  color: #000;
-}
-
+.sidenav-nav-link:hover,
+.sidenav-nav-link:focus,
 .active {
-  background-color: #fff;
+  background-color: #fff; /* Change background to white */
+  color: #263238; /* Change text color to contrast with white */
 }
 
-.active .menu-collapse-icon,
-.active .sidenav-link-icon,
-.active .sidenav-link-text {
-  color: #000;
-}
-
-.active-sublevel {
-  color: #f3f3f3 !important;
-  opacity: 1 !important;
+.sidenav-nav-link:hover .menu-collapse-icon,
+.sidenav-nav-link:focus .menu-collapse-icon,
+.active .menu-collapse-icon {
+  color: #263238; /* Change icon color to contrast with white */
 }
 
 .menu-collapse-icon {
@@ -134,7 +117,7 @@
   min-width: 2rem;
   margin: auto 0.5rem auto auto;
   text-align: center;
-  color: #f3f3f3;
+  color: #f3f3f3; /* Original icon color */
 }
 
 .scrollwrap {
@@ -173,18 +156,4 @@
 .scrollwrap {
   scrollbar-width: thin;
   scrollbar-color: #556268 transparent;
-}
-
-.flag-icon {
-  width: 24px; /* Adjust size as needed */
-  height: 24px; /* Adjust size as needed */
-  margin-right: 0.5rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.language-options {
-  display: flex;
-  justify-content: space-around;
-  padding: 1rem 0;
 }
