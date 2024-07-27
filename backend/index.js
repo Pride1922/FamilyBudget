@@ -3,18 +3,18 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 const publicRouter = require('./routes/public');
 const categoriesRouter = require('./routes/categories');
 const subcategoriesRouter = require('./routes/subcategories');
 const requestLogger = require('./middleware/requestLogger');
 const mfaRateLimiter = require('./middleware/rateLimiter');
-const { authenticateToken } = require('./middleware/auth');
+const { authenticateToken, authorizeRoles } = require('./middleware/auth');
 const authRouter = require('./routes/auth');
 const registerRouter = require('./routes/register');
 const usersRouter = require('./routes/users');
 const mfaRoutes = require('./routes/mfa');
 const { infoLogger, errorLogger } = require('./config/logger');
-const rateLimit = require('express-rate-limit');
 
 require('dotenv').config();
 
@@ -27,8 +27,8 @@ app.set('trust proxy', 'loopback');
 
 // Apply rate limiting middleware
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
   keyGenerator: (req) => req.ip,
 });
 app.use(limiter);
@@ -40,7 +40,7 @@ app.use(session({
   secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }
+  cookie: { secure: process.env.NODE_ENV === 'production' } // true in production
 }));
 app.use(morgan('combined', { stream: { write: message => infoLogger.info(message.trim()) } }));
 app.use(requestLogger);

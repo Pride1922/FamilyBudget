@@ -5,7 +5,6 @@ const { errorLogger, infoLogger } = require("../config/logger");
 const { sendEmail } = require("../utils/emailService");
 const { generateResetPasswordLink } = require('../utils/utils'); 
 
-
 // Reusable function for executing database queries
 const executeQuery = async (query, params) => {
   return new Promise((resolve, reject) => {
@@ -19,12 +18,7 @@ const executeQuery = async (query, params) => {
 };
 
 // Centralized response handling
-const handleResponse = (
-  res,
-  error,
-  successMessage,
-  successStatusCode = 200
-) => {
+const handleResponse = (res, error, successMessage, successStatusCode = 200) => {
   if (error) {
     errorLogger.error("Error response:", {
       message: error.message,
@@ -32,9 +26,7 @@ const handleResponse = (
       query: error.query || "No query",
       params: error.params || "No params",
     });
-    return res
-      .status(500)
-      .send({ message: "Internal server error", error: error.message });
+    return res.status(500).send({ message: "Internal server error", error: error.message });
   }
   res.status(successStatusCode).send({ message: successMessage });
 };
@@ -65,13 +57,27 @@ const updateUser = async (req, res) => {
     }
 
     const result = await executeQuery(updateQuery, updateParams);
+    console.log(updateQuery)
     if (result.affectedRows === 0) {
       return res.status(404).send({ message: `No user found with ID ${id}` });
     }
+
+    // Check if the role has changed and notify the user if necessary
+    if (req.user.id === id) {
+      // Case: Updating own details
+      const userResult = await executeQuery("SELECT role FROM Users WHERE id = ?", [id]);
+      const currentRole = userResult[0]?.role;
+
+      if (currentRole !== role) {
+        return res.status(200).send({
+          message: `Role updated. Please log in again.`,
+          action: 'logout' // Indicate the need to log out
+        });
+      }
+    }
+
     infoLogger.info("User updated successfully:", { id, updateParams });
-    res
-      .status(200)
-      .send({ message: `User with ID ${id} updated successfully` });
+    res.status(200).send({ message: `User with ID ${id} updated successfully` });
   } catch (error) {
     errorLogger.error("Error updating user:", {
       message: error.message,
@@ -79,11 +85,10 @@ const updateUser = async (req, res) => {
       query: updateQuery || "No query",
       params: updateParams || "No params",
     });
-    res
-      .status(500)
-      .send({ message: "Error updating user", error: error.message });
+    res.status(500).send({ message: "Error updating user", error: error.message });
   }
 };
+
 
 // Function to fetch all users
 const getAllUsers = async (req, res) => {
@@ -176,9 +181,7 @@ const deleteUser = async (req, res) => {
       return res.status(404).send({ message: `No user found with ID ${id}` });
     }
     infoLogger.info("User deleted successfully:", { id });
-    res
-      .status(200)
-      .send({ message: `User with ID ${id} deleted successfully` });
+    res.status(200).send({ message: `User with ID ${id} deleted successfully` });
   } catch (error) {
     errorLogger.error("Database error while deleting user:", {
       message: error.message,
@@ -194,9 +197,7 @@ const deleteUser = async (req, res) => {
 const changePassword = async (req, res) => {
   const { userId, oldPassword, newPassword } = req.body;
   try {
-    const results = await executeQuery("SELECT * FROM Users WHERE id = ?", [
-      userId,
-    ]);
+    const results = await executeQuery("SELECT * FROM Users WHERE id = ?", [userId]);
 
     if (results.length === 0) {
       return res.status(404).json({ message: "User not found" });
@@ -206,16 +207,11 @@ const changePassword = async (req, res) => {
     const isMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!isMatch) {
-      return res
-        .status(400)
-        .json({ error: true, message: "Old password is incorrect" });
+      return res.status(400).json({ error: true, message: "Old password is incorrect" });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await executeQuery("UPDATE Users SET password = ? WHERE id = ?", [
-      hashedPassword,
-      userId,
-    ]);
+    await executeQuery("UPDATE Users SET password = ? WHERE id = ?", [hashedPassword, userId]);
 
     infoLogger.info("Password updated successfully for user ID:", { userId });
     res.status(200).json({ message: "Password changed successfully" });
@@ -257,9 +253,7 @@ const registerUser = async (req, res) => {
           .send({ message: addUserError.message, error: addUserError.error });
       }
 
-      await executeQuery("DELETE FROM RegistrationTokens WHERE token = ?", [
-        token,
-      ]);
+      await executeQuery("DELETE FROM RegistrationTokens WHERE token = ?", [token]);
 
       infoLogger.info("User registered successfully:", { email, username });
       res.status(201).send({ message: "Registration successful" });
@@ -268,8 +262,7 @@ const registerUser = async (req, res) => {
     errorLogger.error("Database error while registering user:", {
       message: error.message,
       stack: error.stack,
-      query:
-        "SELECT email FROM RegistrationTokens WHERE token = ? AND expiresAt > NOW()",
+      query: "SELECT email FROM RegistrationTokens WHERE token = ? AND expiresAt > NOW()",
       params: [token],
     });
     res.status(500).send({ message: "Database error", error: error.message });
@@ -317,9 +310,7 @@ const recoverPassword = async (req, res) => {
         error: emailError.message,
         stack: emailError.stack,
       });
-      res
-        .status(500)
-        .send({ message: "Error sending recovery email", error: emailError });
+      res.status(500).send({ message: "Error sending recovery email", error: emailError.message });
     }
   } catch (error) {
     errorLogger.error("Unhandled error during password recovery:", {
@@ -327,10 +318,9 @@ const recoverPassword = async (req, res) => {
       error: error.message,
       stack: error.stack,
     });
-    res.status(500).send({ message: "Server error", error });
+    res.status(500).send({ message: "Server error", error: error.message });
   }
 };
-
 
 // Function to handle password reset
 const resetPassword = async (req, res) => {
@@ -346,7 +336,6 @@ const resetPassword = async (req, res) => {
       return res.status(400).send({ message: "Token is invalid or has expired" });
     }
 
-    // Iterate through results to find matching token
     let user = null;
     for (let result of results) {
       const match = await bcrypt.compare(token, result.resetPasswordToken);
@@ -367,10 +356,7 @@ const resetPassword = async (req, res) => {
       [hashedPassword, user.email]
     );
 
-    infoLogger.info("Password reset successfully for user:", {
-      email: user.email,
-    });
-
+    infoLogger.info("Password reset successfully for user:", { email: user.email });
     res.status(200).send({ message: "Password has been reset successfully" });
   } catch (error) {
     errorLogger.error("Server error during password reset:", {
@@ -379,13 +365,11 @@ const resetPassword = async (req, res) => {
       query: "UPDATE Users SET password = ?, resetPasswordToken = NULL, resetPasswordExpires = NULL WHERE email = ?",
       params: [hashedPassword, user.email],
     });
-
     res.status(500).send({ message: "Server error", error: error.message });
   }
 };
 
- 
-// Fuction to verify reset token before password reset
+// Function to verify reset token before password reset
 const verifyResetToken = async (req, res) => {
   const { token } = req.body;
 
@@ -399,7 +383,6 @@ const verifyResetToken = async (req, res) => {
       return res.status(400).send({ message: "Token is invalid or has expired" });
     }
 
-    // Iterate through results to find matching token
     let isValidToken = false;
     for (let user of results) {
       const match = await bcrypt.compare(token, user.resetPasswordToken);
@@ -415,6 +398,12 @@ const verifyResetToken = async (req, res) => {
 
     res.status(200).send({ message: "Token is valid" });
   } catch (error) {
+    errorLogger.error("Server error while verifying reset token:", {
+      message: error.message,
+      stack: error.stack,
+      query: "SELECT * FROM Users WHERE resetPasswordExpires > ?",
+      params: [new Date()],
+    });
     res.status(500).send({ message: "Server error", error: error.message });
   }
 };

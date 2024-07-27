@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
 import { MFAService } from '../../services/mfa.service';
@@ -9,22 +9,23 @@ import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.compo
 import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component'; 
 import { MatSort, Sort } from '@angular/material/sort';
-import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
-import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
-import { Subscription } from 'rxjs';
+import { SnackbarService } from '../../services/snackbar.service'; 
+import { TranslateService } from '@ngx-translate/core'; 
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css']
 })
-export class ManageUsersComponent implements OnInit, AfterViewInit {
-  users: MatTableDataSource<User>;
+export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
+  users: MatTableDataSource<User> = new MatTableDataSource<User>([]);
   filteredUsers = new MatTableDataSource<User>();
   displayedColumns: string[] = ['id', 'username', 'email', 'role', 'isActive', 'actions'];
   searchText: string = '';
-  loggedInUser: User | null = null;
-  private loggedInUserSubscription: Subscription = new Subscription();
+  loggedInUser: any;
+  private destroy$ = new Subject<void>();
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
@@ -34,22 +35,19 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
     private mfaService: MFAService,
     private authService: AuthService, 
     public dialog: MatDialog,
-    private snackBar: SnackbarService, // Inject SnackbarService
-    private translate: TranslateService // Inject TranslateService
-  ) {
-    this.users = new MatTableDataSource<User>([]);
-    this.filteredUsers = new MatTableDataSource<User>([]);
-  }
+    private snackBar: SnackbarService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
-    this.loggedInUserSubscription = this.authService.loggedInUser.subscribe(user => {
-      this.loggedInUser = user;
-    });
+    this.authService.getLoggedInUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => this.loggedInUser = user);
   }
 
   ngAfterViewInit(): void {
-    // You can implement any additional logic needed after the view initialization
+    this.users.sort = this.sort;
   }
 
   loadUsers(): void {
@@ -59,31 +57,20 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
           ...user,
           isMfaEnabled: user.mfa_enabled
         }));
-        this.users.sort = this.sort;
-        this.applyFilter(); // Call applyFilter after loading data
+        this.applyFilter();
       },
-      (error) => {
-        console.error('Error loading users:', error);
-        this.snackBar.showError(this.translate.instant('MANAGE_USERS.LOAD_ERROR'));
-      }
+      error => this.handleError(error, 'MANAGE_USERS.LOAD_ERROR')
     );
   }
 
   applyFilter(): void {
     const filterValue = this.searchText.trim().toLowerCase();
-
-    if (this.users.data.length > 0) {
-      const filteredData = this.users.data.filter(user =>
-        user.username.toLowerCase().includes(filterValue)
-        || user.id.toString().includes(filterValue)
-        || user.email.toLowerCase().includes(filterValue)
-        || user.role.toLowerCase().includes(filterValue)
-      );
-
-      this.filteredUsers.data = filteredData;
-    } else {
-      this.filteredUsers.data = [];
-    }
+    this.filteredUsers.data = this.users.data.filter(user =>
+      user.username.toLowerCase().includes(filterValue)
+      || user.id.toString().includes(filterValue)
+      || user.email.toLowerCase().includes(filterValue)
+      || user.role.toLowerCase().includes(filterValue)
+    );
   }
 
   clearSearch(): void {
@@ -91,54 +78,19 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
     this.applyFilter();
   }
 
-  disableMFA(userId: number) {
+  disableMFA(userId: number): void {
     this.mfaService.disableMFA(userId).subscribe(
-      response => {
-        this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.MFA_DISABLED_SUCCESS'));
-        this.loadUsers(); // Refresh the user list
-      },
-      error => {
-        console.error('Error disabling MFA', error);
-        this.snackBar.showError(this.translate.instant('MANAGE_USERS.MFA_DISABLED_ERROR'));
-      }
+      () => this.refreshUserList(),
+      error => this.handleError(error, 'MANAGE_USERS.MFA_DISABLED_ERROR')
     );
   }
 
   openAddUserDialog(): void {
-    const dialogRef = this.dialog.open(AddUserDialogComponent, {
-      width: '400px',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.loadUsers(); // Refresh the user list after adding a new user
-      }
-    });
+    this.openDialog(AddUserDialogComponent, {});
   }
 
   editUser(user: User): void {
-    const dialogRef = this.dialog.open(EditUserDialogComponent, {
-      width: '400px',
-      data: { user }
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.updateUser(result).subscribe(
-          (updatedUser: User) => {
-            if (updatedUser.role === 'admin' && this.loggedInUser?.id === updatedUser.id) {
-            }
-            this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.UPDATE_SUCCESS'));
-            this.loadUsers(); 
-          },
-          error => {
-            console.error('Error updating user:', error);
-            this.snackBar.showError(this.translate.instant('MANAGE_USERS.UPDATE_ERROR'));
-          }
-        );
-      }
-    });
+    this.openDialog(EditUserDialogComponent, { user });
   }
 
   deleteUser(userId: number): void {
@@ -146,22 +98,14 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   }
 
   openConfirmationDialog(userId: number): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
       data: this.translate.instant('MANAGE_USERS.DELETE_CONFIRM'),
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
+    }).afterClosed().subscribe(result => {
       if (result) {
         this.userService.deleteUser(userId).subscribe(
-          () => {
-            this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.DELETE_SUCCESS'));
-            this.loadUsers(); // Reload users after deletion
-          },
-          error => {
-            console.error('Error deleting user:', error);
-            this.snackBar.showError(this.translate.instant('MANAGE_USERS.DELETE_ERROR'));
-          }
+          () => this.refreshUserList(),
+          error => this.handleError(error, 'MANAGE_USERS.DELETE_ERROR')
         );
       }
     });
@@ -170,14 +114,8 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   toggleUserStatus(user: User): void {
     user.isActive = !user.isActive;
     this.userService.updateUser(user).subscribe(
-      () => {
-        this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.STATUS_UPDATE_SUCCESS'));
-        this.loadUsers();
-      },
-      error => {
-        console.error('Error updating user status:', error);
-        this.snackBar.showError(this.translate.instant('MANAGE_USERS.STATUS_UPDATE_ERROR'));
-      }
+      () => this.refreshUserList(),
+      error => this.handleError(error, 'MANAGE_USERS.STATUS_UPDATE_ERROR')
     );
   }
 
@@ -195,16 +133,35 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
         }
       });
       this.users.data = sortedData;
-      this.applyFilter(); // Re-apply filter after sorting
+      this.applyFilter();
     }
   }
 
   ngOnDestroy(): void {
-    // Unsubscribe to avoid memory leaks
-    this.loggedInUserSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private openDialog(component: any, data: any, width: string = '400px'): void {
+    this.dialog.open(component, { width, data })
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.refreshUserList();
+        }
+      });
+  }
+
+  private handleError(error: any, messageKey: string): void {
+    console.error(error);
+    this.snackBar.showError(this.translate.instant(messageKey));
+  }
+
+  private refreshUserList(): void {
+    this.loadUsers();
   }
 }
 
+// Utility function for sorting
 function compare(a: number | string | boolean, b: number | string | boolean, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

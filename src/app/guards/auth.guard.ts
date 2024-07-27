@@ -20,23 +20,23 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
     return this.authService.loggedInUser.pipe(
-      tap((user: any) => {
+      map(user => {
+        const routeData = next.data as RouteData;
         if (!user) {
-          this.router.navigate(['/login']); // Redirect to login if user is not logged in
-        } else {
-          const routeData = next.data as RouteData;
-          if (routeData.expectedRole && routeData.expectedRole !== user.role) {
-            this.router.navigate(['/']); // Redirect to home if user doesn't have the expected role
-          } else if (!this.authService.isMFACompleted()) {
-            this.router.navigate(['/mfa']); // Redirect to MFA if MFA is not completed
-          }
+          this.router.navigate(['/login']);
+          return false;
+        } else if (routeData.expectedRole && routeData.expectedRole !== user.role) {
+          this.router.navigate(['/']);
+          return false;
+        } else if (!this.authService.isMFACompleted()) {
+          this.router.navigate(['/mfa']);
+          return false;
         }
+        return true;
       }),
-      map((user: any) => !!user && (!next.data['expectedRole'] || next.data['expectedRole'] === user.role) && this.authService.isMFACompleted()),
       tap(authorized => {
         if (!authorized) {
           console.error('Access denied - unauthorized');
-          this.router.navigate(['/']); // Handle unauthorized access
         }
       })
     );
