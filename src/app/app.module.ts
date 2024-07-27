@@ -27,7 +27,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { RegistrationComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { HeaderComponent } from './components/header/header.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { AddUserDialogComponent } from './components/add-user-dialog/add-user-dialog.component';
 import { EditUserDialogComponent } from './components/edit-user-dialog/edit-user-dialog.component';
@@ -54,7 +53,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     RegistrationComponent,
     LoginComponent,
     HomeComponent,
-    HeaderComponent,
     ManageUsersComponent,
     AddUserDialogComponent,
     EditUserDialogComponent,

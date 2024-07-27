@@ -38,7 +38,7 @@
     },
     "MFA": {
       "HEADER": "Verificar MFA",
-      "TOKEN_LABEL": "Introduza o seu token MFA",
+      "TOKEN_LABEL": "Token MFA",
       "SUBMIT_BUTTON": "Verificar"
     }
   },
@@ -158,7 +158,7 @@
     "SETUP_TITLE": "Configuração de MFA",
     "SCAN_QR_CODE": "Digitalize o código QR abaixo com a sua aplicação autenticadora:",
     "ENTER_TOKEN": "Introduza o Token",
-    "INVALID_TOKEN_ERROR": "Por favor, insira um token válido de 6 dígitos",
+    "INVALID_TOKEN_ERROR": "Token inválido. Por favor, tente novamente",
     "CONFIRM_BUTTON": "Confirmar Configuração de MFA",
     "CONFIRM_SUCCESS_MESSAGE": "MFA configurado e confirmado com sucesso!",
     "BACK_TO_PROFILE": "Voltar ao Perfil",

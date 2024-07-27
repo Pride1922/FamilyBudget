@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {  navbarData } from './nav-data';
-import {INavbarData} from './helper';
-
+import { Router } from '@angular/router';
+import { navbarData } from './nav-data';
+import { INavbarData } from './helper';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -12,7 +13,7 @@ export class SidebarComponent implements OnInit {
   multiple = false;
   navData: INavbarData[] = navbarData;
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void { }
 
@@ -20,16 +21,16 @@ export class SidebarComponent implements OnInit {
     this.collapsed = !this.collapsed;
     const sidenav = document.querySelector('.sidenav') as HTMLElement;
     if (this.collapsed) {
-      sidenav.classList.add('collapsed');
+      sidenav.classList.add('sidenav-collapsed');
     } else {
-      sidenav.classList.remove('collapsed');
+      sidenav.classList.remove('sidenav-collapsed');
     }
   }
 
   closeSidenav(): void {
     this.collapsed = false;
     const sidenav = document.querySelector('.sidenav') as HTMLElement;
-    sidenav.classList.remove('collapsed');
+    sidenav.classList.remove('sidenav-collapsed');
   }
 
   handleClick(item: INavbarData): void {
@@ -54,4 +55,10 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
 }

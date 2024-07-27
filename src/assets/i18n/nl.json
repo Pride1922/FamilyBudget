@@ -20,7 +20,7 @@
       "PASSWORD_REQUIRED": "Wachtwoord is verplicht",
       "PASSWORD_MINLENGTH": "Wachtwoord moet minimaal 4 tekens bevatten",
       "PASSWORD_MAXLENGTH": "Wachtwoord mag niet meer dan 20 tekens bevatten",
-      "MFA_TOKEN_REQUIRED": "MFA token is verplicht",
+      "MFA_TOKEN_REQUIRED": "Ongeldig MFA token",
       "MFA_TOKEN_MINLENGTH": "MFA token moet 6 cijfers bevatten",
       "MFA_TOKEN_MAXLENGTH": "MFA token moet 6 cijfers bevatten",
       "MFA_TOKEN_PATTERN": "MFA token moet numeriek zijn",
@@ -38,7 +38,7 @@
     },
     "MFA": {
       "HEADER": "Verifieer MFA",
-      "TOKEN_LABEL": "Voer uw MFA token in",
+      "TOKEN_LABEL": "Voer uw MFA Token",
       "SUBMIT_BUTTON": "Verifieer"
     }
   },

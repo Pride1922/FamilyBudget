@@ -86,14 +86,13 @@ button[type="button"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
 .language-switcher .language-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10;
+  padding: 10px;
 }
 
 .language-switcher img.selected-flag {
@@ -107,7 +106,6 @@ button[type="button"] {
 
 .language-switcher img.selected-flag:hover {
   border: 10px solid #555; /* Darker border on hover */
-  align-items: center;
 }
 
 .language-switcher mat-menu-item {
@@ -119,5 +117,4 @@ button[type="button"] {
   width: 20px;
   height: 20px;
   margin-right: 10px;
-  align-items: center;
 }

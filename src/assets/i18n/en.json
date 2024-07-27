@@ -20,7 +20,7 @@
       "PASSWORD_REQUIRED": "Password is required",
       "PASSWORD_MINLENGTH": "Password must be at least 4 characters",
       "PASSWORD_MAXLENGTH": "Password cannot exceed 20 characters",
-      "MFA_TOKEN_REQUIRED": "MFA token is required",
+      "MFA_TOKEN_REQUIRED": "Invalid MFA token",
       "MFA_TOKEN_MINLENGTH": "MFA token must be 6 digits",
       "MFA_TOKEN_MAXLENGTH": "MFA token must be 6 digits",
       "MFA_TOKEN_PATTERN": "MFA token must be numeric",
