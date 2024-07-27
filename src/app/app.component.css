@@ -1,5 +1,6 @@
 .app-container.login-page .main-wrapper {
   justify-content: center;
+  align-items: center;
 }
 
 .main-wrapper {
@@ -14,6 +15,7 @@
   align-items: center;
   padding: 20px;
   background-color: #5ea8f2;
+  overflow: auto; /* Ensure content is scrollable if needed */
 }
 
 .main-content.without-sidebar {
