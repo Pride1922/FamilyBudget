@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, Renderer2, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private headerVisibilityService: HeaderVisibilityService,
     private snackbarService: SnackbarService,
+    private renderer: Renderer2,
     private translate: TranslateService // Inject TranslateService
   ) {
     this.selectedLanguage = localStorage.getItem('language') || 'en';

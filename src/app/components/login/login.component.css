@@ -86,35 +86,24 @@ button[type="button"] {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 16px; /* Space above the language switcher */
 }
 
-.language-switcher .language-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
+.language-switcher button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 8px;
 }
 
-.language-switcher img.selected-flag {
+.language-switcher img.flag {
   width: 30px;
   height: 30px;
-  border-radius: 50%; /* Circular flags */
-  border: 0px solid #333; /* Dark border */
-  cursor: pointer; /* Change cursor to pointer to indicate clickability */
-  transition: border 0.3s ease; /* Smooth transition for border */
+  border: none; /* Remove border */
+  border-radius: 0; /* Remove border radius */
+  transition: transform 0.3s;
 }
 
-.language-switcher img.selected-flag:hover {
-  border: 10px solid #555; /* Darker border on hover */
-}
-
-.language-switcher mat-menu-item {
-  display: flex;
-  align-items: center;
-}
-
-.language-switcher mat-menu-item img {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
+.language-switcher img.flag:hover {
+  transform: scale(1.1);
 }
