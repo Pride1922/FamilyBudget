@@ -44,27 +44,17 @@ button[type="button"] {
   margin-top: 16px; /* Space above the buttons */
   padding: 12px; /* Increased padding for button size */
 }
-
-/* Styles for messages */
-.message {
-  text-align: center; /* Center align message */
-  margin-top: 10px; /* Space above the message */
+/* Styles for buttons in MFA form */
+button[type="submit"],
+button[type="button"] {
+  width: 100%; /* Full width buttons */
+  margin-top: 16px; /* Space above the buttons */
+  padding: 12px; /* Increased padding for button size */
 }
 
-.message a {
-  color: #1976d2; /* Blue link color */
-}
-
-/* Styles for error messages */
-.error-message {
-  margin-top: 10px; /* Space above the error message */
-  padding: 10px; /* Padding inside the error message box */
-  border-radius: 4px; /* Rounded corners */
-  width: 100%; /* Full width error message */
-  box-sizing: border-box; /* Include padding and border in element's total width and height */
-  background-color: #f8d7da; /* Light red background color */
-  color: #721c24; /* Dark red text color */
-  border: 1px solid #f5c6cb; /* Red border */
+/* Optional: Specific styles for MFA form buttons to add space between them */
+.mfa-token-field + button {
+  margin-top: 16px; /* Space between token field and buttons */
 }
 
 /* Styles for the spinner overlay */
@@ -79,31 +69,4 @@ button[type="button"] {
   justify-content: center;
   background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
   z-index: 1000; /* Ensure it's on top of other content */
-}
-
-/* Styles for the language switcher */
-.language-switcher {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 16px; /* Space above the language switcher */
-}
-
-.language-switcher button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0 8px;
-}
-
-.language-switcher img.flag {
-  width: 30px;
-  height: 30px;
-  border: none; /* Remove border */
-  border-radius: 0; /* Remove border radius */
-  transition: transform 0.3s;
-}
-
-.language-switcher img.flag:hover {
-  transform: scale(1.1);
 }

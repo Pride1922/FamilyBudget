@@ -194,10 +194,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.recoverPasswordForm.reset();
     this.router.navigate(['/login']);
   }
-
-  changeLanguage(language: string) {
-    this.selectedLanguage = language;
-    this.translate.use(language);
-    localStorage.setItem('language', language);
+  cancelMFA(): void {
+    this.showMFA = false;
+    this.loginForm.reset();
+    // Add any additional logic for canceling MFA
   }
 }

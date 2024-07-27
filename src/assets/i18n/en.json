@@ -14,6 +14,7 @@
     "VERIFY_MFA": "Verify MFA",
     "PASSWORD_RECOVERY_EMAIL_SENT": "Password recovery email sent!",
     "SUCCESS_MESSAGE": "Login successful!",
+    "MFA_HEADER": "Verify MFA",
     "ERRORS": {
       "EMAIL_REQUIRED": "Email is required",
       "EMAIL_INVALID": "Invalid email address",
@@ -39,7 +40,8 @@
     "MFA": {
       "HEADER": "Verify MFA",
       "TOKEN_LABEL": "Enter your MFA token",
-      "SUBMIT_BUTTON": "Verify"
+      "SUBMIT_BUTTON": "Verify",
+      "CANCEL_BUTTON": "Cancel"
     }
   },
   "CATEGORIES": {

@@ -6,8 +6,9 @@
     </div>
 
     <!-- Header -->
-    <h2 *ngIf="!showRecoverPassword">{{ 'LOGIN.HEADER' | translate }}</h2>
+    <h2 *ngIf="!showRecoverPassword && !showMFA">{{ 'LOGIN.HEADER' | translate }}</h2>
     <h2 *ngIf="showRecoverPassword">{{ 'LOGIN.RECOVER_PASSWORD_HEADER' | translate }}</h2>
+    <h2 *ngIf="showMFA">{{ 'LOGIN.MFA_HEADER' | translate }}</h2>
 
     <!-- Login Form -->
     <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()" *ngIf="!showMFA && !showRecoverPassword">
@@ -41,13 +42,6 @@
         </button>
       </mat-form-field>
 
-      <!-- Language Switcher -->
-      <div class="language-switcher">
-        <button mat-button *ngFor="let lang of languages" (click)="changeLanguage(lang.code)">
-          <img [src]="lang.flag" [alt]="lang.name" class="flag">
-        </button>
-      </div>
-
       <!-- Login Button -->
       <button mat-raised-button color="primary" type="submit" class="full-width">
         {{ 'LOGIN.LOGIN_BUTTON' | translate }}
@@ -71,6 +65,11 @@
       <!-- Verify MFA Button -->
       <button mat-raised-button color="primary" type="submit" class="full-width">
         {{ 'LOGIN.MFA.SUBMIT_BUTTON' | translate }}
+      </button>
+
+      <!-- Cancel MFA Button -->
+      <button mat-button type="button" (click)="cancelMFA()" class="full-width">
+        {{ 'LOGIN.MFA.CANCEL_BUTTON' | translate }}
       </button>
     </form>
 
