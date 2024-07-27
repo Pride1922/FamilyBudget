@@ -4,41 +4,41 @@ export const navbarData: INavbarData[] = [
   {
     routeLink: '/home',
     icon: 'fal fa-home',
-    label: 'Home'
+    label: 'HOME'
   },
   {
     routeLink: '/categories',
     icon: 'fal fa-list',
-    label: 'Categories'
+    label: 'CATEGORIES'
   },
   {
     routeLink: '/merchants',
     icon: 'fal fa-store',
-    label: 'Merchants'
+    label: 'MERCHANTS'
   },
   {
     routeLink: '/manage-users',
     icon: 'fal fa-users-cog',
-    label: 'Manage Users'
+    label: 'MANAGE_USERS'
   },
   {
     routeLink: '/profile',
     icon: 'fal fa-user-circle',
-    label: 'Profile'
+    label: 'PROFILE'
   },
   {
     routeLink: '/logout',
     icon: 'fal fa-sign-out',
-    label: 'Logout'
+    label: 'LOGOUT'
   },
   {
-    routeLink: '', // Empty string or some default value, as this item is not a clickable route
+    routeLink: '', // Not a clickable route, used for dropdown
     icon: 'fal fa-globe',
-    label: 'Language',
+    label: 'LANGUAGE',
     items: [
-      { routeLink: '/lang/en', label: 'English' },
-      { routeLink: '/lang/pt', label: 'Portuguese' },
-      { routeLink: '/lang/nl', label: 'Dutch' }
+      { routeLink: '/lang/en', label: 'ENGLISH', icon: 'assets/flags/en.ico' },
+      { routeLink: '/lang/pt', label: 'PORTUGUESE', icon: 'assets/flags/pt.ico' },
+      { routeLink: '/lang/nl', label: 'DUTCH', icon: 'assets/flags/nl.ico' }
     ]
   }
 ];

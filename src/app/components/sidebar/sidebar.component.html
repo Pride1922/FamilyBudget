@@ -1,7 +1,7 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
   <div class="logo-container">
     <button class="logo" (click)="toggleCollapse()">F</button>
-    <div class="logo-text" *ngIf="collapsed">Budget</div>
+    <div class="logo-text" *ngIf="collapsed">{{ 'Budget' | translate }}</div>
     <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
       <i class="fal fa-times close-icon"></i>
     </button>
@@ -12,23 +12,32 @@
         <ng-container *ngIf="data.items && data.items.length > 0; else noSubMenu">
           <a class="sidenav-nav-link" (click)="handleClick(data)" [ngClass]="getActiveClass(data)">
             <i class="sidenav-link-icon" [class]="data.icon"></i>
-            <span class="sidenav-link-text" *ngIf="collapsed">{{ data.label }}</span>
+            <span class="sidenav-link-text" *ngIf="collapsed">{{ 'SIDEBAR.' + data.label | translate }}</span>
             <i *ngIf="collapsed" class="menu-collapse-icon" [ngClass]="!data.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"></i>
           </a>
-          <div *ngIf="collapsed">
-            <app-sublevel-menu [data]="data" [collapsed]="collapsed" [multiple]="multiple" [expanded]="data.expanded ?? true"></app-sublevel-menu>
+          <div *ngIf="data.expanded" class="language-options">
+            <a class="sidenav-nav-link" *ngFor="let item of data.items" (click)="handleLanguageClick(item.routeLink)">
+              <img [src]="item.icon" alt="{{ item.label }}" class="flag-icon">
+            </a>
           </div>
         </ng-container>
         <ng-template #noSubMenu>
-          <a class="sidenav-nav-link" *ngIf="data.routeLink !== '/logout'; else logoutLink" [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="shrinkItems(data)">
-            <i class="sidenav-link-icon" [class]="data.icon"></i>
-            <span class="sidenav-link-text" *ngIf="collapsed">{{ data.label }}</span>
-          </a>
-          <ng-template #logoutLink>
-            <a class="sidenav-nav-link" (click)="onLogout()">
+          <ng-container *ngIf="data.routeLink !== '/logout' && data.routeLink.indexOf('/lang/') === -1; else specialLink">
+            <a class="sidenav-nav-link" [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="shrinkItems(data)">
               <i class="sidenav-link-icon" [class]="data.icon"></i>
-              <span class="sidenav-link-text" *ngIf="collapsed">{{ data.label }}</span>
+              <span class="sidenav-link-text" *ngIf="collapsed">{{ 'SIDEBAR.' + data.label | translate }}</span>
             </a>
+          </ng-container>
+          <ng-template #specialLink>
+            <a *ngIf="data.routeLink === '/logout'" class="sidenav-nav-link" (click)="onLogout()">
+              <i class="sidenav-link-icon" [class]="data.icon"></i>
+              <span class="sidenav-link-text" *ngIf="collapsed">{{ 'SIDEBAR.LOGOUT' | translate }}</span>
+            </a>
+            <ng-container *ngIf="data.routeLink.indexOf('/lang/') !== -1">
+              <a class="sidenav-nav-link" (click)="handleLanguageClick(data.routeLink)">
+                <img [src]="data.icon" alt="{{ data.label }}" class="flag-icon">
+              </a>
+            </ng-container>
           </ng-template>
         </ng-template>
       </li>

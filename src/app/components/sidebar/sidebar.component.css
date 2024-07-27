@@ -57,7 +57,7 @@
 }
 
 .sidenav-nav {
-  list-style: none;
+  list-style: none; /* Remove default list styles */
   padding: 0.938rem;
   margin: 0;
   display: flex;
@@ -67,8 +67,19 @@
 }
 
 .sidenav-nav-item {
+  list-style: none; /* Ensure list items have no markers */
   width: 100%;
   margin-bottom: 0.625rem;
+}
+
+.sidenav-nav-item ul {
+  list-style: none; /* Remove markers for nested list */
+  padding-left: 1.25rem; /* Optional: Indent nested items */
+}
+
+.sidenav-nav-item ul li {
+  list-style: none; /* Ensure nested list items have no markers */
+  padding-left: 1.25rem; /* Optional: Further indent nested items */
 }
 
 .sidenav-nav-link {
@@ -126,37 +137,6 @@
   color: #f3f3f3;
 }
 
-.sublevel-nav {
-  list-style: none;
-  margin-left: 10px;
-}
-
-.sublevel-nav-item .sublevel-nav-link {
-  display: flex;
-  align-items: center;
-  height: 3rem;
-  color: #898989;
-  text-decoration: none;
-  border-radius: 0.625rem;
-  transition: all 0.3s ease;
-}
-
-.sublevel-nav-item .sublevel-nav-link .sublevel-link-icon {
-  font-size: 4px;
-  width: 2rem;
-  min-width: 2rem;
-  margin: 0 0.5rem;
-  text-align: center;
-}
-
-.sublevel-nav-item .sublevel-nav-link .sublevel-link-text {
-  margin-left: 0.8rem;
-}
-
-.sublevel-nav-link:hover {
-  color: #f3f3f3;
-}
-
 .scrollwrap {
   overflow-y: auto;
   visibility: hidden;
@@ -193,4 +173,18 @@
 .scrollwrap {
   scrollbar-width: thin;
   scrollbar-color: #556268 transparent;
+}
+
+.flag-icon {
+  width: 24px; /* Adjust size as needed */
+  height: 24px; /* Adjust size as needed */
+  margin-right: 0.5rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.language-options {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
 }

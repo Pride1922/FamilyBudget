@@ -238,5 +238,17 @@
   "ERRORS": {
     "TOKEN_EXPIRED": "A sua sessão expirou. Por favor, faça login novamente.",
     "ACCESS_FORBIDDEN": "Não tem permissão para aceder este recurso."
+  },
+  "SIDEBAR": {
+    "HOME": "Início",
+    "CATEGORIES": "Categorias",
+    "MERCHANTS": "Comerciantes",
+    "MANAGE_USERS": "Gerir Utilizadores",
+    "PROFILE": "Perfil",
+    "LOGOUT": "Sair",
+    "LANGUAGE": "Idioma",
+    "ENGLISH": "Inglês",
+    "PORTUGUESE": "Português",
+    "DUTCH": "Holandês"
   }
 }

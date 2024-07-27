@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 import { navbarData } from './nav-data';
 import { INavbarData } from './helper';
-import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
   collapsed = false;
   multiple = false;
   navData: INavbarData[] = navbarData;
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit(): void { }
+  constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {}
 
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
@@ -34,14 +34,7 @@ export class SidebarComponent implements OnInit {
   }
 
   handleClick(item: INavbarData): void {
-    if (!this.multiple) {
-      this.navData.forEach(i => {
-        if (i !== item) {
-          i.expanded = false;
-        }
-      });
-    }
-    item.expanded = !item.expanded;
+    item.expanded = !item.expanded; // Toggle the expanded state
   }
 
   getActiveClass(item: INavbarData): string {
@@ -61,4 +54,13 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  changeLanguage(language: string): void {
+    this.translate.use(language);
+    localStorage.setItem('language', language);
+  }
+
+  handleLanguageClick(routeLink: string): void {
+    const language = routeLink.split('/')[2];
+    this.changeLanguage(language);
+  }
 }

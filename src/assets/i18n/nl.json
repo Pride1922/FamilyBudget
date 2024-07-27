@@ -238,5 +238,17 @@
   "ERRORS": {
     "TOKEN_EXPIRED": "Uw sessie is verlopen. Log opnieuw in.",
     "ACCESS_FORBIDDEN": "Je hebt geen toestemming om deze bron te openen."
+  },
+  "SIDEBAR": {
+    "HOME": "Start",
+    "CATEGORIES": "Categorieën",
+    "MERCHANTS": "Handelaars",
+    "MANAGE_USERS": "Gebruikers Beheren",
+    "PROFILE": "Profiel",
+    "LOGOUT": "Uitloggen",
+    "LANGUAGE": "Taal",
+    "ENGLISH": "Engels",
+    "PORTUGUESE": "Portugees",
+    "DUTCH": "Nederlands"
   }
 }

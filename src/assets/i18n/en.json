@@ -238,5 +238,17 @@
   "ERRORS": {
     "TOKEN_EXPIRED": "Your session has expired. Please log in again.",
     "ACCESS_FORBIDDEN": "You do not have permission to access this resource."
-  }
+  },
+    "SIDEBAR": {
+      "HOME": "Home",
+      "CATEGORIES": "Categories",
+      "MERCHANTS": "Merchants",
+      "MANAGE_USERS": "Manage Users",
+      "PROFILE": "Profile",
+      "LOGOUT": "Logout",
+      "LANGUAGE": "Language",
+      "ENGLISH": "English",
+      "PORTUGUESE": "Portuguese",
+      "DUTCH": "Dutch"
+    }
 }
