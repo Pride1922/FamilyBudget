@@ -20,7 +20,22 @@ html, body {
 }
 
 body {
-  background-color: #5ea8f2; /* Light blue background */
+  background-color: #5ea8f2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Main content styling */
@@ -28,9 +43,16 @@ body {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align items to the start for proper vertical positioning */
+  align-items: flex-start;
   padding: 20px;
-  overflow-y: auto; /* Ensure vertical scrolling */
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.main-content::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
 }
 
 /* Expanded sidebar adjustment */
@@ -38,6 +60,7 @@ body {
   margin-left: 16.5625rem; /* Adjust this value based on expanded sidebar width */
 }
 
+/* Card styles */
 .card {
   display: flex;
   flex-direction: column;
@@ -58,9 +81,7 @@ body {
   }
 }
 
-/* snackbar for notifications */
-
-/* Position the snackbar in the middle right */
+/* Snackbar styles */
 .mat-snack-bar-container {
   right: 0 !important;
   transform: translateX(-100%) translateY(calc(50% - 24px)) !important;

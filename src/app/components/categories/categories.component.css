@@ -1,20 +1,35 @@
 .categories-container {
   max-width: 900px;
   width: 100%;
-  margin: 0 auto; /* Center horizontally */
+  margin: 0 auto;
   padding: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto;
+}
+
+.categories-container::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.categories-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .category-card, .add-category-card {
+  width: 100%; /* Ensure cards take full width */
+  max-width: 900px; /* Center content within the container */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .category-card:hover {
@@ -36,13 +51,15 @@
   border-radius: 8px 8px 0 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 16px;
 }
 
 .category-icon {
-  font-size: 24px;
+  font-size: 25px;
   color: #00796b;
   margin-right: 16px;
+  margin-top: 5px;
 }
 
 .category-icon-preview {
@@ -70,6 +87,8 @@
 
 .text-container {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .mat-card-title {
@@ -161,6 +180,7 @@ button {
 }
 
 .delete-button {
+  margin-top: -5px;
   color: #d32f2f;
 }
 
@@ -219,10 +239,6 @@ button {
   .form-group {
     flex-direction: column;
   }
-}
-
-body {
-  background-color: #f5f5f5;
 }
 
 button.mat-icon-button {
