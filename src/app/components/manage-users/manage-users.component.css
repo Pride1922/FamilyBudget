@@ -1,13 +1,42 @@
+/* Main wrapper adjustments for row layout */
+.main-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures full viewport height */
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-left: 5rem; /* Adjust this to match the sidebar width */
+  transition: margin-left 0.3s ease; /* Smooth transition when sidebar collapses */
+}
+
+.main-content.with-header {
+  margin-top: 64px; /* Adjust based on header height */
+}
+
+.main-content.without-sidebar {
+  margin-left: 0;
+}
+
 .manage-users-container {
   padding: 20px;
-  background-color: #f5f5f5; /* Light background for better contrast */
-  border-radius: 8px; /* Rounded corners for container */
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .button-container {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px; /* Increased margin for spacing */
+  margin-bottom: 20px;
 }
 
 .search-container {
@@ -16,37 +45,36 @@
 
 .mat-form-field {
   width: 100%;
-  max-width: 500px; /* Adjust the max-width as needed */
-  border-radius: 8px; /* Rounded corners for form fields */
+  max-width: 500px;
+  border-radius: 8px;
 }
 
 .users-table-container {
-  border-radius: 8px; /* Rounded corners for table container */
-  overflow: hidden; /* Prevents overflow with rounded corners */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 8px;
+  overflow: auto; /* Enable scrolling */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  border-radius: 8px; /* Rounded corners for table */
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 10px; /* Increased padding for better spacing */
+  padding: 10px;
   text-align: left;
-  vertical-align: middle; /* Center content vertically */
+  vertical-align: middle;
   font-size: 14px;
 }
 
 th {
-  background-color: #e0e0e0; /* Slightly darker background for headers */
+  background-color: #e0e0e0;
   font-weight: bold;
 }
 
 tr.mat-row:hover {
-  background-color: #f9f9f9; /* Hover effect */
+  background-color: #f9f9f9;
 }
 
 .action-buttons {
@@ -59,18 +87,55 @@ button[mat-icon-button] {
   background-color: transparent;
   color: inherit;
   font-size: 18px;
-  padding: 8px; /* Increased padding for larger clickable area */
-  border-radius: 50%; /* Rounded icon buttons */
+  padding: 8px;
+  border-radius: 50%;
 }
 
 button[mat-raised-button] {
   min-width: 80px;
   text-transform: uppercase;
-  font-size: 14px; /* Slightly larger font size */
-  border-radius: 20px; /* Rounded corners for raised buttons */
+  font-size: 14px;
+  border-radius: 20px;
 }
 
 .mat-icon {
   vertical-align: middle;
-  margin-right: 8px; /* Increased margin for spacing */
+  margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+  .manage-users-container {
+    padding: 10px;
+  }
+
+  .button-container, .search-container {
+    justify-content: center;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  button[mat-raised-button] {
+    min-width: 60px;
+    font-size: 12px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  th.mat-header-cell, td.mat-cell {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Ensure text doesn't overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  }
 }

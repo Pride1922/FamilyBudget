@@ -1,22 +1,24 @@
+/* Sidebar styling */
 .sidenav {
   background: #263238;
-  transition: all 0.5s ease;
+  transition: width 0.3s ease; /* Smooth width transition */
   position: fixed;
   z-index: 1000;
   top: 0;
   left: 0;
-  width: 5rem;
   height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Ensure space between nav and footer */
+  justify-content: space-between;
+  width: 5rem; /* Collapsed width */
 }
 
 .sidenav-collapsed {
-  width: 16.5625rem;
+  width: 16.5625rem; /* Expanded width */
 }
 
+/* Logo container styling */
 .logo-container {
   display: flex;
   align-items: center;
@@ -24,6 +26,7 @@
   width: 100%;
 }
 
+/* Logo styling */
 .logo {
   background: #fff;
   text-align: center;
@@ -38,11 +41,6 @@
   color: #263238;
   font-size: 24px;
   font-weight: 900;
-}
-
-.logo-collapsed {
-  width: auto;
-  min-width: 3rem;
 }
 
 .btn-close {
@@ -60,6 +58,7 @@
   font-size: 24px;
 }
 
+/* Navigation styling */
 .sidenav-nav {
   list-style: none;
   padding: 0.938rem;
@@ -119,6 +118,7 @@
   color: #f3f3f3;
 }
 
+/* Scroll wrapper styling */
 .scrollwrap {
   overflow-y: auto;
   height: calc(100% - 3.65rem);
@@ -142,6 +142,7 @@
   scrollbar-color: #556268 transparent;
 }
 
+/* Language container styling */
 .language-container {
   display: flex;
   justify-content: space-around;
@@ -149,6 +150,7 @@
   background-color: #263238; /* Match sidebar color */
 }
 
+/* Flag icon styling */
 .flag-icon {
   width: 24px;
   height: 24px;

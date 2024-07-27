@@ -21,10 +21,10 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
   users: MatTableDataSource<User> = new MatTableDataSource<User>([]);
-  filteredUsers = new MatTableDataSource<User>();
+  filteredUsers: MatTableDataSource<User> = new MatTableDataSource<User>();
   displayedColumns: string[] = ['id', 'username', 'email', 'role', 'isActive', 'actions'];
   searchText: string = '';
-  loggedInUser: any;
+  loggedInUser: User | null = null;
   private destroy$ = new Subject<void>();
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -51,12 +51,12 @@ export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadUsers(): void {
-    this.userService.getUsers().subscribe(
+    this.userService.getUsers().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(
       (users: User[]) => {
-        this.users.data = users.map(user => ({
-          ...user,
-          isMfaEnabled: user.mfa_enabled
-        }));
+        this.users.data = users;
+        this.filteredUsers.data = users;
         this.applyFilter();
       },
       error => this.handleError(error, 'MANAGE_USERS.LOAD_ERROR')
@@ -76,10 +76,13 @@ export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
   clearSearch(): void {
     this.searchText = '';
     this.applyFilter();
+    this.searchInput.nativeElement.focus();
   }
 
   disableMFA(userId: number): void {
-    this.mfaService.disableMFA(userId).subscribe(
+    this.mfaService.disableMFA(userId).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(
       () => this.refreshUserList(),
       error => this.handleError(error, 'MANAGE_USERS.MFA_DISABLED_ERROR')
     );
@@ -103,7 +106,9 @@ export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
       data: this.translate.instant('MANAGE_USERS.DELETE_CONFIRM'),
     }).afterClosed().subscribe(result => {
       if (result) {
-        this.userService.deleteUser(userId).subscribe(
+        this.userService.deleteUser(userId).pipe(
+          takeUntil(this.destroy$)
+        ).subscribe(
           () => this.refreshUserList(),
           error => this.handleError(error, 'MANAGE_USERS.DELETE_ERROR')
         );
@@ -113,28 +118,27 @@ export class ManageUsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleUserStatus(user: User): void {
     user.isActive = !user.isActive;
-    this.userService.updateUser(user).subscribe(
+    this.userService.updateUser(user).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(
       () => this.refreshUserList(),
       error => this.handleError(error, 'MANAGE_USERS.STATUS_UPDATE_ERROR')
     );
   }
 
   onSortChange(sortState: Sort): void {
-    if (sortState.direction) {
-      const sortedData = this.users.data.slice().sort((a, b) => {
-        const isAsc = sortState.direction === 'asc';
-        switch (sortState.active) {
-          case 'id': return compare(a.id, b.id, isAsc);
-          case 'username': return compare(a.username, b.username, isAsc);
-          case 'email': return compare(a.email, b.email, isAsc);
-          case 'role': return compare(a.role, b.role, isAsc);
-          case 'isActive': return compare(a.isActive, b.isActive, isAsc);
-          default: return 0;
-        }
-      });
-      this.users.data = sortedData;
-      this.applyFilter();
-    }
+    const sortedData = this.users.data.slice().sort((a, b) => {
+      const isAsc = sortState.direction === 'asc';
+      switch (sortState.active) {
+        case 'id': return compare(a.id, b.id, isAsc);
+        case 'username': return compare(a.username, b.username, isAsc);
+        case 'email': return compare(a.email, b.email, isAsc);
+        case 'role': return compare(a.role, b.role, isAsc);
+        case 'isActive': return compare(a.isActive, b.isActive, isAsc);
+        default: return 0;
+      }
+    });
+    this.filteredUsers.data = sortedData;
   }
 
   ngOnDestroy(): void {

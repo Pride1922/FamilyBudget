@@ -19,38 +19,31 @@
 
   <div class="users-table-container">
     <table mat-table [dataSource]="filteredUsers" matSort class="mat-elevation-z8" (matSortChange)="onSortChange($event)">
-
-      <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MANAGE_USERS.ID' | translate }}</th>
         <td mat-cell *matCellDef="let user">{{ user.id }}</td>
       </ng-container>
 
-      <!-- Username Column -->
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MANAGE_USERS.USERNAME' | translate }}</th>
         <td mat-cell *matCellDef="let user">{{ user.username }}</td>
       </ng-container>
 
-      <!-- Email Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MANAGE_USERS.EMAIL' | translate }}</th>
         <td mat-cell *matCellDef="let user">{{ user.email }}</td>
       </ng-container>
 
-      <!-- Role Column -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MANAGE_USERS.ROLE' | translate }}</th>
         <td mat-cell *matCellDef="let user">{{ user.role }}</td>
       </ng-container>
 
-      <!-- Active Column -->
       <ng-container matColumnDef="isActive">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MANAGE_USERS.ACTIVE' | translate }}</th>
         <td mat-cell *matCellDef="let user">{{ user.isActive ? ( 'MANAGE_USERS.YES' | translate ) : ( 'MANAGE_USERS.NO' | translate ) }}</td>
       </ng-container>
 
-      <!-- Actions Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>{{ 'MANAGE_USERS.ACTIONS' | translate }}</th>
         <td mat-cell *matCellDef="let user" class="action-buttons">
@@ -69,7 +62,6 @@
         </td>
       </ng-container>
 
-      <!-- Header and Row Definitions -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let user; columns: displayedColumns;"></tr>
     </table>

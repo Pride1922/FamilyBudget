@@ -1,4 +1,5 @@
-<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+<!-- Sidebar HTML -->
+<div class="sidenav" [ngClass]="{'sidenav-collapsed': collapsed}">
   <div class="logo-container">
     <button class="logo" (click)="toggleCollapse()">
       <span *ngIf="collapsed">Budget</span>
@@ -24,7 +25,7 @@
           </div>
         </ng-container>
         <ng-template #noSubMenu>
-          <ng-container *ngIf="data.routeLink !== '/logout' && data.routeLink.indexOf('/lang/') === -1; else specialLink">
+          <ng-container *ngIf="data.routeLink !== '/logout' && !data.routeLink.includes('/lang/'); else specialLink">
             <a class="sidenav-nav-link" [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="shrinkItems(data)">
               <i class="sidenav-link-icon" [class]="data.icon"></i>
               <span class="sidenav-link-text" *ngIf="collapsed">{{ 'SIDEBAR.' + data.label | translate }}</span>
@@ -35,7 +36,7 @@
               <i class="sidenav-link-icon" [class]="data.icon"></i>
               <span class="sidenav-link-text" *ngIf="collapsed">{{ 'SIDEBAR.LOGOUT' | translate }}</span>
             </a>
-            <ng-container *ngIf="data.routeLink.indexOf('/lang/') !== -1">
+            <ng-container *ngIf="data.routeLink.includes('/lang/')">
               <a class="sidenav-nav-link" (click)="handleLanguageClick(data.routeLink)">
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <span class="sidenav-link-text" *ngIf="collapsed">{{ 'SIDEBAR.' + data.label | translate }}</span>

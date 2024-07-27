@@ -25,7 +25,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   height: 100vh;
-  overflow-y: auto;
+  overflow: hidden; /* Hide scrollbars */
 }
 
 body::-webkit-scrollbar {
@@ -43,16 +43,21 @@ body {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  overflow: auto; /* Allow scrolling */
+  width: 100%;
+  height: 100%;
 }
 
 .main-content::-webkit-scrollbar {
   width: 0;
   background: transparent;
+}
+
+.main-content {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Expanded sidebar adjustment */
