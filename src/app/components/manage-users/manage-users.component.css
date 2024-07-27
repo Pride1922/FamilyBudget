@@ -1,67 +1,76 @@
 .manage-users-container {
   padding: 20px;
+  background-color: #f5f5f5; /* Light background for better contrast */
+  border-radius: 8px; /* Rounded corners for container */
 }
 
 .button-container {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 10px;
-  margin-top: 50px;
+  margin-bottom: 20px; /* Increased margin for spacing */
 }
 
 .search-container {
   margin-bottom: 20px;
 }
 
-/* Adjust the input size as needed */
 .mat-form-field {
   width: 100%;
-  max-width: 500px; /* Adjust the max-width to your preference */
+  max-width: 500px; /* Adjust the max-width as needed */
+  border-radius: 8px; /* Rounded corners for form fields */
+}
+
+.users-table-container {
+  border-radius: 8px; /* Rounded corners for table container */
+  overflow: hidden; /* Prevents overflow with rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+  border-radius: 8px; /* Rounded corners for table */
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 6px; /* Reduced padding for smaller cells */
+  padding: 10px; /* Increased padding for better spacing */
   text-align: left;
   vertical-align: middle; /* Center content vertically */
-  font-size: 14px; /* Adjusted font size for cells */
+  font-size: 14px;
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #e0e0e0; /* Slightly darker background for headers */
   font-weight: bold;
 }
 
-.mat-row:hover {
-  background-color: #f9f9f9;
+tr.mat-row:hover {
+  background-color: #f9f9f9; /* Hover effect */
 }
 
 .action-buttons {
   display: flex;
   gap: 8px;
-  align-items: center; /* Center align action buttons vertically */
+  align-items: center;
 }
 
 button[mat-icon-button] {
   background-color: transparent;
   color: inherit;
-  font-size: 18px; /* Adjusted icon button size */
-  padding: 4px; /* Adjusted padding for icon button */
+  font-size: 18px;
+  padding: 8px; /* Increased padding for larger clickable area */
+  border-radius: 50%; /* Rounded icon buttons */
 }
 
 button[mat-raised-button] {
-  min-width: 80px; /* Reduced width for raised buttons */
+  min-width: 80px;
   text-transform: uppercase;
-  font-size: 12px; /* Reduced font size */
+  font-size: 14px; /* Slightly larger font size */
+  border-radius: 20px; /* Rounded corners for raised buttons */
 }
 
 .mat-icon {
   vertical-align: middle;
-  margin-right: 5px;
+  margin-right: 8px; /* Increased margin for spacing */
 }

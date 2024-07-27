@@ -21,8 +21,8 @@
 }
 
 .category-card, .add-category-card {
-  width: 100%; /* Ensure cards take full width */
-  max-width: 900px; /* Center content within the container */
+  width: 100%; 
+  max-width: 900px; 
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
@@ -80,8 +80,8 @@
 .category-icon-preview::before {
   content: "";
   display: block;
-  width: 24px;  /* Ensure this matches the icon size */
-  height: 24px; /* Ensure this matches the icon size */
+  width: 24px;  
+  height: 24px; 
   visibility: hidden;
 }
 
@@ -218,13 +218,13 @@ button {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease, opacity 0.3s ease;
-  height: auto; /* Allows dynamic height adjustment */
+  height: auto; 
 }
 
 .show-content {
-  max-height: 1000px; /* Increased limit to handle larger content */
+  max-height: 1000px;
   opacity: 1;
-  height: auto; /* Ensures content height adjusts */
+  height: auto;
 }
 
 @media (max-width: 600px) {

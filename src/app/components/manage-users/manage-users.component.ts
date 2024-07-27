@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
 import { MFAService } from '../../services/mfa.service';
+import { AuthService } from '../../services/auth.service'; 
 import { User } from '../../models/user.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
@@ -10,6 +11,7 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MatSort, Sort } from '@angular/material/sort';
 import { SnackbarService } from '../../services/snackbar.service'; // Import SnackbarService
 import { TranslateService } from '@ngx-translate/core'; // Import TranslateService
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-manage-users',
@@ -21,6 +23,8 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   filteredUsers = new MatTableDataSource<User>();
   displayedColumns: string[] = ['id', 'username', 'email', 'role', 'isActive', 'actions'];
   searchText: string = '';
+  loggedInUser: User | null = null;
+  private loggedInUserSubscription: Subscription = new Subscription();
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
@@ -28,6 +32,7 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
   constructor(
     private userService: UserService,
     private mfaService: MFAService,
+    private authService: AuthService, 
     public dialog: MatDialog,
     private snackBar: SnackbarService, // Inject SnackbarService
     private translate: TranslateService // Inject TranslateService
@@ -38,9 +43,13 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadUsers();
+    this.loggedInUserSubscription = this.authService.loggedInUser.subscribe(user => {
+      this.loggedInUser = user;
+    });
   }
 
   ngAfterViewInit(): void {
+    // You can implement any additional logic needed after the view initialization
   }
 
   loadUsers(): void {
@@ -113,13 +122,15 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       width: '400px',
       data: { user }
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.userService.updateUser(result).subscribe(
-          () => {
+          (updatedUser: User) => {
+            if (updatedUser.role === 'admin' && this.loggedInUser?.id === updatedUser.id) {
+            }
             this.snackBar.showSuccess(this.translate.instant('MANAGE_USERS.UPDATE_SUCCESS'));
-            this.loadUsers(); // Refresh the user list
+            this.loadUsers(); 
           },
           error => {
             console.error('Error updating user:', error);
@@ -186,6 +197,11 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       this.users.data = sortedData;
       this.applyFilter(); // Re-apply filter after sorting
     }
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe to avoid memory leaks
+    this.loggedInUserSubscription.unsubscribe();
   }
 }
 

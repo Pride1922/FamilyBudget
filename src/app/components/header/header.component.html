@@ -6,7 +6,9 @@
       </button>
       <div class="dropdown-content">
         <a routerLink="/profile">{{ 'SIDEBAR.PROFILE' | translate }}</a>
-        <a routerLink="/manage-users">{{ 'SIDEBAR.MANAGE_USERS' | translate }}</a>
+        <a *ngIf="isAdmin" [routerLink]="['/manage-users']">
+          {{ 'SIDEBAR.MANAGE_USERS' | translate }}
+        </a>
         <a (click)="onLogout()">{{ 'SIDEBAR.LOGOUT' | translate }}</a>
       </div>
     </div>
