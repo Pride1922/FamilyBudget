@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'FamilyBudget';
   hideHeader = false;
   hideSidebar = false;
+  isLoginPage = false;
 
   constructor(private router: Router, private translate: TranslateService) {
     // Retrieve the language preference from localStorage
@@ -30,12 +31,8 @@ export class AppComponent implements OnInit {
 
   checkRoute(url: string) {
     const loginRoute = '/login';
-    if (url === loginRoute) {
-      this.hideHeader = true;
-      this.hideSidebar = true;
-    } else {
-      this.hideHeader = false;
-      this.hideSidebar = false;
-    }
+    this.isLoginPage = (url === loginRoute);
+    this.hideHeader = this.isLoginPage;
+    this.hideSidebar = this.isLoginPage;
   }
 }

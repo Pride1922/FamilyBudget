@@ -1,17 +1,25 @@
-.app-container {
+.app-container.login-page .main-wrapper {
+  justify-content: center;
+}
+
+.main-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-grow: 1;
 }
 
 .main-content {
   flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
-  background-color: #5ea8f2; /* Light blue background */
-  min-height: calc(100vh - 60px); /* Adjust based on header height */
-  margin-left: 5rem; /* Adjust based on sidebar width */
-  margin-top: 60px; /* Ensure content is below the header */
+  background-color: #5ea8f2;
 }
 
-.with-header {
+.main-content.without-sidebar {
+  margin-left: 0; /* No margin when sidebar is hidden */
+}
+
+.main-content.with-header {
   margin-top: 60px; /* Ensure content is below the header */
 }
