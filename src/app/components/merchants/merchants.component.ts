@@ -55,6 +55,7 @@ export class MerchantsComponent implements OnInit {
   ngOnInit(): void {
     this.loadMerchants();
     this.loadCategories();
+    this.loadAllSubcategories(); // Load all subcategories on init
   }
 
   loadMerchants(): void {
@@ -77,6 +78,13 @@ export class MerchantsComponent implements OnInit {
         this.subcategories = subcategories;
       },
       error => console.error('Failed to load subcategories', error)
+    );
+  }
+
+  loadAllSubcategories(): void {
+    this.subcategoryService.getAllSubcategories().subscribe(
+      subcategories => this.subcategories = subcategories,
+      error => console.error('Failed to load all subcategories', error)
     );
   }
 

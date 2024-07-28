@@ -1,51 +1,51 @@
 <div class="merchants-container">
   <div class="form-container">
     <form [formGroup]="merchantForm" (ngSubmit)="saveMerchant()">
-      <h2>{{ isEditMode ? 'MERCHANTS.EDIT_MERCHANT' : 'MERCHANTS.ADD_MERCHANT' | translate }}</h2>
+      <h2>{{ isEditMode ? 'Edit Merchant' : 'Add Merchant' }}</h2>
       <input type="hidden" formControlName="id">
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'MERCHANTS.NAME' | translate }}</mat-label>
+        <mat-label>Name</mat-label>
         <input matInput type="text" formControlName="name" required>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'MERCHANTS.CATEGORY' | translate }}</mat-label>
+        <mat-label>Category</mat-label>
         <mat-select formControlName="category_id">
           <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'MERCHANTS.SUBCATEGORY' | translate }}</mat-label>
+        <mat-label>Subcategory</mat-label>
         <mat-select formControlName="subcategory_id">
           <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.id">{{ subcategory.name }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'MERCHANTS.ADDRESS' | translate }}</mat-label>
+        <mat-label>Address</mat-label>
         <input matInput type="text" formControlName="address">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'MERCHANTS.PHONE' | translate }}</mat-label>
+        <mat-label>Phone</mat-label>
         <input matInput type="text" formControlName="phone">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'MERCHANTS.EMAIL' | translate }}</mat-label>
+        <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>{{ 'MERCHANTS.WEBSITE' | translate }}</mat-label>
+        <mat-label>Website</mat-label>
         <input matInput type="url" formControlName="website">
       </mat-form-field>
 
       <div class="button-container">
-        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'MERCHANTS.UPDATE_MERCHANT' : 'MERCHANTS.ADD_MERCHANT' | translate }}</button>
-        <button mat-raised-button color="warn" type="button" (click)="resetForm()" *ngIf="isEditMode">{{ 'MERCHANTS.CANCEL' | translate }}</button>
+        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Add' }} Merchant</button>
+        <button mat-raised-button color="warn" type="button" (click)="resetForm()" *ngIf="isEditMode">Cancel</button>
       </div>
     </form>
   </div>
@@ -53,52 +53,52 @@
   <div class="merchants-table-container">
     <table mat-table [dataSource]="merchants" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.ID' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
         <td mat-cell *matCellDef="let merchant">{{ merchant.id }}</td>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.NAME' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let merchant">{{ merchant.name }}</td>
       </ng-container>
 
       <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.CATEGORY' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
         <td mat-cell *matCellDef="let merchant">{{ getCategoryNameById(merchant.category_id) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="subcategory">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.SUBCATEGORY' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subcategory</th>
         <td mat-cell *matCellDef="let merchant">{{ getSubcategoryNameById(merchant.subcategory_id) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.ADDRESS' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
         <td mat-cell *matCellDef="let merchant">{{ merchant.address }}</td>
       </ng-container>
 
       <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.PHONE' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
         <td mat-cell *matCellDef="let merchant">{{ merchant.phone }}</td>
       </ng-container>
 
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.EMAIL' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
         <td mat-cell *matCellDef="let merchant">{{ merchant.email }}</td>
       </ng-container>
 
       <ng-container matColumnDef="website">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.WEBSITE' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Website</th>
         <td mat-cell *matCellDef="let merchant">{{ merchant.website }}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>{{ 'MERCHANTS.ACTIONS' | translate }}</th>
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let merchant" class="action-buttons">
-          <button mat-icon-button color="primary" matTooltip="{{ 'MERCHANTS.EDIT' | translate }}" (click)="editMerchant(merchant)">
+          <button mat-icon-button color="primary" matTooltip="Edit" (click)="editMerchant(merchant)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" matTooltip="{{ 'MERCHANTS.DELETE' | translate }}" (click)="deleteMerchant(merchant.id)">
+          <button mat-icon-button color="warn" matTooltip="Delete" (click)="deleteMerchant(merchant.id)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

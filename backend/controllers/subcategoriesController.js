@@ -31,30 +31,35 @@ const getSubcategoryById = (req, res) => {
 
 // Add Subcategory
 const addSubcategory = (req, res) => {
-    const { name, categoryId } = req.body;
-    if (!name || !categoryId) {
-        return res.status(400).json({ error: 'Name and categoryId are required' });
+    console.log('Request body:', req.body); // Debugging line
+    const { name, category_id } = req.body; // Fix the property name here
+    if (!name || !category_id) {
+        console.error('Missing name or category_id'); // Debugging line
+        return res.status(400).json({ error: 'Name and category_id are required' });
     }
 
-    categoryModel.getCategoryById(categoryId, (err, results) => {
+    categoryModel.getCategoryById(category_id, (err, results) => {
         if (err) {
             errorLogger.error(err.message);
             return res.status(500).json({ error: 'Internal server error' });
         }
         if (!results.length) {
+            console.error('Category not found'); // Debugging line
             return res.status(404).json({ error: 'Category not found' });
         }
 
-        subcategoryModel.createSubcategory({ name, categoryId }, (err, result) => {
+        subcategoryModel.createSubcategory({ name, categoryId: category_id }, (err, result) => {
             if (err) {
                 errorLogger.error(err.message);
                 return res.status(500).json({ error: 'Internal server error' });
             }
-            infoLogger.info(`Subcategory added to category ${categoryId}: ${name}`);
-            res.status(201).json({ id: result.insertId, name, categoryId });
+            infoLogger.info(`Subcategory added to category ${category_id}: ${name}`);
+            res.status(201).json({ id: result.insertId, name, categoryId: category_id });
         });
     });
 };
+
+
 
 // Edit Subcategory
 const editSubcategory = (req, res) => {
