@@ -1,9 +1,8 @@
-<!-- app.component.html -->
 <div class="app-container" [ngClass]="{'login-page': isLoginPage}">
   <app-header *ngIf="!hideHeader"></app-header>
   <div class="main-wrapper">
     <app-sidebar *ngIf="!hideSidebar"></app-sidebar>
-    <div class="main-content" [ngClass]="{'with-header': !hideHeader, 'without-sidebar': hideSidebar}">
+    <div class="main-content" [ngClass]="{'without-sidebar': hideSidebar}">
       <router-outlet></router-outlet>
     </div>
   </div>

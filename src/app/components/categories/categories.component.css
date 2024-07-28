@@ -1,3 +1,4 @@
+/* Container for categories */
 .categories-container {
   max-width: 1200px; /* Adjust the max-width as needed */
   width: 100%;
@@ -20,10 +21,10 @@
   scrollbar-width: none; /* Firefox */
 }
 
-
+/* Styles for category and add-category cards */
 .category-card, .add-category-card {
   width: 100%;
-  max-width: 1200px; /* Adjust the max-width to match the container */
+  max-width: 1200px; /* Match container max-width */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
@@ -45,6 +46,7 @@
   cursor: default;
 }
 
+/* Header styles for mat-card */
 .mat-card-header {
   background-color: #f1f1f1;
   padding: 16px;
@@ -103,6 +105,7 @@
   color: #757575;
 }
 
+/* Form field styles */
 .mat-form-field {
   width: 100%;
   margin-bottom: 16px;
@@ -121,6 +124,7 @@
   background-color: #1976d2;
 }
 
+/* Form group styles */
 .form-group {
   display: flex;
   gap: 16px;
@@ -185,6 +189,7 @@ button {
   color: #d32f2f;
 }
 
+/* Subcategory container styles */
 .subcategory-container {
   margin-top: 24px;
   padding: 16px;
@@ -200,6 +205,7 @@ button {
   color: #333;
 }
 
+/* Subcategory card styles */
 .subcategory-card {
   padding: 12px;
   margin-top: 8px;
@@ -215,6 +221,7 @@ button {
   flex: 1;
 }
 
+/* Expanded content styles */
 .expanded-content {
   max-height: 0;
   overflow: hidden;
@@ -228,6 +235,7 @@ button {
   height: auto;
 }
 
+/* Media queries for responsiveness */
 @media (max-width: 600px) {
   .categories-container {
     padding: 8px;

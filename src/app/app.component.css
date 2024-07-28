@@ -1,33 +1,56 @@
-/* Ensure full height for app container */
+/* Import Angular Material theme */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global styles */
+html, body {
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Full height and width for app container */
 .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh; /* Full viewport height */
   width: 100vw; /* Full viewport width */
-  margin: 0;
-  padding: 0;
 }
 
-/* Styles for login page */
-.app-container.login-page .main-wrapper {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  height: 100%; /* Ensure full height to center content */
-  width: 100%; /* Ensure full width */
-  margin: 0; /* Reset any margins */
-  padding: 0; /* Reset any padding */
+/* Fixed header styles */
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* Adjust height as needed */
+  z-index: 1000;
 }
 
-/* Ensure the main-wrapper takes full height and width */
+/* Ensure the main-wrapper takes full height minus header height */
 .main-wrapper {
   display: flex;
   flex-grow: 1;
   width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  height: calc(100vh - 60px); /* Full height minus header height */
+  margin-top: 60px; /* Ensure it is below the header */
   overflow: hidden; /* Hide any overflow */
-  margin: 0; /* Reset any margins */
-  padding: 0; /* Reset any padding */
+}
+
+/* Adjust when header is hidden */
+.app-container.login-page .main-wrapper {
+  margin-top: 0; /* Remove the margin when on the login page */
+  height: 100vh; /* Full height for login page */
 }
 
 /* Sidebar styles */
@@ -35,11 +58,11 @@
   background: #263238;
   transition: all 0.5s ease;
   position: fixed;
-  z-index: 1000;
-  top: 0;
+  z-index: 900; /* Below the header */
+  top: 60px; /* Start below the header */
   left: 0;
   width: 5rem;
-  height: 100vh;
+  height: calc(100vh - 60px); /* Full height minus header height */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -50,11 +73,16 @@
   width: 16.5625rem;
 }
 
+.app-container.login-page .sidenav {
+  top: 0; /* Align to the top when on the login page */
+  height: 100vh; /* Full height for login page */
+}
+
 /* Main content styles */
 .main-content {
   display: flex;
   flex-direction: column; /* Ensure child elements stack vertically */
-  justify-content: center; /* Center content vertically */
+  justify-content: flex-start; /* Align items to the top */
   align-items: center; /* Center content horizontally */
   padding: 20px;
   background-color: #5ea8f2;
@@ -70,13 +98,14 @@
   margin-left: 16.5625rem; /* Adjust for expanded sidebar width */
 }
 
-/* Adjust margins when header is present */
-.main-content.with-header {
-  margin-top: 60px; /* Ensure content is below the header */
-}
-
 /* Reset styles for the login page */
 .app-container.login-page .main-content {
   margin-left: 0; /* Remove left margin */
   padding: 0; /* Reset padding */
+  height: 100%; /* Ensure full height */
+  width: 100%; /* Ensure full width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #5ea8f2; /* Set background color */
 }
