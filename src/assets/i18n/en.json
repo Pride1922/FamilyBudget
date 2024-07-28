@@ -252,5 +252,28 @@
       "ENGLISH": "English",
       "PORTUGUESE": "Portuguese",
       "DUTCH": "Dutch"
+    },
+    "MERCHANTS": {
+      "EDIT_MERCHANT": "Edit Merchant",
+      "ADD_MERCHANT": "Add Merchant",
+      "MERCHANT_ADDED": "Merchant added successfully",
+      "MERCHANT_UPDATED": "Merchant updated successfully",
+      "MERCHANT_DELETED": "Merchant deleted successfully",
+      "ADD_FAILED": "Failed to add merchant",
+      "UPDATE_FAILED": "Failed to update merchant",
+      "DELETE_FAILED": "Failed to delete merchant",
+      "NAME": "Name",
+      "CATEGORY": "Category",
+      "SUBCATEGORY": "Subcategory",
+      "ADDRESS": "Address",
+      "PHONE": "Phone",
+      "EMAIL": "Email",
+      "WEBSITE": "Website",
+      "ACTIONS": "Actions",
+      "UPDATE_MERCHANT": "Update Merchant",
+      "CANCEL": "Cancel",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "ID": "ID"
     }
 }

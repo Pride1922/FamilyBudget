@@ -252,5 +252,28 @@
     "ENGLISH": "Inglês",
     "PORTUGUESE": "Português",
     "DUTCH": "Holandês"
+  },
+  "MERCHANTS": {
+    "EDIT_MERCHANT": "Editar Comerciante",
+    "ADD_MERCHANT": "Adicionar Comerciante",
+    "MERCHANT_ADDED": "Comerciante adicionado com sucesso",
+    "MERCHANT_UPDATED": "Comerciante atualizado com sucesso",
+    "MERCHANT_DELETED": "Comerciante excluído com sucesso",
+    "ADD_FAILED": "Falha ao adicionar comerciante",
+    "UPDATE_FAILED": "Falha ao atualizar comerciante",
+    "DELETE_FAILED": "Falha ao excluir comerciante",
+    "NAME": "Nome",
+    "CATEGORY": "Categoria",
+    "SUBCATEGORY": "Subcategoria",
+    "ADDRESS": "Endereço",
+    "PHONE": "Telefone",
+    "EMAIL": "E-mail",
+    "WEBSITE": "Website",
+    "ACTIONS": "Ações",
+    "UPDATE_MERCHANT": "Atualizar Comerciante",
+    "CANCEL": "Cancelar",
+    "EDIT": "Editar",
+    "DELETE": "Excluir",
+    "ID": "ID"
   }
 }

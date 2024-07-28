@@ -9,9 +9,7 @@ router.post('/', authenticateToken, subcategoryController.addSubcategory);
 router.put('/:id', authenticateToken, subcategoryController.editSubcategory);
 router.delete('/:id', authenticateToken, subcategoryController.deleteSubcategory);
 
-router.get('/category/:categoryId', authenticateToken, subcategoryController.getSubcategoriesByCategory);
-
-
+router.get('/category/:categoryId', subcategoryController.getSubcategoriesByCategoryId);
 
 
 module.exports = router;

@@ -252,5 +252,28 @@
     "ENGLISH": "Engels",
     "PORTUGUESE": "Portugees",
     "DUTCH": "Nederlands"
+  },
+  "MERCHANTS": {
+    "EDIT_MERCHANT": "Bewerk Handelaar",
+    "ADD_MERCHANT": "Voeg Handelaar Toe",
+    "MERCHANT_ADDED": "Handelaar succesvol toegevoegd",
+    "MERCHANT_UPDATED": "Handelaar succesvol bijgewerkt",
+    "MERCHANT_DELETED": "Handelaar succesvol verwijderd",
+    "ADD_FAILED": "Toevoegen van handelaar mislukt",
+    "UPDATE_FAILED": "Bijwerken van handelaar mislukt",
+    "DELETE_FAILED": "Verwijderen van handelaar mislukt",
+    "NAME": "Naam",
+    "CATEGORY": "Categorie",
+    "SUBCATEGORY": "Subcategorie",
+    "ADDRESS": "Adres",
+    "PHONE": "Telefoon",
+    "EMAIL": "E-mail",
+    "WEBSITE": "Website",
+    "ACTIONS": "Acties",
+    "UPDATE_MERCHANT": "Update Handelaar",
+    "CANCEL": "Annuleer",
+    "EDIT": "Bewerk",
+    "DELETE": "Verwijder",
+    "ID": "ID"
   }
 }

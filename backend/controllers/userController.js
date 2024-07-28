@@ -57,7 +57,6 @@ const updateUser = async (req, res) => {
     }
 
     const result = await executeQuery(updateQuery, updateParams);
-    console.log(updateQuery)
     if (result.affectedRows === 0) {
       return res.status(404).send({ message: `No user found with ID ${id}` });
     }

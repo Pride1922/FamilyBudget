@@ -15,6 +15,7 @@ const registerRouter = require('./routes/register');
 const usersRouter = require('./routes/users');
 const mfaRoutes = require('./routes/mfa');
 const { infoLogger, errorLogger } = require('./config/logger');
+const merchantRoutes = require('./routes/merchantRoutes');
 
 require('dotenv').config();
 
@@ -54,6 +55,8 @@ app.use('/api/register', registerRouter);
 app.use('/api/users', authenticateToken, usersRouter);
 app.use('/api/mfa', mfaRateLimiter);
 app.use('/api/mfa', mfaRoutes);
+app.use('/api/merchants', merchantRoutes);
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

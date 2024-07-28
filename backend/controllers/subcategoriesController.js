@@ -36,7 +36,6 @@ const addSubcategory = (req, res) => {
         return res.status(400).json({ error: 'Name and categoryId are required' });
     }
 
-    // Ensure the categoryId is valid
     categoryModel.getCategoryById(categoryId, (err, results) => {
         if (err) {
             errorLogger.error(err.message);
@@ -65,7 +64,6 @@ const editSubcategory = (req, res) => {
         return res.status(400).json({ error: 'Name and categoryId are required' });
     }
 
-    // Update subcategory
     subcategoryModel.getSubcategoryById(id, (err, results) => {
         if (err) {
             errorLogger.error(err.message);
@@ -75,8 +73,7 @@ const editSubcategory = (req, res) => {
             return res.status(404).json({ error: 'Subcategory not found' });
         }
 
-        // Assuming you have an update method
-        db.query('UPDATE Subcategories SET name = ?, category_id = ? WHERE id = ?', [name, categoryId, id], (err, result) => {
+        subcategoryModel.updateSubcategory(id, { name, categoryId }, (err, result) => {
             if (err) {
                 errorLogger.error(err.message);
                 return res.status(500).json({ error: 'Internal server error' });
@@ -90,7 +87,6 @@ const editSubcategory = (req, res) => {
 const deleteSubcategory = async (req, res) => {
     const { id } = req.params;
     try {
-        // Check if there are merchants associated with the subcategory
         const hasMerchants = await new Promise((resolve, reject) => {
             merchantModel.getMerchantsBySubcategoryId(id, (err, count) => {
                 if (err) {
@@ -105,7 +101,6 @@ const deleteSubcategory = async (req, res) => {
             return res.status(400).json({ error: 'Cannot delete subcategory with existing merchants' });
         }
 
-        // Delete the subcategory
         subcategoryModel.deleteSubcategory(id, (err, result) => {
             if (err) {
                 errorLogger.error(err.message);
@@ -124,15 +119,15 @@ const deleteSubcategory = async (req, res) => {
     }
 };
 
-// Get Subcategories By Category
-const getSubcategoriesByCategory = (req, res) => {
-    const categoryId = req.params.categoryId;
-    subcategoryModel.getSubcategoriesByCategoryId(categoryId, (err, results) => {
+// Get Subcategories By Category ID
+const getSubcategoriesByCategoryId = (req, res) => {
+    const { categoryId } = req.params;
+    subcategoryModel.getSubcategoriesByCategoryId(categoryId, (err, subcategories) => {
         if (err) {
             errorLogger.error(err.message);
-            return res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({ message: 'Failed to fetch subcategories', error: err.message });
         }
-        res.json(results);
+        res.status(200).json(subcategories);
     });
 };
 
@@ -142,5 +137,5 @@ module.exports = {
     addSubcategory,
     editSubcategory,
     deleteSubcategory,
-    getSubcategoriesByCategory
+    getSubcategoriesByCategoryId
 };

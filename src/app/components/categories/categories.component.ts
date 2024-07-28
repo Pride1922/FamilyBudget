@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 import { SubcategoryService } from '../../services/subcategory.service';
-import { IconsService } from '../../services/icons.service'; // Import IconsService
-import { Category, Subcategory } from '../categories/category.interface';
+import { IconsService } from '../../services/icons.service';
+import { Category } from '../../models/category.model';
+import { Subcategory } from '../../models/subcategory.model';
 import { SnackbarService } from '../../services/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs'; // Import Observable and of from rxjs
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -15,11 +16,12 @@ import { Observable, of } from 'rxjs'; // Import Observable and of from rxjs
 })
 export class CategoriesComponent implements OnInit {
   categories: Category[] = [];
+  subcategories: Subcategory[] = [];
   categoryForm: FormGroup;
   subcategoryForm: FormGroup;
   selectedCategory: Category | null = null;
   expandedCategoryId: number | null = null;
-  filteredIcons: Observable<string[]> = of([]); // Update the type and initialize with an empty array
+  filteredIcons: Observable<string[]> = of([]);
 
   constructor(
     private categoryService: CategoryService,
@@ -48,8 +50,6 @@ export class CategoriesComponent implements OnInit {
   }
 
   onSearchIcon(searchTerm: string) {
-    console.log('Searching for icon:', searchTerm);
-
     this.filteredIcons = this.iconsService.searchIcons(searchTerm);
   }
 
@@ -60,25 +60,27 @@ export class CategoriesComponent implements OnInit {
 
   loadCategories(): void {
     this.categoryService.getAllCategories().subscribe((categories: Category[]) => {
-      this.categories = categories.map(category => ({
-        ...category,
-        subcategories: typeof category.subcategories === 'string'
-          ? this.parseSubcategories(category.subcategories)
-          : category.subcategories
-      }));
+      this.categories = categories.map(category => ({ ...category, subcategories: [] }));
+      this.loadSubcategories();
     });
   }
 
-  private parseSubcategories(subcategories: string): Subcategory[] {
-    try {
-      const parsed = JSON.parse(subcategories);
-      return Array.isArray(parsed) ? parsed.filter(sc => sc.id != null && sc.name != null) : [];
-    } catch {
-      return [];
-    }
+  loadSubcategories(): void {
+    this.subcategoryService.getAllSubcategories().subscribe((subcategories: Subcategory[]) => {
+      this.subcategories = subcategories;
+      this.mapSubcategoriesToCategories();
+    });
   }
 
-  toggleCategory(id: number): void {
+  mapSubcategoriesToCategories(): void {
+    this.categories.forEach(category => {
+      category.subcategories = this.subcategories.filter(subcategory => subcategory.category_id === category.id);
+    });
+  }
+
+  toggleCategory(id: number | undefined): void {
+    if (id === undefined) return;
+
     if (this.expandedCategoryId === id) {
       this.expandedCategoryId = null;
       this.categoryForm.reset({ type: 'expense' });
@@ -87,7 +89,7 @@ export class CategoriesComponent implements OnInit {
       this.expandedCategoryId = id;
       this.selectedCategory = this.categories.find(cat => cat.id === id) || null;
       this.openCategoryDialog(this.selectedCategory);
-      this.openSubcategoryForm(id); // Set the category ID when opening the form
+      this.openSubcategoryForm(id);
     }
   }
 
@@ -102,7 +104,7 @@ export class CategoriesComponent implements OnInit {
   onSubmitCategory(): void {
     if (this.categoryForm.valid) {
       const categoryData = this.categoryForm.value;
-      if (categoryData.id) {
+      if (categoryData.id !== null && categoryData.id !== undefined) {
         this.categoryService.updateCategory(categoryData).subscribe(
           () => {
             this.loadCategories();
@@ -130,7 +132,9 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  deleteCategory(id: number): void {
+  deleteCategory(id: number | undefined): void {
+    if (id === undefined) return;
+
     if (confirm(this.translate.instant('CATEGORIES.DELETE_CONFIRM'))) {
       this.categoryService.deleteCategory(id).subscribe(
         () => {
@@ -146,9 +150,11 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  openSubcategoryForm(categoryId: number): void {
-    this.subcategoryForm.reset(); // Reset form
-    this.subcategoryForm.patchValue({ category_id: categoryId }); // Set category_id
+  openSubcategoryForm(categoryId: number | undefined): void {
+    if (categoryId === undefined) return;
+
+    this.subcategoryForm.reset();
+    this.subcategoryForm.patchValue({ category_id: categoryId });
   }
 
   onSubmitSubcategory(): void {
@@ -185,7 +191,9 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  deleteSubcategory(id: number): void {
+  deleteSubcategory(id: number | undefined): void {
+    if (id === undefined) return;
+
     if (confirm(this.translate.instant('CATEGORIES.SUBCATEGORY.DELETE_CONFIRM'))) {
       this.subcategoryService.deleteSubcategory(id).subscribe(
         () => {
