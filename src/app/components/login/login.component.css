@@ -1,3 +1,10 @@
+/* Styles for login page */
+.app-container.login-page .main-wrapper {
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure full height to center content */
+}
+
 /* Styles for the app container */
 .app-container {
   display: flex;
@@ -7,6 +14,7 @@
   background-color: #5ea8f2; /* Light blue background */
   background-size: cover;
   background-position: center;
+  overflow: hidden; /* Hide scrollbars */
 }
 
 /* Styles for the login container */
@@ -44,6 +52,7 @@ button[type="button"] {
   margin-top: 16px; /* Space above the buttons */
   padding: 12px; /* Increased padding for button size */
 }
+
 /* Styles for buttons in MFA form */
 button[type="submit"],
 button[type="button"] {

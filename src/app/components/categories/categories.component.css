@@ -20,6 +20,7 @@
   scrollbar-width: none; /* Firefox */
 }
 
+
 .category-card, .add-category-card {
   width: 100%;
   max-width: 1200px; /* Adjust the max-width to match the container */

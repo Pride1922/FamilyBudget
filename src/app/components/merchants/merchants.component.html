@@ -1,0 +1,63 @@
+<!-- merchants.component.html -->
+<div class="form-container">
+    <form (submit)="saveMerchant()">
+      <h2>{{ isEditMode ? 'Edit Merchant' : 'Add Merchant' }}</h2>
+      <input type="hidden" [(ngModel)]="currentMerchant.id" name="id">
+      <label for="name">Name:</label>
+      <input type="text" [(ngModel)]="currentMerchant.name" name="name" required>
+  
+      <label for="category_id">Category ID:</label>
+      <input type="number" [(ngModel)]="currentMerchant.category_id" name="category_id">
+  
+      <label for="subcategory_id">Subcategory ID:</label>
+      <input type="number" [(ngModel)]="currentMerchant.subcategory_id" name="subcategory_id">
+  
+      <label for="address">Address:</label>
+      <input type="text" [(ngModel)]="currentMerchant.address" name="address">
+  
+      <label for="phone">Phone:</label>
+      <input type="text" [(ngModel)]="currentMerchant.phone" name="phone">
+  
+      <label for="email">Email:</label>
+      <input type="email" [(ngModel)]="currentMerchant.email" name="email">
+  
+      <label for="website">Website:</label>
+      <input type="url" [(ngModel)]="currentMerchant.website" name="website">
+  
+      <button type="submit">{{ isEditMode ? 'Update' : 'Add' }} Merchant</button>
+      <button type="button" (click)="resetForm()" *ngIf="isEditMode">Cancel</button>
+    </form>
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category ID</th>
+        <th>Subcategory ID</th>
+        <th>Address</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Website</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let merchant of merchants">
+        <td>{{ merchant.id }}</td>
+        <td>{{ merchant.name }}</td>
+        <td>{{ merchant.category_id }}</td>
+        <td>{{ merchant.subcategory_id }}</td>
+        <td>{{ merchant.address }}</td>
+        <td>{{ merchant.phone }}</td>
+        <td>{{ merchant.email }}</td>
+        <td>{{ merchant.website }}</td>
+        <td>
+          <button (click)="editMerchant(merchant)">Edit</button>
+          <button (click)="deleteMerchant(merchant.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

@@ -3,6 +3,20 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  margin: 0;
+  padding: 0;
+}
+
+/* Styles for login page */
+.app-container.login-page .main-wrapper {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%; /* Ensure full height to center content */
+  width: 100%; /* Ensure full width */
+  margin: 0; /* Reset any margins */
+  padding: 0; /* Reset any padding */
 }
 
 /* Ensure the main-wrapper takes full height and width */
@@ -10,7 +24,10 @@
   display: flex;
   flex-grow: 1;
   width: 100%; /* Full width */
+  height: 100%; /* Full height */
   overflow: hidden; /* Hide any overflow */
+  margin: 0; /* Reset any margins */
+  padding: 0; /* Reset any padding */
 }
 
 /* Sidebar styles */
@@ -37,7 +54,7 @@
 .main-content {
   display: flex;
   flex-direction: column; /* Ensure child elements stack vertically */
-  justify-content: flex-start; /* Align items to the top */
+  justify-content: center; /* Center content vertically */
   align-items: center; /* Center content horizontally */
   padding: 20px;
   background-color: #5ea8f2;
@@ -45,6 +62,7 @@
   flex-grow: 1; /* Ensure it takes available space */
   margin-left: 5rem; /* Adjust for sidebar width */
   box-sizing: border-box; /* Include padding and border in width/height */
+  height: 100%; /* Ensure full height */
 }
 
 /* Adjust margins when sidebar is collapsed */
@@ -55,4 +73,10 @@
 /* Adjust margins when header is present */
 .main-content.with-header {
   margin-top: 60px; /* Ensure content is below the header */
+}
+
+/* Reset styles for the login page */
+.app-container.login-page .main-content {
+  margin-left: 0; /* Remove left margin */
+  padding: 0; /* Reset padding */
 }

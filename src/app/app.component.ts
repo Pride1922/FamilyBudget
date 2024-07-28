@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from './services/auth.service'; 
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   hideSidebar = false;
   isLoginPage = false;
 
-  constructor(private authService: AuthService, private router: Router,  private translate: TranslateService) {
+  constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {
     const language = localStorage.getItem('language') || 'en';
     this.translate.setDefaultLang(language);
     this.translate.use(language);
@@ -34,8 +34,6 @@ export class AppComponent implements OnInit {
   checkTokenValidity(): void {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
-    } else {
-      // Add any additional logic if needed
     }
   }
 

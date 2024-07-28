@@ -42,6 +42,7 @@ import { IconSearchComponent } from './components/icon-search-component/icon-sea
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SublevelMenuComponent } from './components/sidebar/sublevel-menu/sublevel-menu.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MerchantsComponent } from './components/merchants/merchants.component';
 
 // Define the HttpLoaderFactory function
 export function HttpLoaderFactory(http: HttpClient) {
@@ -66,6 +67,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SidebarComponent,
     SublevelMenuComponent,
     HeaderComponent,
+    MerchantsComponent,
   ],
   imports: [
     BrowserModule,

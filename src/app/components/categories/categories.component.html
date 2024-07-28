@@ -58,9 +58,11 @@
               </div>
             </div>
 
-            <button mat-icon-button color="primary" type="submit" aria-label="Save Category">
-              <mat-icon>save</mat-icon>
-            </button>
+            <div class="button-right">
+              <button mat-icon-button color="primary" type="submit" aria-label="Save Category">
+                <mat-icon>save</mat-icon>
+              </button>
+            </div>
           </form>
         </mat-card-content>
       </mat-card>
@@ -71,9 +73,11 @@
         <mat-card *ngFor="let subcategory of category.subcategories" class="subcategory-card">
           <mat-card-header>
             <mat-card-title>{{ subcategory.name }}</mat-card-title>
-            <button mat-icon-button class="delete-button" (click)="deleteSubcategory(subcategory.id); $event.stopPropagation()">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="button-right">
+              <button mat-icon-button class="delete-button" (click)="deleteSubcategory(subcategory.id); $event.stopPropagation()">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>  
           </mat-card-header>
         </mat-card>
 

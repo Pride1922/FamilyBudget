@@ -9,7 +9,7 @@ import { MFASetupComponent } from './components/mfasetup/mfasetup.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
-
+import { MerchantsComponent } from './components/merchants/merchants.component';
 
 
 const routes: Routes = [
@@ -27,6 +27,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'mfa-setup', component: MFASetupComponent },
   { path: 'categories', component: CategoriesComponent },
+  { path: 'merchants', component: MerchantsComponent },
   { path: '**', redirectTo: '' } // Redirect any other route to home
 ];
 
