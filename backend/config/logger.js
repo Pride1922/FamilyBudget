@@ -6,10 +6,15 @@ const logFormat = printf(({ timestamp, level, message, stack }) => {
   return stack ? `${timestamp} [${level}]: ${message}\nStack: ${stack}` : `${timestamp} [${level}]: ${message}`;
 });
 
+const customTimestampFormat = winston.format((info, opts) => {
+  info.timestamp = new Date().toLocaleString('nl-BE', { timeZone: 'Europe/Brussels' });
+  return info;
+});
+
 const errorLogger = winston.createLogger({
   level: 'error',
   format: combine(
-    timestamp(),
+    customTimestampFormat(),
     logFormat
   ),
   transports: [
@@ -26,8 +31,8 @@ const errorLogger = winston.createLogger({
 const infoLogger = winston.createLogger({
   level: 'info',
   format: combine(
-    timestamp(),
-    printf(({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`)
+    customTimestampFormat(),
+    logFormat
   ),
   transports: [
     new winston.transports.DailyRotateFile({
@@ -40,4 +45,21 @@ const infoLogger = winston.createLogger({
   ]
 });
 
-module.exports = { errorLogger, infoLogger };
+const authLogger = winston.createLogger({
+  level: 'info',
+  format: combine(
+    customTimestampFormat(),
+    logFormat
+  ),
+  transports: [
+    new winston.transports.DailyRotateFile({
+      filename: 'logs/auth-%DATE%.log',
+      datePattern: 'YYYY-MM-DD',
+      zippedArchive: true,
+      maxSize: '20m',
+      maxFiles: '14d'
+    })
+  ]
+});
+
+module.exports = { errorLogger, infoLogger, authLogger };

@@ -3,8 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const db = require('../config/database'); // Database configuration
-const { errorLogger, infoLogger } = require('../config/logger'); // Logger configuration
+const db = require('../config/database');
+const { errorLogger, infoLogger, authLogger } = require('../config/logger'); // Include authLogger
 
 // Login endpoint
 router.post('/login', async (req, res) => {
@@ -24,28 +24,31 @@ router.post('/login', async (req, res) => {
       }
 
       if (results.length === 0) {
-        infoLogger.info(`Login attempt failed: Email not found - ${email}`);
+        authLogger.info(`Login attempt failed: Email not found - ${email}`);
         return res.status(400).send({ message: 'Invalid email or password' });
       }
 
       const user = results[0];
 
       if (!user.isActive) {
+        authLogger.info(`Login attempt failed: User is disabled - ${email}`);
         return res.status(403).send({ message: 'User is disabled' });
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        infoLogger.info(`Login attempt failed: Invalid password for email - ${email}`);
+        authLogger.info(`Login attempt failed: Invalid password for email - ${email}`);
         return res.status(400).send({ message: 'Invalid email or password' });
       }
 
-      const requiresMFA = user.mfa_enabled; // Check if MFA is enabled
+      const requiresMFA = user.mfa_enabled;
 
       const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
         expiresIn: '1h'
       });
+
+      authLogger.info(`User logged in: ${email}`);
 
       res.status(200).send({
         message: 'Login successful',
@@ -90,6 +93,7 @@ router.get('/email-by-token', (req, res) => {
     }
 
     const email = results[0].email;
+    authLogger.info(`Token validated successfully: ${token}`);
     res.status(200).send({ email });
   });
 });

@@ -3,7 +3,7 @@ const router = express.Router();
 const { authenticateToken } = require('../middleware/auth');
 const { encrypt, decrypt } = require('../utils/encryption');
 const { getUserById } = require('../utils/utils');
-const { errorLogger, infoLogger } = require('../config/logger');
+const { errorLogger, infoLogger, authLogger } = require('../config/logger'); // Include authLogger
 const db = require('../config/database');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
@@ -50,6 +50,7 @@ router.post('/setup-mfa', authenticateToken, async (req, res) => {
             return res.status(500).json({ message: 'Failed to generate QR code', error: err.message });
           }
 
+          authLogger.info(`MFA setup initiated for user ID ${req.user.id}`);
           // Return the QR code URL to the client
           res.status(200).json({ qrCodeUrl: data_url });
         });
@@ -122,11 +123,11 @@ router.post('/verify-mfa', authenticateToken, (req, res) => {
           return res.status(500).json({ message: 'Failed to update MFA status', error: updateError.message });
         }
 
-        infoLogger.info(`MFA verification successful for user ID ${userId}`);
+        authLogger.info(`MFA verification successful for user ID ${userId}`);
         res.status(200).send({ message: 'MFA verification successful', token, user });
       });
     } else {
-      errorLogger.error('Invalid MFA token attempt:', {
+      authLogger.error('Invalid MFA token attempt:', {
         userId,
         mfaToken,
         message: 'MFA token verification failed'
@@ -158,7 +159,7 @@ router.post('/disable-mfa', authenticateToken, async (req, res) => {
         return res.status(404).json({ message: `User with ID ${userId} not found` });
       }
 
-      infoLogger.info(`MFA disabled for user ID ${userId}`);
+      authLogger.info(`MFA disabled for user ID ${userId}`);
       res.status(200).json({ message: 'MFA disabled successfully' });
     });
   } catch (error) {
