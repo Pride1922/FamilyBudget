@@ -19,65 +19,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Ensure full height for app container */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Full viewport height */
-}
-
-/* Ensure the main-wrapper takes full height and width */
-.main-wrapper {
-  display: flex;
-  flex-grow: 1;
-  width: 100%; /* Full width */
-  overflow: hidden; /* Hide any overflow */
-}
-
-/* Sidebar styles */
-.sidenav {
-  background: #263238;
-  transition: all 0.5s ease;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 5rem;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.sidenav-collapsed {
-  width: 16.5625rem;
-}
-
-/* Main content styles */
-.main-content {
-  display: flex;
-  flex-direction: column; /* Ensure child elements stack vertically */
-  justify-content: flex-start; /* Align items to the top */
-  align-items: center; /* Center content horizontally */
-  padding: 20px;
-  background-color: #5ea8f2;
-  overflow: auto; /* Ensure content is scrollable if needed */
-  flex-grow: 1; /* Ensure it takes available space */
-  margin-left: 5rem; /* Adjust for sidebar width */
-  box-sizing: border-box; /* Include padding and border in width/height */
-}
-
-/* Adjust margins when sidebar is collapsed */
-.sidenav-collapsed + .main-content {
-  margin-left: 16.5625rem; /* Adjust for expanded sidebar width */
-}
-
-/* Adjust margins when header is present */
-.main-content.with-header {
-  margin-top: 60px; /* Ensure content is below the header */
-}
-
 /* Card styles */
 .card {
   display: flex;

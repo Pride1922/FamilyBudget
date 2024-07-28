@@ -1,68 +1,48 @@
-/* Import Angular Material theme */
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-
-/* Reset styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Global styles */
-html, body {
-  font-family: 'Roboto', sans-serif;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-/* Full height and width for app container */
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
+  height: 100vh;
+  width: 100vw;
 }
 
-/* Fixed header styles */
 app-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px; /* Adjust height as needed */
+  height: 60px;
   z-index: 1000;
 }
 
-/* Ensure the main-wrapper takes full height minus header height */
 .main-wrapper {
   display: flex;
   flex-grow: 1;
-  width: 100%; /* Full width */
-  height: calc(100vh - 60px); /* Full height minus header height */
-  margin-top: 60px; /* Ensure it is below the header */
-  overflow: hidden; /* Hide any overflow */
+  width: 100%;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+  overflow: hidden;
 }
 
-/* Adjust when header is hidden */
 .app-container.login-page .main-wrapper {
-  margin-top: 0; /* Remove the margin when on the login page */
-  height: 100vh; /* Full height for login page */
+  margin-top: 0;
+  height: 100vh;
 }
 
-/* Sidebar styles */
 .sidenav {
   background: #263238;
   transition: all 0.5s ease;
   position: fixed;
-  z-index: 900; /* Below the header */
-  top: 60px; /* Start below the header */
+  z-index: 900;
+  top: 60px;
   left: 0;
   width: 5rem;
-  height: calc(100vh - 60px); /* Full height minus header height */
+  height: calc(100vh - 60px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -74,38 +54,35 @@ app-header {
 }
 
 .app-container.login-page .sidenav {
-  top: 0; /* Align to the top when on the login page */
-  height: 100vh; /* Full height for login page */
+  top: 0;
+  height: 100vh;
 }
 
-/* Main content styles */
 .main-content {
   display: flex;
-  flex-direction: column; /* Ensure child elements stack vertically */
-  justify-content: flex-start; /* Align items to the top */
-  align-items: center; /* Center content horizontally */
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   padding: 20px;
   background-color: #5ea8f2;
-  overflow: auto; /* Ensure content is scrollable if needed */
-  flex-grow: 1; /* Ensure it takes available space */
-  margin-left: 5rem; /* Adjust for sidebar width */
-  box-sizing: border-box; /* Include padding and border in width/height */
-  height: 100%; /* Ensure full height */
+  overflow: auto;
+  flex-grow: 1;
+  margin-left: 5rem;
+  box-sizing: border-box;
+  height: 100%;
 }
 
-/* Adjust margins when sidebar is collapsed */
 .sidenav-collapsed + .main-content {
-  margin-left: 16.5625rem; /* Adjust for expanded sidebar width */
+  margin-left: 16.5625rem;
 }
 
-/* Reset styles for the login page */
 .app-container.login-page .main-content {
-  margin-left: 0; /* Remove left margin */
-  padding: 0; /* Reset padding */
-  height: 100%; /* Ensure full height */
-  width: 100%; /* Ensure full width */
+  margin-left: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #5ea8f2; /* Set background color */
+  background-color: #5ea8f2;
 }

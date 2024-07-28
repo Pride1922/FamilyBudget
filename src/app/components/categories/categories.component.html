@@ -39,16 +39,16 @@
             </div>
 
             <div class="form-group">
-              <mat-form-field appearance="fill" class="icon-field">
-                <mat-label>{{ 'CATEGORIES.ICON' | translate }}</mat-label>
-                <input matInput formControlName="icon">
-                <mat-icon *ngIf="categoryForm.get('icon')?.value" class="category-icon-preview">{{ categoryForm.get('icon')?.value }}</mat-icon>
-              </mat-form-field>
-
-              <mat-form-field appearance="fill" class="search-icon-field">
-                <mat-label>{{ 'CATEGORIES.SEARCH_ICON' | translate }}</mat-label>
-                <input matInput (input)="onSearchIcon($any($event.target).value)" placeholder="Search for an icon">
-              </mat-form-field>
+              <div class="icon-field">
+                <mat-form-field appearance="fill">
+                  <mat-label>{{ 'CATEGORIES.ICON' | translate }}</mat-label>
+                  <input matInput formControlName="icon" (input)="onSearchIcon($any($event.target).value)">
+                  <mat-icon *ngIf="categoryForm.get('icon')?.value" class="category-icon-preview">{{ categoryForm.get('icon')?.value }}</mat-icon>
+                </mat-form-field>
+                <button mat-icon-button color="primary" type="submit" aria-label="Save Category">
+                  <mat-icon>save</mat-icon>
+                </button>
+              </div>
             </div>
 
             <div *ngIf="filteredIcons | async as icons" class="icon-results">
@@ -56,12 +56,6 @@
                 <mat-icon>{{ icon }}</mat-icon>
                 <span>{{ icon }}</span>
               </div>
-            </div>
-
-            <div class="button-right">
-              <button mat-icon-button color="primary" type="submit" aria-label="Save Category">
-                <mat-icon>save</mat-icon>
-              </button>
             </div>
           </form>
         </mat-card-content>
@@ -71,14 +65,12 @@
         <h3 *ngIf="category.subcategories && category.subcategories.length">{{ 'CATEGORIES.SUBCATEGORY.HEADER' | translate }}</h3>
 
         <mat-card *ngFor="let subcategory of category.subcategories" class="subcategory-card">
-          <mat-card-header>
+          <div class="mat-card-header">
             <mat-card-title>{{ subcategory.name }}</mat-card-title>
-            <div class="button-right">
-              <button mat-icon-button class="delete-button" (click)="deleteSubcategory(subcategory.id); $event.stopPropagation()">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>  
-          </mat-card-header>
+            <button mat-icon-button class="delete-button" (click)="deleteSubcategory(subcategory.id); $event.stopPropagation()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </mat-card>
 
         <mat-card class="add-subcategory-form" *ngIf="expandedCategoryId === category.id">
@@ -129,16 +121,16 @@
         </mat-form-field>
 
         <div class="form-group">
-          <mat-form-field appearance="fill" class="icon-field">
-            <mat-label>{{ 'CATEGORIES.ICON' | translate }}</mat-label>
-            <input matInput formControlName="icon">
-            <mat-icon *ngIf="categoryForm.get('icon')?.value" class="category-icon-preview">{{ categoryForm.get('icon')?.value }}</mat-icon>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill" class="search-icon-field">
-            <mat-label>{{ 'CATEGORIES.SEARCH_ICON' | translate }}</mat-label>
-            <input matInput (input)="onSearchIcon($any($event.target).value)" placeholder="Search for an icon">
-          </mat-form-field>
+          <div class="icon-field">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ 'CATEGORIES.ICON' | translate }}</mat-label>
+              <input matInput formControlName="icon" (input)="onSearchIcon($any($event.target).value)">
+              <mat-icon *ngIf="categoryForm.get('icon')?.value" class="category-icon-preview">{{ categoryForm.get('icon')?.value }}</mat-icon>
+            </mat-form-field>
+            <button mat-icon-button color="primary" type="submit" aria-label="Save Category">
+              <mat-icon>save</mat-icon>
+            </button>
+          </div>
         </div>
 
         <div *ngIf="filteredIcons | async as icons" class="icon-results">
@@ -147,10 +139,6 @@
             <span>{{ icon }}</span>
           </div>
         </div>
-
-        <button mat-icon-button color="primary" type="submit" aria-label="Save Category">
-          <mat-icon>save</mat-icon>
-        </button>
       </form>
     </mat-card-content>
   </mat-card>

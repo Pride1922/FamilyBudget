@@ -1,6 +1,6 @@
 /* Container for categories */
 .categories-container {
-  max-width: 1200px; /* Adjust the max-width as needed */
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 16px;
@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-y: auto;
 }
 
 .categories-container::-webkit-scrollbar {
@@ -24,7 +24,7 @@
 /* Styles for category and add-category cards */
 .category-card, .add-category-card {
   width: 100%;
-  max-width: 1200px; /* Match container max-width */
+  max-width: 1200px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
@@ -58,34 +58,20 @@
   gap: 16px;
 }
 
-.category-icon {
-  font-size: 25px;
+.category-icon, .category-icon-preview {
+  font-size: 20px;
   color: #00796b;
-  margin-right: 16px;
   margin-top: 5px;
 }
 
+.category-icon {
+  margin-right: 16px;
+}
+
 .category-icon-preview {
-  font-size: 24px;
-  color: #00796b;
   margin-left: 8px;
   display: flex;
   align-items: center;
-}
-
-.category-icon-preview::after {
-  content: attr(data-icon);
-  font-family: 'Material Icons';
-  font-size: 24px;
-  color: #00796b;
-}
-
-.category-icon-preview::before {
-  content: "";
-  display: block;
-  width: 24px;
-  height: 24px;
-  visibility: hidden;
 }
 
 .text-container {
@@ -128,15 +114,18 @@
 .form-group {
   display: flex;
   gap: 16px;
+  align-items: center; /* Align items center vertically */
 }
 
 .icon-field {
   flex: 1;
   position: relative;
+  display: flex;
+  align-items: center; /* Align items center vertically */
 }
 
-.search-icon-field {
-  flex: 2;
+.icon-field mat-form-field {
+  flex: 1; /* Take available space */
 }
 
 .icon-results {
@@ -174,6 +163,7 @@ button.mat-icon-button {
   border-radius: 50%;
   padding: 8px;
   transition: background-color 0.3s ease;
+  color: #00796b;
 }
 
 button.mat-icon-button:hover {
@@ -185,7 +175,6 @@ button {
 }
 
 .delete-button {
-  margin-top: -5px;
   color: #d32f2f;
 }
 
@@ -196,6 +185,7 @@ button {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Ensure full width */
 }
 
 .subcategory-container h3 {
@@ -203,6 +193,7 @@ button {
   font-size: 20px;
   font-weight: 500;
   color: #333;
+  text-align: center;
 }
 
 /* Subcategory card styles */
@@ -215,10 +206,31 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 600px; /* Optional: limit max width for better centering */
+  margin: 8px auto; /* Center horizontally */
+}
+
+.subcategory-card .mat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .subcategory-card .mat-card-title {
   flex: 1;
+  text-align: center; /* Center the text within the title */
+}
+
+/* Add subcategory form */
+.add-subcategory-form {
+  width: 100%; /* Ensure it takes full width */
+  max-width: 600px; /* Optional: limit max width for better centering */
+  margin: 16px auto; /* Center horizontally */
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Expanded content styles */
@@ -248,8 +260,4 @@ button {
   .form-group {
     flex-direction: column;
   }
-}
-
-button.mat-icon-button {
-  color: #00796b;
 }
