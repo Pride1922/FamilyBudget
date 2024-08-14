@@ -8,20 +8,10 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  overflow-y: auto;
+  overflow-y: auto; /* Enables vertical scrolling */
 }
 
-.categories-container::-webkit-scrollbar {
-  width: 0;
-  background: transparent;
-}
-
-.categories-container {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Styles for category and add-category cards */
+/* General styles for category and add-category cards */
 .category-card, .add-category-card {
   width: 100%;
   max-width: 1200px;
@@ -158,6 +148,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Button styles */
 button.mat-icon-button {
   background-color: #eeeeee;
   border-radius: 50%;
