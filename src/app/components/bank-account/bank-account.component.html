@@ -1,0 +1,122 @@
+<div class="bank-accounts-container">
+  <div class="form-container">
+    <form [formGroup]="bankAccountForm" (ngSubmit)="saveBankAccount()">
+      <h2>{{ isEditing ? 'BANK_ACCOUNTS.EDIT_ACCOUNT' : 'BANK_ACCOUNTS.ADD_ACCOUNT' | translate }}</h2>
+      <input type="hidden" formControlName="id">
+
+      <mat-form-field appearance="fill" class="full-width" [floatLabel]="'always'">
+        <mat-label>{{ 'BANK_ACCOUNTS.ACCOUNT_HOLDER' | translate }}</mat-label>
+        <input matInput type="text" formControlName="accountHolder" required>
+        <mat-error *ngIf="bankAccountForm.get('accountHolder')?.hasError('required') && bankAccountForm.get('accountHolder')?.touched">
+          {{ 'BANK_ACCOUNTS.ACCOUNT_HOLDER_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width" [floatLabel]="'always'">
+        <mat-label>{{ 'BANK_ACCOUNTS.IBAN' | translate }}</mat-label>
+        <input matInput type="text" formControlName="iban" required>
+        <mat-error *ngIf="bankAccountForm.get('iban')?.hasError('required') && bankAccountForm.get('iban')?.touched">
+          {{ 'BANK_ACCOUNTS.IBAN_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width" [floatLabel]="'always'">
+        <mat-label>{{ 'BANK_ACCOUNTS.BANK_NAME' | translate }}</mat-label>
+        <input matInput type="text" formControlName="bankName" required>
+        <mat-error *ngIf="bankAccountForm.get('bankName')?.hasError('required') && bankAccountForm.get('bankName')?.touched">
+          {{ 'BANK_ACCOUNTS.BANK_NAME_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width" [floatLabel]="'always'">
+        <mat-label>{{ 'BANK_ACCOUNTS.ACCOUNT_TYPE' | translate }}</mat-label>
+        <mat-select formControlName="accountType">
+          <mat-option value="checking">{{ 'BANK_ACCOUNTS.CHECKING' | translate }}</mat-option>
+          <mat-option value="savings">{{ 'BANK_ACCOUNTS.SAVINGS' | translate }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="bankAccountForm.get('accountType')?.hasError('required') && bankAccountForm.get('accountType')?.touched">
+          {{ 'BANK_ACCOUNTS.ACCOUNT_TYPE_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width" [floatLabel]="'always'">
+        <mat-label>{{ 'BANK_ACCOUNTS.BALANCE' | translate }}</mat-label>
+        <input matInput type="number" formControlName="balance" required>
+        <mat-error *ngIf="bankAccountForm.get('balance')?.hasError('required') && bankAccountForm.get('balance')?.touched">
+          {{ 'BANK_ACCOUNTS.BALANCE_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width" [floatLabel]="'always'">
+        <mat-label>{{ 'BANK_ACCOUNTS.CURRENCY' | translate }}</mat-label>
+        <input matInput type="text" formControlName="currency" required>
+        <mat-error *ngIf="bankAccountForm.get('currency')?.hasError('required') && bankAccountForm.get('currency')?.touched">
+          {{ 'BANK_ACCOUNTS.CURRENCY_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="bankAccountForm.invalid || isSaving">
+          {{ isEditing ? 'BANK_ACCOUNTS.UPDATE_ACCOUNT' : 'BANK_ACCOUNTS.ADD_ACCOUNT' | translate }}
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="resetForm()" *ngIf="isEditing">
+          {{ 'BANK_ACCOUNTS.CANCEL' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="bank-accounts-table-container">
+    <table mat-table [dataSource]="bankAccounts" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.ID' | translate }}</th>
+        <td mat-cell *matCellDef="let account">{{ account.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="accountHolder">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.ACCOUNT_HOLDER' | translate }}</th>
+        <td mat-cell *matCellDef="let account">{{ account.accountHolder }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="iban">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.IBAN' | translate }}</th>
+        <td mat-cell *matCellDef="let account">{{ account.iban }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="bankName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.BANK_NAME' | translate }}</th>
+        <td mat-cell *matCellDef="let account">{{ account.bankName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="accountType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.ACCOUNT_TYPE' | translate }}</th>
+        <td mat-cell *matCellDef="let account">{{ account.accountType | translate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.BALANCE' | translate }}</th>
+        <td mat-cell *matCellDef="let account">{{ account.balance }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="currency">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.CURRENCY' | translate }}</th>
+        <td mat-cell *matCellDef="let account">{{ account.currency }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'BANK_ACCOUNTS.ACTIONS' | translate }}</th>
+        <td mat-cell *matCellDef="let account" class="action-buttons">
+          <button mat-icon-button color="primary" matTooltip="{{ 'BANK_ACCOUNTS.EDIT' | translate }}" (click)="editBankAccount(account)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" matTooltip="{{ 'BANK_ACCOUNTS.DELETE' | translate }}" (click)="deleteBankAccount(account.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let account; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

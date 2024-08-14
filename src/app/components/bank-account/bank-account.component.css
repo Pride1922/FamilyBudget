@@ -1,0 +1,19 @@
+.bank-accounts-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.bank-accounts-table-container {
+  margin-top: 20px;
+}
+
+/* Reuse other styles as necessary */

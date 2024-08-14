@@ -43,6 +43,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SublevelMenuComponent } from './components/sidebar/sublevel-menu/sublevel-menu.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MerchantsComponent } from './components/merchants/merchants.component';
+import { BankAccountComponent } from './components/bank-account/bank-account.component';
 
 // Define the HttpLoaderFactory function
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,6 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SublevelMenuComponent,
     HeaderComponent,
     MerchantsComponent,
+    BankAccountComponent,
   ],
   imports: [
     BrowserModule,

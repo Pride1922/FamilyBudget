@@ -10,6 +10,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { MerchantsComponent } from './components/merchants/merchants.component';
+import { BankAccountComponent } from './components/bank-account/bank-account.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'mfa-setup', component: MFASetupComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'merchants', component: MerchantsComponent },
+  {path: 'bank-accounts', component: BankAccountComponent},
   { path: '**', redirectTo: '' } // Redirect any other route to home
 ];
 
