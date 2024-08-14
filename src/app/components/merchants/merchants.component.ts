@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MerchantsService } from '../../services/merchants.service';
 import { CategoryService } from '../../services/category.service';
@@ -15,6 +15,8 @@ import { Subcategory } from '../../models/subcategory.model';
   styleUrls: ['./merchants.component.css']
 })
 export class MerchantsComponent implements OnInit {
+  @Input() sidebarCollapsed: boolean = false; // Input to track sidebar state
+
   merchants: Merchant[] = [];
   categories: Category[] = [];
   subcategories: Subcategory[] = [];
@@ -56,6 +58,10 @@ export class MerchantsComponent implements OnInit {
     this.loadMerchants();
     this.loadCategories();
     this.loadAllSubcategories(); // Load all subcategories on init
+  }
+
+  ngOnChanges(): void {
+    this.updateLayout();
   }
 
   loadMerchants(): void {
@@ -187,5 +193,14 @@ export class MerchantsComponent implements OnInit {
   getSubcategoryNameById(id: number | undefined): string {
     const subcategory = this.subcategories.find(s => s.id === id);
     return subcategory ? subcategory.name : '';
+  }
+
+  updateLayout(): void {
+    const mainContent = document.querySelector('.main-content') as HTMLElement;
+    if (this.sidebarCollapsed) {
+      mainContent.style.marginLeft = '5rem';  // Adjust for collapsed sidebar
+    } else {
+      mainContent.style.marginLeft = '16.5625rem';  // Adjust for expanded sidebar
+    }
   }
 }

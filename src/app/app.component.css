@@ -1,16 +1,26 @@
+/* Reset and box-sizing */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Prevent scrolling on the body */
 }
 
+body .app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  width: 100%; /* Full width */
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Header */
 app-header {
   position: fixed;
   top: 0;
@@ -20,69 +30,88 @@ app-header {
   z-index: 1000;
 }
 
+/* Main wrapper */
 .main-wrapper {
   display: flex;
   flex-grow: 1;
-  width: 100%;
-  height: calc(100vh - 60px);
   margin-top: 60px;
+  height: calc(100vh - 60px); /* Full height minus header */
+  transition: margin-left 0.3s ease, width 0.3s ease; /* Smooth transition */
   overflow: hidden;
 }
 
-.app-container.login-page .main-wrapper {
-  margin-top: 0;
-  height: 100vh;
+/* Sidebar expanded and collapsed handling */
+.main-wrapper.sidebar-collapsed {
+  margin-left: 5rem; /* Collapsed sidebar width */
 }
 
-.sidenav {
-  background: #263238;
-  transition: all 0.5s ease;
-  position: fixed;
-  z-index: 900;
-  top: 60px;
-  left: 0;
-  width: 5rem;
-  height: calc(100vh - 60px);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.main-wrapper:not(.sidebar-collapsed) {
+  margin-left: 16.5625rem; /* Expanded sidebar width */
 }
 
-.sidenav-collapsed {
-  width: 16.5625rem;
-}
-
-.app-container.login-page .sidenav {
-  top: 0;
-  height: 100vh;
-}
-
+/* Main content */
 .main-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  flex-grow: 1;
   padding: 20px;
   background-color: #5ea8f2;
-  overflow: auto;
-  flex-grow: 1;
-  margin-left: 5rem;
-  box-sizing: border-box;
-  height: 100%;
+  overflow: auto; /* Scrollable content */
+  transition: all 0.3s ease;
+  width: 100%; /* Full width */
+  box-sizing: border-box; /* Include padding in the width */
+  height: 100%; /* Ensure main content takes full height of wrapper */
 }
 
-.sidenav-collapsed + .main-content {
-  margin-left: 16.5625rem;
-}
-
-.app-container.login-page .main-content {
+/* Ensure full width when sidebar is hidden */
+.main-content.without-sidebar {
+  width: 100%; /* Full width */
   margin-left: 0;
-  padding: 0;
+}
+
+/* Sidebar (sidenav) */
+.sidenav {
+  background: #263238;
+  transition: width 0.3s ease;
+  width: 16.5625rem; /* Expanded width */
   height: 100%;
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+}
+
+/* Sidebar when collapsed */
+.sidenav-collapsed {
+  width: 5rem; /* Collapsed width */
+}
+
+/* Other styles for sidebar items (logo, nav, etc.) */
+.logo-container {
+  display: flex;
   align-items: center;
-  background-color: #5ea8f2;
+  padding: 0.938rem;
+  width: 100%;
+}
+
+.sidenav-nav {
+  list-style: none;
+  padding: 0.938rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.sidenav-nav-link {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  color: #f3f3f3;
+  text-decoration: none;
+  border-radius: 0.625rem;
+  transition: all 0.3s ease;
+  width: 100%;
 }

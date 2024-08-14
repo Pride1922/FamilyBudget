@@ -68,11 +68,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.headerVisibilityService.hideHeader();
+    document.body.classList.add('login-page');
     this.selectedLanguage = localStorage.getItem('language') || 'en';
     this.translate.use(this.selectedLanguage);
   }
-  
+
   ngOnDestroy() {
+    document.body.classList.remove('login-page');
     this.headerVisibilityService.showHeader();
   }
 
@@ -84,7 +86,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const lang = this.languages.find(lang => lang.code === code);
     return lang ? lang.flag : '';
   }
-  
+
   getLanguageNameByCode(code: string): string {
     const lang = this.languages.find(lang => lang.code === code);
     return lang ? lang.name : '';

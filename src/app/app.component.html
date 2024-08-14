@@ -1,9 +1,12 @@
 <div class="app-container" [ngClass]="{'login-page': isLoginPage}">
-  <app-header *ngIf="!hideHeader"></app-header>
-  <div class="main-wrapper">
-    <app-sidebar *ngIf="!hideSidebar"></app-sidebar>
-    <div class="main-content" [ngClass]="{'without-sidebar': hideSidebar}">
+  <app-header *ngIf="!isLoginPage && !hideHeader"></app-header>
+  <div class="main-wrapper" *ngIf="!isLoginPage" [ngClass]="{'sidebar-collapsed': isSidebarCollapsed}">
+    <app-sidebar *ngIf="!hideSidebar" (toggleSidebar)="onToggleSidebar($event)"></app-sidebar>
+    <div class="main-content" [ngClass]="{'without-sidebar': hideSidebar, 'collapsed-sidebar': isSidebarCollapsed}">
       <router-outlet></router-outlet>
     </div>
+  </div>
+  <div *ngIf="isLoginPage">
+    <router-outlet></router-outlet>
   </div>
 </div>

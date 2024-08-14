@@ -1,72 +1,102 @@
-/* Styles for login page */
-.app-container.login-page .main-wrapper {
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Ensure full height to center content */
-}
-
-/* Styles for the app container */
+/* Ensure the login component styles fully occupy the viewport */
 .app-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
   background-color: #5ea8f2; /* Light blue background */
-  background-size: cover;
-  background-position: center;
-  overflow: hidden; /* Hide scrollbars */
+  overflow: hidden; /* Remove scrollbar */
 }
 
-/* Styles for the login container */
+/* Override any global styles that might affect layout */
+body.login-page {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+body.login-page .app-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Hide any potential leftover space from header/sidebar */
+body.login-page app-header,
+body.login-page app-sidebar {
+  display: none;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Login container styling */
 .login-container {
-  background-color: #ffffff; /* White background */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for a raised effect */
-  padding: 30px; /* Padding inside the container */
-  width: 100%; /* Full width for responsiveness */
-  max-width: 400px; /* Maximum width of the container */
-  text-align: center; /* Center align text and form elements */
+  background-color: #ffffff;
+  border-radius: 12px; /* Slightly larger border-radius for smoother corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Deeper shadow for a more pronounced effect */
+  padding: 40px 30px; /* More padding for spacious look */
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
 /* Styles for headings */
 h2 {
-  margin-bottom: 20px; /* Space below the heading */
-  font-size: 24px; /* Larger font size */
-  color: #333; /* Dark text color */
+  margin-bottom: 25px; /* Increased margin for better spacing */
+  font-size: 26px; /* Slightly larger font size for the heading */
+  color: #333;
+  font-weight: 600; /* Make the heading bold */
 }
 
 /* Styles for form fields */
 mat-form-field {
-  width: 100%; /* Full width input fields */
-  margin-bottom: 16px; /* Space between form fields */
+  width: 100%;
+  margin-bottom: 20px; /* Increased space between fields */
 }
 
-.mat-form-field .mat-form-field-wrapper {
-  height: 56px; /* Fixed height for form fields */
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: 0 14px; /* Ensure uniform padding inside the input fields */
+}
+
+.mat-form-field-appearance-fill .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-underline {
+  margin: 0;
 }
 
 /* Styles for buttons */
 button[type="submit"],
 button[type="button"] {
-  width: 100%; /* Full width buttons */
-  margin-top: 16px; /* Space above the buttons */
-  padding: 12px; /* Increased padding for button size */
+  width: 100%;
+  margin-top: 20px; /* Space above the buttons */
+  padding: 14px; /* Slightly larger padding for buttons */
+  font-size: 16px; /* Consistent font size for buttons */
+  font-weight: 500; /* Slightly bolder text on buttons */
 }
 
-/* Styles for buttons in MFA form */
-button[type="submit"],
-button[type="button"] {
-  width: 100%; /* Full width buttons */
-  margin-top: 16px; /* Space above the buttons */
-  padding: 12px; /* Increased padding for button size */
+button[type="submit"] {
+  margin-bottom: 10px; /* Space between the login and forgot password buttons */
 }
 
-/* Optional: Specific styles for MFA form buttons to add space between them */
-.mfa-token-field + button {
-  margin-top: 16px; /* Space between token field and buttons */
+/* Optional: Add subtle hover effects */
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  background-color: #4b7bd4; /* Darken the background on hover for submit */
 }
 
-/* Styles for the spinner overlay */
+button[type="button"]:hover {
+  background-color: transparent; /* Keep the forgot password button with no background */
+}
+
+/* Style the icon button for password visibility */
+mat-icon {
+  font-size: 20px;
+}
+
+/* Spinner overlay */
 .spinner-overlay {
   position: fixed;
   top: 0;
@@ -76,6 +106,6 @@ button[type="button"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
-  z-index: 1000; /* Ensure it's on top of other content */
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
 }

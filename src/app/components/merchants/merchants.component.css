@@ -2,6 +2,7 @@
 .main-wrapper {
   display: flex;
   flex-direction: row;
+  width: 100%; /* Ensure full width */
 }
 
 .app-container {
@@ -10,10 +11,19 @@
   min-height: 100vh; /* Ensures full viewport height */
 }
 
+.sidenav {
+  width: 16.5625rem; /* Expanded width */
+  transition: width 0.3s ease;
+}
+
+.sidenav.collapsed {
+  width: 5rem; /* Collapsed width */
+}
+
 .main-content {
-  flex: 1;
+  flex-grow: 1;
   padding: 20px;
-  margin-left: 5rem; /* Adjust this to match the sidebar width */
+  margin-left: 16.5625rem; /* Match expanded sidebar width */
   transition: margin-left 0.3s ease; /* Smooth transition when sidebar collapses */
 }
 
@@ -21,8 +31,9 @@
   margin-top: 64px; /* Adjust based on header height */
 }
 
-.main-content.without-sidebar {
-  margin-left: 0;
+/* Adjust the main content margin when sidebar is collapsed */
+.main-wrapper.sidebar-collapsed .main-content {
+  margin-left: 5rem; /* Match collapsed sidebar width */
 }
 
 .merchants-container {
@@ -33,109 +44,4 @@
   margin: 0 auto;
 }
 
-.form-container {
-  margin-bottom: 20px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-.mat-form-field {
-  width: 100%;
-  max-width: 500px;
-  margin-bottom: 16px;
-}
-
-.merchants-table-container {
-  border-radius: 8px;
-  overflow: auto; /* Enable scrolling */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-  vertical-align: middle;
-  font-size: 14px;
-}
-
-th {
-  background-color: #e0e0e0;
-  font-weight: bold;
-}
-
-tr.mat-row:hover {
-  background-color: #f9f9f9;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-button[mat-icon-button] {
-  background-color: transparent;
-  color: inherit;
-  font-size: 18px;
-  padding: 8px;
-  border-radius: 50%;
-}
-
-button[mat-raised-button] {
-  min-width: 80px;
-  text-transform: uppercase;
-  font-size: 14px;
-  border-radius: 20px;
-}
-
-.mat-icon {
-  vertical-align: middle;
-  margin-right: 8px;
-}
-
-@media (max-width: 768px) {
-  .merchants-container {
-    padding: 10px;
-  }
-
-  .button-container {
-    justify-content: center;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  th, td {
-    padding: 8px;
-    font-size: 12px;
-  }
-
-  button[mat-raised-button] {
-    min-width: 60px;
-    font-size: 12px;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  th.mat-header-cell, td.mat-cell {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Ensure text doesn't overflow */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-  }
-}
+/* Rest of your existing styles */

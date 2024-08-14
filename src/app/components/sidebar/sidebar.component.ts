@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,10 +15,17 @@ export class SidebarComponent {
   multiple = false;
   navData: INavbarData[] = navbarData;
 
-  constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {}
+  @Output() toggleSidebar = new EventEmitter<boolean>();
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private translate: TranslateService
+  ) {}
 
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
+    this.toggleSidebar.emit(this.collapsed); // Emit the sidebar collapsed state
     const sidenav = document.querySelector('.sidenav') as HTMLElement;
     if (this.collapsed) {
       sidenav.classList.add('sidenav-collapsed');
@@ -29,6 +36,7 @@ export class SidebarComponent {
 
   closeSidenav(): void {
     this.collapsed = false;
+    this.toggleSidebar.emit(this.collapsed); // Ensure sidebar is opened
     const sidenav = document.querySelector('.sidenav') as HTMLElement;
     sidenav.classList.remove('sidenav-collapsed');
   }

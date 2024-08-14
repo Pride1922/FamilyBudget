@@ -13,13 +13,17 @@ export class AppComponent implements OnInit {
   hideHeader = false;
   hideSidebar = false;
   isLoginPage = false;
+  isSidebarCollapsed = false;
 
-  constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private translate: TranslateService
+  ) {
     const language = localStorage.getItem('language') || 'en';
     this.translate.setDefaultLang(language);
     this.translate.use(language);
 
-    // Subscribe to router events to determine if the current route is login
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.checkRoute(event.urlAfterRedirects);
@@ -37,10 +41,14 @@ export class AppComponent implements OnInit {
     }
   }
 
-  checkRoute(url: string) {
+  checkRoute(url: string): void {
     const loginRoute = '/login';
     this.isLoginPage = (url === loginRoute);
     this.hideHeader = this.isLoginPage;
     this.hideSidebar = this.isLoginPage;
+  }
+
+  onToggleSidebar(collapsed: boolean): void {
+    this.isSidebarCollapsed = collapsed;
   }
 }

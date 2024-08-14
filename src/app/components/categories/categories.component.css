@@ -237,7 +237,7 @@ button {
 .expanded-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
   height: auto;
 }
 
