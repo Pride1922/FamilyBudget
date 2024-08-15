@@ -119,7 +119,11 @@
     "ACCOUNT": "Conta",
     "MANAGE_USERS": "Gerir Utilizadores",
     "LOGOUT": "Sair",
-    "LANGUAGE": "Idioma"
+    "LANGUAGE": "Idioma",
+    "CSV_VALIDATION": {
+      "SUCCESS": "Movimentos bancários foram validados com sucesso!",
+      "ERROR": "O arquivo de movimentos bancários é inválido! Por favor, verifique o formato e tente novamente."
+    }
   },
   "HOME": {
     "WELCOME": "Bem-vindo",

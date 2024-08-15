@@ -119,7 +119,11 @@
       "ACCOUNT": "Account",
       "MANAGE_USERS": "Manage Users",
       "LOGOUT": "Logout",
-      "LANGUAGE": "Language"
+      "LANGUAGE": "Language",
+      "CSV_VALIDATION": {
+        "SUCCESS": "Bank movements have been successfully validated!",
+        "ERROR": "The bank movements file is invalid! Please check the format and try again."
+      }
     },
     "HOME": {
     "WELCOME": "Welcome",

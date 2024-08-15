@@ -119,7 +119,11 @@
     "ACCOUNT": "Account",
     "MANAGE_USERS": "Gebruikers Beheren",
     "LOGOUT": "Uitloggen",
-    "LANGUAGE": "Taal"
+    "LANGUAGE": "Taal",
+    "CSV_VALIDATION": {
+      "SUCCESS": "Bankbewegingen zijn succesvol gevalideerd!",
+      "ERROR": "Het bankbewegingenbestand is ongeldig! Controleer het formaat en probeer het opnieuw."
+    }
   },
   "HOME": {
     "WELCOME": "Welkom",
