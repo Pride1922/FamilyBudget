@@ -44,6 +44,7 @@ import { SublevelMenuComponent } from './components/sidebar/sublevel-menu/sublev
 import { HeaderComponent } from './components/header/header.component';
 import { MerchantsComponent } from './components/merchants/merchants.component';
 import { BankAccountComponent } from './components/bank-account/bank-account.component';
+import { PendingMovementsComponent } from './components/pending-movements/pending-movements.component';
 
 // Define the HttpLoaderFactory function
 export function HttpLoaderFactory(http: HttpClient) {
@@ -70,6 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     MerchantsComponent,
     BankAccountComponent,
+    PendingMovementsComponent,
   ],
   imports: [
     BrowserModule,

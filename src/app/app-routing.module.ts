@@ -11,6 +11,8 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 import { MerchantsComponent } from './components/merchants/merchants.component';
 import { BankAccountComponent } from './components/bank-account/bank-account.component';
+import { PendingMovementsComponent } from './components/pending-movements/pending-movements.component';
+
 
 
 const routes: Routes = [
@@ -30,6 +32,7 @@ const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
   { path: 'merchants', component: MerchantsComponent },
   {path: 'bank-accounts', component: BankAccountComponent},
+  { path: 'pending-movements', component: PendingMovementsComponent },
   { path: '**', redirectTo: '' } // Redirect any other route to home
 ];
 

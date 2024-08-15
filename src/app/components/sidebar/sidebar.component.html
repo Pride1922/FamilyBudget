@@ -8,7 +8,7 @@
   </div>
   <div class="scrollwrap">
     <ul class="sidenav-nav">
-      <li class="sidenav-nav-item" *ngFor="let data of navData">
+      <li class="sidenav-nav-item" *ngFor="let data of navData; let i = index" [ngClass]="{'nav-item-bottom': data.routeLink === '/pending-movements'}">
         <ng-container *ngIf="data.items && data.items.length > 0; else noSubMenu">
           <a class="sidenav-nav-link" (click)="handleClick(data)" [ngClass]="getActiveClass(data)">
             <i class="sidenav-link-icon" [class]="data.icon"></i>

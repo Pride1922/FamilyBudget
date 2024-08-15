@@ -10,7 +10,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between logo and content */
   width: 16.5625rem; /* Expanded width */
 }
 
@@ -44,22 +44,6 @@
   font-weight: 900;
 }
 
-/* Close button styling (optional, if using in the sidebar) */
-.btn-close {
-  margin-left: auto;
-  cursor: pointer;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background-color: transparent;
-  border: none;
-}
-
-.fa-times {
-  color: #fff;
-  font-size: 24px;
-}
-
 /* Navigation styling */
 .sidenav-nav {
   list-style: none;
@@ -67,8 +51,8 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align items to the start */
-  flex-grow: 1;
+  flex-grow: 1; /* Allow the navigation to grow */
+  overflow-y: auto; /* Allow scrolling within the nav */
 }
 
 .sidenav-nav-item {
@@ -135,7 +119,7 @@
 /* Scroll wrapper styling */
 .scrollwrap {
   overflow-y: auto;
-  height: calc(100% - 3.65rem);
+  flex-grow: 1; /* Allows the scrollable area to grow */
 }
 
 .scrollwrap::-webkit-scrollbar {
@@ -170,4 +154,10 @@
   height: 24px;
   cursor: pointer;
   margin: 0 0.5rem;
+}
+
+/* Specific styling to push the "Pending Movements" link to the bottom */
+.nav-item-bottom {
+  margin-top: auto;
+  margin-bottom: 0.938rem; /* Add some spacing from the bottom */
 }

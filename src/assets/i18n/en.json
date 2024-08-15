@@ -246,6 +246,7 @@
       "CATEGORIES": "Categories",
       "MERCHANTS": "Merchants",
       "BANK_ACCOUNTS": "Bank Accounts",
+      "PENDING_MOVEMENTS": "Pending Movements",
       "MANAGE_USERS": "Manage Users",
       "PROFILE": "Profile",
       "LOGOUT": "Logout",
