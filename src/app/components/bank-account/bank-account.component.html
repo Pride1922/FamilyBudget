@@ -1,7 +1,7 @@
 <div class="bank-accounts-container">
   <div class="form-container">
     <form [formGroup]="bankAccountForm" (ngSubmit)="saveBankAccount()">
-      <h2>{{ isEditing ? 'BANK_ACCOUNTS.EDIT_ACCOUNT' : 'BANK_ACCOUNTS.ADD_ACCOUNT' | translate }}</h2>
+      <h2>{{ isEditing ? ('BANK_ACCOUNTS.EDIT_ACCOUNT' | translate) : ('BANK_ACCOUNTS.ADD_ACCOUNT' | translate) }}</h2>
       <input type="hidden" formControlName="id">
 
       <mat-form-field appearance="fill" class="full-width" [floatLabel]="'always'">
@@ -57,7 +57,7 @@
 
       <div class="button-container">
         <button mat-raised-button color="primary" type="submit" [disabled]="bankAccountForm.invalid || isSaving">
-          {{ isEditing ? 'BANK_ACCOUNTS.UPDATE_ACCOUNT' : 'BANK_ACCOUNTS.ADD_ACCOUNT' | translate }}
+          {{ isEditing ? ('BANK_ACCOUNTS.UPDATE_ACCOUNT' | translate) : ('BANK_ACCOUNTS.ADD_ACCOUNT' | translate) }}
         </button>
         <button mat-raised-button color="warn" type="button" (click)="resetForm()" *ngIf="isEditing">
           {{ 'BANK_ACCOUNTS.CANCEL' | translate }}
@@ -68,10 +68,6 @@
 
   <div class="bank-accounts-table-container">
     <table mat-table [dataSource]="bankAccounts" matSort class="mat-elevation-z8">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.ID' | translate }}</th>
-        <td mat-cell *matCellDef="let account">{{ account.id }}</td>
-      </ng-container>
 
       <ng-container matColumnDef="accountHolder">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'BANK_ACCOUNTS.ACCOUNT_HOLDER' | translate }}</th>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MerchantsService } from '../../services/merchants.service';
 import { CategoryService } from '../../services/category.service';
@@ -15,16 +15,16 @@ import { Subcategory } from '../../models/subcategory.model';
   styleUrls: ['./merchants.component.css']
 })
 export class MerchantsComponent implements OnInit {
-  @Input() sidebarCollapsed: boolean = false; // Input to track sidebar state
+  @Input() sidebarCollapsed: boolean = false;
 
   merchants: Merchant[] = [];
   categories: Category[] = [];
   subcategories: Subcategory[] = [];
   currentMerchant: Merchant = this.resetCurrentMerchant();
-  isEditMode: boolean = false;
+  isEditing: boolean = false;
   merchantForm: FormGroup;
-  displayedColumns: string[] = ['id', 'name', 'category', 'subcategory', 'address', 'phone', 'email', 'website', 'actions'];
-  isSaving: boolean = false; // Flag to track saving state
+  displayedColumns: string[] = ['name', 'category', 'subcategory', 'address', 'phone', 'email', 'website', 'actions'];
+  isSaving: boolean = false;
 
   constructor(
     private merchantsService: MerchantsService,
@@ -32,6 +32,7 @@ export class MerchantsComponent implements OnInit {
     private subcategoryService: SubcategoryService,
     private fb: FormBuilder,
     private snackBar: SnackbarService,
+    private cd: ChangeDetectorRef,
     private translate: TranslateService
   ) {
     this.merchantForm = this.fb.group({
@@ -57,7 +58,7 @@ export class MerchantsComponent implements OnInit {
   ngOnInit(): void {
     this.loadMerchants();
     this.loadCategories();
-    this.loadAllSubcategories(); // Load all subcategories on init
+    this.loadAllSubcategories();
   }
 
   ngOnChanges(): void {
@@ -98,27 +99,23 @@ export class MerchantsComponent implements OnInit {
     if (this.merchantForm.valid) {
       const merchantData = this.merchantForm.value;
 
-      // Disable the form submission button to prevent multiple clicks
       this.isSaving = true;
 
-      if (this.isEditMode) {
-        if (merchantData.id !== undefined) {
-          this.merchantsService.updateMerchant(merchantData).subscribe(
-            () => {
-              this.loadMerchants();
-              this.resetForm();
-              this.snackBar.showSuccess(this.translate.instant('MERCHANTS.MERCHANT_UPDATED'));
-            },
-            error => {
-              console.error('Failed to update merchant', error);
-              this.snackBar.showError(this.translate.instant('MERCHANTS.UPDATE_FAILED'));
-              this.isSaving = false; // Enable the form submission button on error
-            },
-            () => {
-              this.isSaving = false; // Enable the form submission button on completion
-            }
-          );
-        }
+      if (this.isEditing) {
+        this.merchantsService.updateMerchant(merchantData).subscribe(
+          () => {
+            this.loadMerchants();
+            this.resetForm();
+            this.snackBar.showSuccess(this.translate.instant('MERCHANTS.MERCHANT_UPDATED'));
+          },
+          error => {
+            this.snackBar.showError(this.translate.instant('MERCHANTS.UPDATE_FAILED'));
+            this.isSaving = false;
+          },
+          () => {
+            this.isSaving = false;
+          }
+        );
       } else {
         this.merchantsService.addMerchant(merchantData).subscribe(
           () => {
@@ -127,12 +124,11 @@ export class MerchantsComponent implements OnInit {
             this.snackBar.showSuccess(this.translate.instant('MERCHANTS.MERCHANT_ADDED'));
           },
           error => {
-            console.error('Failed to add merchant', error);
             this.snackBar.showError(this.translate.instant('MERCHANTS.ADD_FAILED'));
-            this.isSaving = false; // Enable the form submission button on error
+            this.isSaving = false;
           },
           () => {
-            this.isSaving = false; // Enable the form submission button on completion
+            this.isSaving = false;
           }
         );
       }
@@ -142,12 +138,18 @@ export class MerchantsComponent implements OnInit {
   }
 
   editMerchant(merchant: Merchant): void {
+    console.log('Edit Merchant Translation:', this.translate.instant('MERCHANTS.EDIT_MERCHANT'));
+    console.log('Update Merchant Translation:', this.translate.instant('MERCHANTS.UPDATE_MERCHANT'));
+
     this.currentMerchant = { ...merchant };
-    this.isEditMode = true;
+    this.isEditing = true;
     this.merchantForm.patchValue(merchant);
+
     if (merchant.category_id) {
       this.loadSubcategories(merchant.category_id);
     }
+
+    this.cd.detectChanges();
   }
 
   deleteMerchant(id: number | undefined): void {
@@ -167,7 +169,7 @@ export class MerchantsComponent implements OnInit {
 
   resetForm(): void {
     this.currentMerchant = this.resetCurrentMerchant();
-    this.isEditMode = false;
+    this.isEditing = false;
     this.merchantForm.reset();
     this.subcategories = [];
   }

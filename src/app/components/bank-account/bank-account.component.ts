@@ -16,10 +16,10 @@ export class BankAccountComponent implements OnInit {
   bankAccounts: BankAccount[] = [];
   currentBankAccount: BankAccount = this.resetCurrentBankAccount();
   isEditMode: boolean = false;
-  isEditing: boolean = false;  // <-- Define isEditing here
+  isEditing: boolean = false;
   bankAccountForm: FormGroup;
-  displayedColumns: string[] = ['id', 'accountHolder', 'iban', 'bankName', 'accountType', 'balance', 'currency', 'actions'];
-  isSaving: boolean = false; // Flag to track saving state
+  displayedColumns: string[] = ['accountHolder', 'iban', 'bankName', 'accountType', 'balance', 'currency', 'actions'];
+  isSaving: boolean = false;
 
   constructor(
     private bankAccountService: BankAccountService,
@@ -56,7 +56,6 @@ export class BankAccountComponent implements OnInit {
   saveBankAccount(): void {
     if (this.bankAccountForm.valid) {
       const bankAccountData = this.bankAccountForm.value;
-
       this.isSaving = true;
 
       if (this.isEditMode) {
@@ -64,10 +63,10 @@ export class BankAccountComponent implements OnInit {
           () => {
             this.loadBankAccounts();
             this.resetForm();
-            this.snackBar.showSuccess('Bank account updated successfully');
+            this.snackBar.showSuccess(this.translate.instant('BANK_ACCOUNTS.ACCOUNT_UPDATED'));
           },
           error => {
-            this.snackBar.showError('Failed to update bank account');
+            this.snackBar.showError(this.translate.instant('BANK_ACCOUNTS.UPDATE_FAILED'));
             this.isSaving = false;
           }
         );
@@ -75,11 +74,11 @@ export class BankAccountComponent implements OnInit {
         this.bankAccountService.createBankAccount(bankAccountData).subscribe(
           () => {
             this.loadBankAccounts();
-            this.resetForm(); // Reset the form after successful submission
-            this.snackBar.showSuccess('Bank account added successfully');
+            this.resetForm();
+            this.snackBar.showSuccess(this.translate.instant('BANK_ACCOUNTS.ACCOUNT_ADDED'));
           },
           error => {
-            this.snackBar.showError('Failed to add bank account');
+            this.snackBar.showError(this.translate.instant('BANK_ACCOUNTS.ADD_FAILED'));
             this.isSaving = false;
           }
         );
@@ -92,7 +91,7 @@ export class BankAccountComponent implements OnInit {
   editBankAccount(bankAccount: BankAccount): void {
     this.currentBankAccount = { ...bankAccount };
     this.isEditMode = true;
-    this.isEditing = true;  // Set isEditing to true when editing
+    this.isEditing = true;
     this.bankAccountForm.patchValue(bankAccount);
   }
 
@@ -114,9 +113,7 @@ export class BankAccountComponent implements OnInit {
   resetForm(): void {
     this.currentBankAccount = this.resetCurrentBankAccount();
     this.isEditMode = false;
-    this.isEditing = false;  // Reset isEditing when the form is reset
-
-    // Reset the form and validation states
+    this.isEditing = false;
     this.bankAccountForm.reset({
       accountHolder: '',
       iban: '',
@@ -125,11 +122,9 @@ export class BankAccountComponent implements OnInit {
       balance: 0,
       currency: 'EUR'
     });
-
-    // Reset validation states
-    this.bankAccountForm.markAsPristine();  // Marks the form as pristine
-    this.bankAccountForm.markAsUntouched(); // Marks all controls as untouched
-    this.bankAccountForm.updateValueAndValidity(); // Updates the value and validity of the form
+    this.bankAccountForm.markAsPristine();
+    this.bankAccountForm.markAsUntouched();
+    this.bankAccountForm.updateValueAndValidity();
   }
 
   private resetCurrentBankAccount(): BankAccount {
@@ -148,9 +143,9 @@ export class BankAccountComponent implements OnInit {
   updateLayout(): void {
     const mainContent = document.querySelector('.main-content') as HTMLElement;
     if (this.sidebarCollapsed) {
-      mainContent.style.marginLeft = '5rem';  // Adjust for collapsed sidebar
+      mainContent.style.marginLeft = '5rem';
     } else {
-      mainContent.style.marginLeft = '16.5625rem';  // Adjust for expanded sidebar
+      mainContent.style.marginLeft = '16.5625rem';
     }
   }
 }

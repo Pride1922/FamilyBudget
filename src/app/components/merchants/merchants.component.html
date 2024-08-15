@@ -1,12 +1,15 @@
 <div class="merchants-container">
   <div class="form-container">
     <form [formGroup]="merchantForm" (ngSubmit)="saveMerchant()">
-      <h2>{{ isEditMode ? 'MERCHANTS.EDIT_MERCHANT' : 'MERCHANTS.ADD_MERCHANT' | translate }}</h2>
+      <h2>{{ isEditing ? ('MERCHANTS.EDIT_MERCHANT' | translate) : ('MERCHANTS.ADD_MERCHANT' | translate) }}</h2>
       <input type="hidden" formControlName="id">
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'MERCHANTS.NAME' | translate }}</mat-label>
         <input matInput type="text" formControlName="name" required>
+        <mat-error *ngIf="merchantForm.get('name')?.hasError('required') && merchantForm.get('name')?.touched">
+          {{ 'MERCHANTS.NAME_REQUIRED' | translate }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -14,6 +17,9 @@
         <mat-select formControlName="category_id">
           <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="merchantForm.get('category_id')?.hasError('required') && merchantForm.get('category_id')?.touched">
+          {{ 'MERCHANTS.CATEGORY_REQUIRED' | translate }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -21,6 +27,9 @@
         <mat-select formControlName="subcategory_id">
           <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.id">{{ subcategory.name }}</mat-option>
         </mat-select>
+        <mat-error *ngIf="merchantForm.get('subcategory_id')?.hasError('required') && merchantForm.get('subcategory_id')?.touched">
+          {{ 'MERCHANTS.SUBCATEGORY_REQUIRED' | translate }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -36,6 +45,9 @@
       <mat-form-field appearance="fill">
         <mat-label>{{ 'MERCHANTS.EMAIL' | translate }}</mat-label>
         <input matInput type="email" formControlName="email">
+        <mat-error *ngIf="merchantForm.get('email')?.hasError('email') && merchantForm.get('email')?.touched">
+          {{ 'MERCHANTS.EMAIL_INVALID' | translate }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -44,19 +56,19 @@
       </mat-form-field>
 
       <div class="button-container">
-        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'MERCHANTS.UPDATE_MERCHANT' : 'MERCHANTS.ADD_MERCHANT' | translate }}</button>
-        <button mat-raised-button color="warn" type="button" (click)="resetForm()" *ngIf="isEditMode">{{ 'MERCHANTS.CANCEL' | translate }}</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="merchantForm.invalid || isSaving">
+          {{ isEditing ? ('MERCHANTS.UPDATE_MERCHANT' | translate) : ('MERCHANTS.ADD_MERCHANT' | translate) }}
+        </button>
+        <span class="flex-spacer"></span> <!-- This will push the Cancel button to the right -->
+        <button mat-raised-button color="warn" type="button" (click)="resetForm()" *ngIf="isEditing">
+          {{ 'MERCHANTS.CANCEL' | translate }}
+        </button>
       </div>
     </form>
   </div>
-  
+
   <div class="merchants-table-container">
     <table mat-table [dataSource]="merchants" matSort class="mat-elevation-z8">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.ID' | translate }}</th>
-        <td mat-cell *matCellDef="let merchant">{{ merchant.id }}</td>
-      </ng-container>
-
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.NAME' | translate }}</th>
         <td mat-cell *matCellDef="let merchant">{{ merchant.name }}</td>
