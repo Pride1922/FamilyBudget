@@ -1,5 +1,7 @@
 <div class="merchants-container">
-  <div class="form-container">
+  <app-spinner *ngIf="isLoading" [isLoading]="isLoading"></app-spinner> <!-- Spinner -->
+
+  <div class="form-container" *ngIf="!isLoading"> <!-- Hide form while loading -->
     <form [formGroup]="merchantForm" (ngSubmit)="saveMerchant()">
       <h2>{{ isEditing ? ('MERCHANTS.EDIT_MERCHANT' | translate) : ('MERCHANTS.ADD_MERCHANT' | translate) }}</h2>
       <input type="hidden" formControlName="id">
@@ -67,7 +69,7 @@
     </form>
   </div>
 
-  <div class="merchants-table-container">
+  <div class="merchants-table-container" *ngIf="!isLoading"> <!-- Hide table while loading -->
     <table mat-table [dataSource]="merchants" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'MERCHANTS.NAME' | translate }}</th>

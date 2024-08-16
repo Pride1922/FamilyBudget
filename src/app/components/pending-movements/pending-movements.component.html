@@ -1,1 +1,97 @@
-<p>pending-movements works!</p>
+<div class="pending-movements-container">
+  <h2>{{ 'PENDING_MOVEMENTS.TITLE' | translate }}</h2>
+
+  <!-- Upload CSV Button -->
+  <div class="upload-container">
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+      {{ 'PENDING_MOVEMENTS.UPLOAD_CSV' | translate }}
+    </button>
+    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;">
+  </div>
+
+  <!-- Spinner shown while data is loading -->
+  <app-spinner [isLoading]="isLoading"></app-spinner>
+
+  <!-- Responsive Table Container -->
+  <div class="table-container">
+    <table *ngIf="!isLoading" mat-table [dataSource]="pendingMovements" class="mat-elevation-z8 pending-movements-table">
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>{{ 'PENDING_MOVEMENTS.DATE' | translate }}</th>
+        <td mat-cell *matCellDef="let movement">{{ movement.booking_date | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>{{ 'PENDING_MOVEMENTS.DESCRIPTION' | translate }}</th>
+        <td mat-cell *matCellDef="let movement">{{ movement.description }}</td>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>{{ 'PENDING_MOVEMENTS.AMOUNT' | translate }}</th>
+        <td mat-cell *matCellDef="let movement">{{ movement.amount | currency:'EUR' }}</td>
+      </ng-container>
+
+      <!-- Merchant Column (Editable) -->
+      <ng-container matColumnDef="merchant">
+        <th mat-header-cell *matHeaderCellDef>{{ 'PENDING_MOVEMENTS.MERCHANT' | translate }}</th>
+        <td mat-cell *matCellDef="let movement">
+          <mat-form-field appearance="fill">
+            <input matInput [(ngModel)]="movement.merchant" [matAutocomplete]="autoMerchant" (blur)="validateMerchant(movement)">
+          </mat-form-field>
+          <mat-autocomplete #autoMerchant="matAutocomplete">
+            <mat-option *ngFor="let merchant of merchants" [value]="merchant.name">
+              {{ merchant.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </td>
+      </ng-container>
+
+      <!-- Category Column (Editable) -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>{{ 'PENDING_MOVEMENTS.CATEGORY' | translate }}</th>
+        <td mat-cell *matCellDef="let movement">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="movement.category" (selectionChange)="onCategoryChange(movement)">
+              <mat-option *ngFor="let category of categories" [value]="category.name">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <!-- Subcategory Column (Editable) -->
+      <ng-container matColumnDef="subcategory">
+        <th mat-header-cell *matHeaderCellDef>{{ 'PENDING_MOVEMENTS.SUBCATEGORY' | translate }}</th>
+        <td mat-cell *matCellDef="let movement">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="movement.subcategory" (selectionChange)="validateSubcategory(movement)">
+              <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.name">
+                {{ subcategory.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'PENDING_MOVEMENTS.ACTIONS' | translate }}</th>
+        <td mat-cell *matCellDef="let movement">
+          <button mat-icon-button color="warn" (click)="deleteMovement(movement)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button class="approve-icon-button" (click)="approveMovement(movement)">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'matched': isMatched(row), 'unmatched': !isMatched(row)}"></tr>
+    </table>
+  </div>
+</div>

@@ -47,6 +47,7 @@
   "CATEGORIES": {
     "TYPE": "Tipo",
     "EDIT": "Editar Categoria",
+    "DELETE":"Eliminar",
     "NAME": "Nome da Categoria",
     "NAME_REQUIRED": "Nome da categoria é obrigatório",
     "TYPE_REQUIRED": "Tipo é obrigatório",
@@ -311,5 +312,23 @@
     "ACTIONS": "Ações",
     "EDIT": "Editar",
     "DELETE": "Eliminar"
-  }
+  },
+  "PENDING_MOVEMENTS": {
+  "TITLE": "Movimentos Pendentes",
+  "DATE": "Data",
+  "DESCRIPTION": "Descrição",
+  "AMOUNT": "Montante",
+  "MERCHANT": "Comerciante",
+  "CATEGORY": "Categoria",
+  "SUBCATEGORY": "Subcategoria",
+  "ACTIONS": "Ações",
+  "MOVEMENT_SAVED": "Movimento guardado com sucesso",
+  "MOVEMENT_DELETED": "Movimento eliminado com sucesso",
+  "VALIDATION_FAILED": "Falha na validação para comerciante ou categoria",
+  "LOAD_ERROR": "Falha ao carregar movimentos pendentes",
+  "UPLOADING": "A carregar, por favor aguarde...",
+  "CSV_UPLOAD_SUCCESS": "Carregamento de CSV concluído com sucesso",
+  "CSV_UPLOAD_ERROR": "Erro ao carregar CSV",
+  "UPLOAD_CSV": "Carregar CSV"
+}
 }

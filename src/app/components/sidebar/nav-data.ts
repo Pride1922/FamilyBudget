@@ -20,5 +20,10 @@ export const navbarData: INavbarData[] = [
     routeLink: '/bank-accounts',
     icon: 'fal fa-university',
     label: 'BANK_ACCOUNTS'
-  }
+  },
+  {
+    routeLink: '/pending-movements',
+    icon: 'fal fa-hourglass-half',
+    label: 'PENDING_MOVEMENTS'
+  },
 ];

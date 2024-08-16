@@ -17,6 +17,7 @@ const mfaRoutes = require('./routes/mfa');
 const { infoLogger, errorLogger } = require('./config/logger');
 const merchantRoutes = require('./routes/merchantRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
+const pendingMovementsRoutes = require('./routes/pendingMovementsRoutes');
 
 
 require('dotenv').config();
@@ -59,8 +60,7 @@ app.use('/api/mfa', mfaRateLimiter);
 app.use('/api/mfa', mfaRoutes);
 app.use('/api/merchants', merchantRoutes);
 app.use('/api/bankaccounts', bankAccountRoutes);
-
-
+app.use('/api/pending-movements', pendingMovementsRoutes);
 
 
 // Error handling middleware

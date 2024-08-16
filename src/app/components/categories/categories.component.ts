@@ -23,6 +23,8 @@ export class CategoriesComponent implements OnInit {
   expandedCategoryId: number | null = null;
   filteredIcons: Observable<string[]> = of([]);
 
+  isLoading: boolean = false;  // Loading state
+
   constructor(
     private categoryService: CategoryService,
     private subcategoryService: SubcategoryService,
@@ -46,6 +48,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;  // Start the spinner when the component loads
     this.loadCategories();
   }
 
@@ -59,17 +62,30 @@ export class CategoriesComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getAllCategories().subscribe((categories: Category[]) => {
-      this.categories = categories.map(category => ({ ...category, subcategories: [] }));
-      this.loadSubcategories();
-    });
+    this.categoryService.getAllCategories().subscribe(
+      (categories: Category[]) => {
+        this.categories = categories.map(category => ({ ...category, subcategories: [] }));
+        this.loadSubcategories();  // Load subcategories after categories
+      },
+      error => {
+        console.error('Failed to load categories', error);
+        this.isLoading = false;  // Stop spinner on error
+      }
+    );
   }
 
   loadSubcategories(): void {
-    this.subcategoryService.getAllSubcategories().subscribe((subcategories: Subcategory[]) => {
-      this.subcategories = subcategories;
-      this.mapSubcategoriesToCategories();
-    });
+    this.subcategoryService.getAllSubcategories().subscribe(
+      (subcategories: Subcategory[]) => {
+        this.subcategories = subcategories;
+        this.mapSubcategoriesToCategories();
+        this.isLoading = false;  // Stop the spinner after loading subcategories
+      },
+      error => {
+        console.error('Failed to load subcategories', error);
+        this.isLoading = false;  // Stop spinner on error
+      }
+    );
   }
 
   mapSubcategoriesToCategories(): void {
@@ -160,8 +176,7 @@ export class CategoriesComponent implements OnInit {
   onSubmitSubcategory(): void {
     if (this.subcategoryForm.valid) {
       const subcategoryData = this.subcategoryForm.value;
-      console.log('Submitting subcategory data:', subcategoryData); // Add this line
-  
+
       if (subcategoryData.category_id) {
         if (subcategoryData.id) {
           this.subcategoryService.updateSubcategory(subcategoryData).subscribe(
@@ -192,7 +207,6 @@ export class CategoriesComponent implements OnInit {
       }
     }
   }
-  
 
   deleteSubcategory(id: number | undefined): void {
     if (id === undefined) return;

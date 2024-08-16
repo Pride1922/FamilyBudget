@@ -47,6 +47,7 @@
   "CATEGORIES": {
     "TYPE": "Type",
     "EDIT": "Edit Category",
+    "DELETE":"Delete",
     "NAME": "Category Name",
     "NAME_REQUIRED": "Category name is required",
     "TYPE_REQUIRED": "Type is required",
@@ -311,5 +312,23 @@
     "ACTIONS": "Actions",
     "EDIT": "Edit",
     "DELETE": "Delete"
-  }
+  },
+  "PENDING_MOVEMENTS": {
+  "TITLE": "Pending Movements",
+  "DATE": "Date",
+  "DESCRIPTION": "Description",
+  "AMOUNT": "Amount",
+  "MERCHANT": "Merchant",
+  "CATEGORY": "Category",
+  "SUBCATEGORY": "Subcategory",
+  "ACTIONS": "Actions",
+  "MOVEMENT_SAVED": "Movement saved successfully",
+  "MOVEMENT_DELETED": "Movement deleted successfully",
+  "VALIDATION_FAILED": "Validation failed for merchant or category",
+  "LOAD_ERROR": "Failed to load pending movements",
+  "UPLOADING": "Loading, please wait...",
+  "CSV_UPLOAD_SUCCESS": "CSV upload successful",
+  "CSV_UPLOAD_ERROR": "Error uploading CSV",
+  "UPLOAD_CSV": "Upload CSV"
+}
 }

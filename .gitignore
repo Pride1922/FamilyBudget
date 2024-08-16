@@ -37,6 +37,8 @@ out-tsc/
 # Ignore environment files
 src/app/environments/
 
+# Ignore backend uploads
+/backend/uploads/
 
 # Logs
 logs

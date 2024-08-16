@@ -47,6 +47,7 @@
   "CATEGORIES": {
     "TYPE": "Type",
     "EDIT": "Categorie Bewerken",
+    "DELETE":"Verwijder",
     "NAME": "Categorienaam",
     "NAME_REQUIRED": "Categorienaam is verplicht",
     "TYPE_REQUIRED": "Type is verplicht",
@@ -250,7 +251,7 @@
     "CATEGORIES": "Categorieën",
     "MERCHANTS": "Handelaars",
     "BANK_ACCOUNTS": "Bankrekeningen",
-    "PENDING_MOVEMENTS": "Openstaande Verhuizingen",
+    "PENDING_MOVEMENTS": "Wachtende Transacties",
     "MANAGE_USERS": "Gebruikers Beheren",
     "PROFILE": "Profiel",
     "LOGOUT": "Uitloggen",
@@ -311,5 +312,23 @@
     "ACTIONS": "Acties",
     "EDIT": "Bewerken",
     "DELETE": "Verwijderen"
-  }
+  },
+  "PENDING_MOVEMENTS": {
+  "TITLE": "Wachtende Transacties",
+  "DATE": "Datum",
+  "DESCRIPTION": "Omschrijving",
+  "AMOUNT": "Bedrag",
+  "MERCHANT": "Handelaar",
+  "CATEGORY": "Categorie",
+  "SUBCATEGORY": "Subcategorie",
+  "ACTIONS": "Acties",
+  "MOVEMENT_SAVED": "Transactie succesvol opgeslagen",
+  "MOVEMENT_DELETED": "Transactie succesvol verwijderd",
+  "VALIDATION_FAILED": "Validatie mislukt voor handelaar of categorie",
+  "LOAD_ERROR": "Laden van wachtende transacties mislukt",
+  "UPLOADING": "Laden, even geduld...",
+  "CSV_UPLOAD_SUCCESS": "CSV-upload succesvol",
+  "CSV_UPLOAD_ERROR": "Fout bij het uploaden van CSV",
+  "UPLOAD_CSV": "CSV uploaden"
+}
 }

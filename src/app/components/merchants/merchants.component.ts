@@ -25,6 +25,7 @@ export class MerchantsComponent implements OnInit {
   merchantForm: FormGroup;
   displayedColumns: string[] = ['name', 'category', 'subcategory', 'address', 'phone', 'email', 'website', 'actions'];
   isSaving: boolean = false;
+  isLoading: boolean = false;  // Loading state
 
   constructor(
     private merchantsService: MerchantsService,
@@ -56,6 +57,7 @@ export class MerchantsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;  // Start the spinner when the component initializes
     this.loadMerchants();
     this.loadCategories();
     this.loadAllSubcategories();
@@ -67,8 +69,14 @@ export class MerchantsComponent implements OnInit {
 
   loadMerchants(): void {
     this.merchantsService.getMerchants().subscribe(
-      data => this.merchants = data,
-      error => console.error('Failed to load merchants', error)
+      data => {
+        this.merchants = data;
+        this.isLoading = false;  // Stop the spinner after loading merchants
+      },
+      error => {
+        console.error('Failed to load merchants', error);
+        this.isLoading = false;  // Stop the spinner on error
+      }
     );
   }
 
@@ -138,9 +146,6 @@ export class MerchantsComponent implements OnInit {
   }
 
   editMerchant(merchant: Merchant): void {
-    console.log('Edit Merchant Translation:', this.translate.instant('MERCHANTS.EDIT_MERCHANT'));
-    console.log('Update Merchant Translation:', this.translate.instant('MERCHANTS.UPDATE_MERCHANT'));
-
     this.currentMerchant = { ...merchant };
     this.isEditing = true;
     this.merchantForm.patchValue(merchant);

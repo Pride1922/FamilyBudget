@@ -1,4 +1,6 @@
 <div class="categories-container">
+  <app-spinner *ngIf="isLoading" [isLoading]="isLoading"></app-spinner>
+
   <mat-card *ngFor="let category of categories" class="category-card">
     <mat-card-header (click)="toggleCategory(category.id)">
       <mat-icon class="category-icon">{{ category.icon }}</mat-icon>
@@ -6,9 +8,10 @@
         <mat-card-title>{{ category.name }}</mat-card-title>
         <mat-card-subtitle>{{ 'CATEGORIES.TYPE' | translate }}: {{ category.type | titlecase }}</mat-card-subtitle>
       </div>
-      <button mat-icon-button class="delete-button" (click)="deleteCategory(category.id); $event.stopPropagation()">
+      <button mat-icon-button class="delete-button" matTooltip="{{ 'CATEGORIES.DELETE' | translate }}" (click)="deleteCategory(category.id); $event.stopPropagation()">
         <mat-icon>delete</mat-icon>
       </button>
+
     </mat-card-header>
 
     <div class="expanded-content" [ngClass]="{'show-content': expandedCategoryId === category.id}">

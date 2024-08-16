@@ -1,0 +1,47 @@
+.pending-movements-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.pending-movements-table {
+  width: 100%;
+  margin-top: 20px;
+  table-layout: fixed; /* Fixed layout for equal column width */
+}
+
+.pending-movements-table th,
+.pending-movements-table td {
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Wrap long words to the next line */
+  word-break: break-word; /* Ensure long words break if they are too long */
+  overflow: hidden; /* Hide any overflow */
+  text-overflow: ellipsis; /* Add ellipsis (...) to long text that doesn't fit */
+}
+
+.pending-movements-table th {
+  padding: 8px;
+  font-size: 0.875rem; /* Slightly reduce header font size */
+}
+
+.pending-movements-table td {
+  padding: 8px;
+  font-size: 0.875rem; /* Slightly reduce cell font size */
+}
+
+.matched {
+  border-left: 5px solid green;
+}
+
+.unmatched {
+  border-left: 5px solid red;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+/* CSS to make the approval icon green */
+.approve-icon-button mat-icon {
+  color: green;
+}

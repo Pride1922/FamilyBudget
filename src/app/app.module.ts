@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MerchantsComponent } from './components/merchants/merchants.component';
 import { BankAccountComponent } from './components/bank-account/bank-account.component';
 import { PendingMovementsComponent } from './components/pending-movements/pending-movements.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 // Define the HttpLoaderFactory function
 export function HttpLoaderFactory(http: HttpClient) {
@@ -72,6 +74,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MerchantsComponent,
     BankAccountComponent,
     PendingMovementsComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,6 +100,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSnackBarModule,
     MatCardModule,
     MatListModule,
+    MatAutocompleteModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
