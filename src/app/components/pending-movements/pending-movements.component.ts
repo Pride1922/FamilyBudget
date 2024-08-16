@@ -3,9 +3,9 @@ import { MerchantsService } from '../../services/merchants.service';
 import { CategoryService } from '../../services/category.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
+import { CsvDataService } from '../../services/csv-data.service';
 import { Merchant } from '../../models/merchants.model';
 import { Category } from '../../models/category.model';
-import { CsvDataService } from '../../services/csv-data.service';
 
 @Component({
   selector: 'app-pending-movements',
@@ -19,8 +19,6 @@ export class PendingMovementsComponent implements OnInit {
   merchants: Merchant[] = [];
   categories: Category[] = [];
   subcategories: any[] = []; // Hold subcategories for the selected category
-  displayedColumns: string[] = ['date', 'description', 'amount', 'merchant', 'category', 'subcategory', 'actions'];
-
   isLoading = false; // Loading state for spinner
 
   constructor(
@@ -34,7 +32,6 @@ export class PendingMovementsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true; // Force spinner to show on component load
-
     this.loadMerchants();
     this.loadCategories();
     this.loadPendingMovements();
@@ -44,7 +41,7 @@ export class PendingMovementsComponent implements OnInit {
     this.isLoading = true;
     this.csvDataService.getPendingMovements().subscribe(
       data => {
-        this.pendingMovements = data;
+        this.pendingMovements = Array.isArray(data) ? data : []; // Ensure it's an array
         this.isLoading = false;
       },
       error => {
@@ -57,14 +54,14 @@ export class PendingMovementsComponent implements OnInit {
 
   loadMerchants(): void {
     this.merchantsService.getMerchants().subscribe(
-      data => this.merchants = data,
+      data => this.merchants = Array.isArray(data) ? data : [], // Ensure it's an array
       error => console.error('Failed to load merchants', error)
     );
   }
 
   loadCategories(): void {
     this.categoryService.getAllCategories().subscribe(
-      categories => this.categories = categories,
+      categories => this.categories = Array.isArray(categories) ? categories : [], // Ensure it's an array
       error => console.error('Failed to load categories', error)
     );
   }
@@ -72,7 +69,18 @@ export class PendingMovementsComponent implements OnInit {
   loadSubcategories(categoryId: number): void {
     this.categoryService.getCategoryById(categoryId).subscribe(
       category => {
-        this.subcategories = category.subcategories || [];
+        try {
+          // Check if subcategories is a string and parse it
+          if (typeof category.subcategories === 'string') {
+            this.subcategories = JSON.parse(category.subcategories);
+          } else {
+            this.subcategories = Array.isArray(category.subcategories) ? category.subcategories : [];
+          }
+          console.log('Subcategories after parsing:', this.subcategories); // Debugging: Check the parsed subcategories
+        } catch (error) {
+          console.error('Failed to parse subcategories', error);
+          this.subcategories = [];
+        }
       },
       error => console.error('Failed to load subcategories', error)
     );
@@ -80,14 +88,11 @@ export class PendingMovementsComponent implements OnInit {
 
   onCategoryChange(movement: any): void {
     const selectedCategory = this.categories.find(c => c.name === movement.category);
+    console.log('Selected Category:', selectedCategory); // Debugging: Check the selected category
     if (selectedCategory && selectedCategory.id) {
       movement.subcategory = null; // Clear the subcategory when the category changes
       this.loadSubcategories(selectedCategory.id);
     }
-  }
-
-  getSubcategoriesForMovement(movement: any): any[] {
-    return this.subcategories.filter(sc => sc.categoryId === movement.categoryId);
   }
 
   validateMerchant(movement: any): void {
@@ -127,22 +132,15 @@ export class PendingMovementsComponent implements OnInit {
   }
 
   deleteMovement(movement: any): void {
-    // Add logic to delete a movement (e.g., make an API call to remove it from the database)
     this.snackBar.showSuccess(this.translate.instant('PENDING_MOVEMENTS.MOVEMENT_DELETED'));
   }
 
   approveMovement(movement: any): void {
-    // Logic to approve a movement
     movement.status = 'approved'; // Mark the movement as approved
     this.csvDataService.updateMovement(movement.id, movement).subscribe(() => {
       this.snackBar.showSuccess(this.translate.instant('PENDING_MOVEMENTS.MOVEMENT_APPROVED'));
       this.loadPendingMovements(); // Reload the list after approval
     });
-  }
-
-  updateLayout(): void {
-    const mainContent = document.querySelector('.main-content') as HTMLElement;
-    mainContent.style.marginLeft = this.sidebarCollapsed ? '5rem' : '16.5625rem';
   }
 
   onFileSelected(event: any): void {
