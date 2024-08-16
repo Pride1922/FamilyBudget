@@ -2,6 +2,10 @@ const db = require('../config/database');
 
 // Function to get all merchants
 const getAllMerchants = (callback) => {
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function');
+  }
+
   db.query('SELECT * FROM Merchants', (err, results) => {
     if (err) {
       return callback(err, null);
@@ -12,6 +16,10 @@ const getAllMerchants = (callback) => {
 
 // Function to get a merchant by ID
 const getMerchantById = (id, callback) => {
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function');
+  }
+
   db.query('SELECT * FROM Merchants WHERE id = ?', [id], (err, results) => {
     if (err) {
       return callback(err, null);
@@ -23,6 +31,11 @@ const getMerchantById = (id, callback) => {
 // Function to create a new merchant
 const createMerchant = (merchant, callback) => {
   const { name, category_id, subcategory_id, address, phone, email, website } = merchant;
+
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function');
+  }
+
   db.query(
     'INSERT INTO Merchants (name, category_id, subcategory_id, address, phone, email, website) VALUES (?, ?, ?, ?, ?, ?, ?)',
     [name, category_id, subcategory_id, address, phone, email, website],
@@ -38,6 +51,11 @@ const createMerchant = (merchant, callback) => {
 // Function to update a merchant
 const updateMerchant = (id, merchant, callback) => {
   const { name, category_id, subcategory_id, address, phone, email, website } = merchant;
+
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function');
+  }
+
   db.query(
     'UPDATE Merchants SET name = ?, category_id = ?, subcategory_id = ?, address = ?, phone = ?, email = ?, website = ? WHERE id = ?',
     [name, category_id, subcategory_id, address, phone, email, website, id],
@@ -52,6 +70,10 @@ const updateMerchant = (id, merchant, callback) => {
 
 // Function to delete a merchant
 const deleteMerchant = (id, callback) => {
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function');
+  }
+
   db.query('DELETE FROM Merchants WHERE id = ?', [id], (err, results) => {
     if (err) {
       return callback(err, null);
@@ -62,6 +84,10 @@ const deleteMerchant = (id, callback) => {
 
 // Function to get merchants by category ID
 const getMerchantsByCategoryId = (categoryId, callback) => {
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function');
+  }
+
   db.query('SELECT * FROM Merchants WHERE category_id = ?', [categoryId], (err, results) => {
     if (err) {
       return callback(err, null);
@@ -72,6 +98,10 @@ const getMerchantsByCategoryId = (categoryId, callback) => {
 
 // Function to get merchants by subcategory ID
 const getMerchantsBySubcategoryId = (subcategoryId, callback) => {
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function');
+  }
+
   db.query('SELECT COUNT(*) AS count FROM Merchants WHERE subcategory_id = ?', [subcategoryId], (err, results) => {
     if (err) {
       return callback(err, null);

@@ -31,7 +31,6 @@ const getSubcategoryById = (req, res) => {
 
 // Add Subcategory
 const addSubcategory = (req, res) => {
-    console.log('Request body:', req.body); // Debugging line
     const { name, category_id } = req.body; // Fix the property name here
     if (!name || !category_id) {
         console.error('Missing name or category_id'); // Debugging line

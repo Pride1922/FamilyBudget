@@ -329,6 +329,27 @@
   "UPLOADING": "Loading, please wait...",
   "CSV_UPLOAD_SUCCESS": "CSV upload successful",
   "CSV_UPLOAD_ERROR": "Error uploading CSV",
-  "UPLOAD_CSV": "Upload CSV"
-}
+  "UPLOAD_CSV": "Upload CSV",
+  "MERCHANT_VALID": "Merchant valid",
+  "INVALID_MERCHANT": "Invalid merchant"
+  },
+  "ADD_MERCHANT": {
+    "TITLE": "Add New Merchant",
+    "EDIT_TITLE": "Edit Merchant",
+    "LOAD_CATEGORIES_ERROR": "Failed to load categories",
+    "LOAD_SUBCATEGORIES_ERROR": "Failed to load subcategories",
+    "FORM_INVALID": "Please fill out the form correctly.",
+    "SAVE_SUCCESS": "Merchant saved successfully",
+    "SAVE_ERROR": "Failed to save the merchant",
+    "NAME": "Name",
+    "CATEGORY": "Category",
+    "SUBCATEGORY": "Subcategory",
+    "ADDRESS": "Address",
+    "PHONE": "Phone",
+    "EMAIL": "Email",
+    "WEBSITE": "Website",
+    "CANCEL_BUTTON": "Cancel",
+    "ADD_BUTTON": "Add Merchant",
+    "SAVING": "Saving..."
+  }
 }

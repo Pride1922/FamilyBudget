@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>{{ isEditMode ? 'ADD_MERCHANT.EDIT_TITLE' : 'ADD_MERCHANT.TITLE' | translate }}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="merchantForm">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'ADD_MERCHANT.NAME' | translate }}</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'ADD_MERCHANT.CATEGORY' | translate }}</mat-label>
+      <mat-select formControlName="category_id">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'ADD_MERCHANT.SUBCATEGORY' | translate }}</mat-label>
+      <mat-select formControlName="subcategory_id">
+        <mat-option *ngFor="let subcategory of subcategories" [value]="subcategory.id">
+          {{ subcategory.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'ADD_MERCHANT.ADDRESS' | translate }}</mat-label>
+      <input matInput formControlName="address">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'ADD_MERCHANT.PHONE' | translate }}</mat-label>
+      <input matInput formControlName="phone">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'ADD_MERCHANT.EMAIL' | translate }}</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'ADD_MERCHANT.WEBSITE' | translate }}</mat-label>
+      <input matInput formControlName="website">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">{{ 'ADD_MERCHANT.CANCEL_BUTTON' | translate }}</button>
+  <button mat-button (click)="onSave()" [disabled]="merchantForm.invalid || isSaving">
+    {{ getSaveButtonText() }}
+  </button>
+</div>

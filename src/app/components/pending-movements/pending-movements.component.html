@@ -21,7 +21,10 @@
         <div class="card-details">
           <mat-form-field appearance="fill">
             <mat-label>{{ 'PENDING_MOVEMENTS.MERCHANT' | translate }}</mat-label>
-            <input matInput [(ngModel)]="movement.merchant" [matAutocomplete]="autoMerchant" (blur)="validateMerchant(movement)">
+            <input matInput [(ngModel)]="movement.merchant" [matAutocomplete]="autoMerchant" (ngModelChange)="validateMerchant(movement)">
+            <button mat-icon-button matSuffix (click)="openAddMerchantDialog()">
+              <mat-icon>add</mat-icon>
+            </button>
           </mat-form-field>
           <mat-autocomplete #autoMerchant="matAutocomplete">
             <mat-option *ngFor="let merchant of merchants" [value]="merchant.name">

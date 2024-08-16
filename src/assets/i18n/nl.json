@@ -329,6 +329,27 @@
   "UPLOADING": "Laden, even geduld...",
   "CSV_UPLOAD_SUCCESS": "CSV-upload succesvol",
   "CSV_UPLOAD_ERROR": "Fout bij het uploaden van CSV",
-  "UPLOAD_CSV": "CSV uploaden"
-}
+  "UPLOAD_CSV": "CSV uploaden",
+  "MERCHANT_VALID": "Handelaar geldig",
+  "INVALID_MERCHANT": "Ongeldig handelaar"
+  },
+  "ADD_MERCHANT": {
+    "TITLE": "Nieuwe handelaar toevoegen",
+    "EDIT_TITLE": "Handelaar bewerken",
+    "LOAD_CATEGORIES_ERROR": "Categorieën laden mislukt",
+    "LOAD_SUBCATEGORIES_ERROR": "Subcategorieën laden mislukt",
+    "FORM_INVALID": "Vul het formulier correct in.",
+    "SAVE_SUCCESS": "Handelaar succesvol opgeslagen",
+    "SAVE_ERROR": "Opslaan van handelaar mislukt",
+    "NAME": "Naam",
+    "CATEGORY": "Categorie",
+    "SUBCATEGORY": "Subcategorie",
+    "ADDRESS": "Adres",
+    "PHONE": "Telefoon",
+    "EMAIL": "E-mail",
+    "WEBSITE": "Website",
+    "CANCEL_BUTTON": "Annuleren",
+    "ADD_BUTTON": "Handelaar toevoegen",
+    "SAVING": "Opslaan..."
+  }
 }

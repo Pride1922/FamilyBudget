@@ -47,6 +47,7 @@ import { MerchantsComponent } from './components/merchants/merchants.component';
 import { BankAccountComponent } from './components/bank-account/bank-account.component';
 import { PendingMovementsComponent } from './components/pending-movements/pending-movements.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { AddMerchantDialogComponent } from './components/add-merchant-dialog/add-merchant-dialog.component';
 
 // Define the HttpLoaderFactory function
 export function HttpLoaderFactory(http: HttpClient) {
@@ -75,6 +76,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BankAccountComponent,
     PendingMovementsComponent,
     SpinnerComponent,
+    AddMerchantDialogComponent,
   ],
   imports: [
     BrowserModule,

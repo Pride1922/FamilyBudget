@@ -329,6 +329,27 @@
   "UPLOADING": "A carregar, por favor aguarde...",
   "CSV_UPLOAD_SUCCESS": "Carregamento de CSV concluído com sucesso",
   "CSV_UPLOAD_ERROR": "Erro ao carregar CSV",
-  "UPLOAD_CSV": "Carregar CSV"
-}
+  "UPLOAD_CSV": "Carregar CSV",
+  "MERCHANT_VALID": "Comerciante válido",
+  "INVALID_MERCHANT": "Comerciante inválido"
+},
+"ADD_MERCHANT": {
+    "TITLE": "Adicionar Novo Comerciante",
+    "EDIT_TITLE": "Editar Comerciante",
+    "LOAD_CATEGORIES_ERROR": "Falha ao carregar categorias",
+    "LOAD_SUBCATEGORIES_ERROR": "Falha ao carregar subcategorias",
+    "FORM_INVALID": "Por favor, preencha o formulário corretamente.",
+    "SAVE_SUCCESS": "Comerciante guardado com sucesso",
+    "SAVE_ERROR": "Falha ao guardar o comerciante",
+    "NAME": "Nome",
+    "CATEGORY": "Categoria",
+    "SUBCATEGORY": "Subcategoria",
+    "ADDRESS": "Endereço",
+    "PHONE": "Telefone",
+    "EMAIL": "Email",
+    "WEBSITE": "Website",
+    "CANCEL_BUTTON": "Cancelar",
+    "ADD_BUTTON": "Adicionar Comerciante",
+    "SAVING": "A Guardar..."
+  }
 }

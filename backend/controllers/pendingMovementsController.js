@@ -1,15 +1,16 @@
 const PendingMovementsModel = require('../models/pendingMovementsModel');
+const merchantModel = require('../models/merchantModel');
 const { errorLogger, infoLogger } = require('../config/logger');
 const multer = require('multer');
-const csvParser = require('csv-parser'); // For parsing CSV files in a stream
+const csvParser = require('csv-parser');
 const fs = require('fs');
 
 // Set up multer for file uploads
-const upload = multer({ dest: 'uploads/' }); // Files will be temporarily saved in the 'uploads/' directory
+const upload = multer({ dest: 'uploads/' });
 
 exports.uploadCSV = [
   upload.single('file'),
-  (req, res) => {
+  async (req, res) => {
     const file = req.file;
 
     if (!file) {
@@ -19,11 +20,8 @@ exports.uploadCSV = [
 
     const results = [];
     fs.createReadStream(file.path)
-      .pipe(csvParser({ separator: ';', mapHeaders: ({ header }) => header.trim() })) // Trim headers to avoid leading/trailing spaces
-      .on('headers', (headers) => {
-      })
+      .pipe(csvParser({ separator: ';', mapHeaders: ({ header }) => header.trim() }))
       .on('data', (row) => {
-
         const account_number = row['Rekeningnummer']?.replace(/\s+/g, '').trim();
         const account_name = row['Naam van de rekening']?.trim();
         const counterparty_account = row['Rekening tegenpartij']?.trim();
@@ -60,23 +58,27 @@ exports.uploadCSV = [
           console.log('Skipping invalid or incomplete row:', row);
         }
       })
-      .on('end', () => {
+      .on('end', async () => {
         if (results.length === 0) {
           errorLogger.error('No valid rows to process');
           return res.status(400).json({ message: 'No valid rows to process' });
         }
 
-        PendingMovementsModel.bulkInsertPendingMovements(results, (err, response) => {
-          if (err) {
-            errorLogger.error(`Failed to insert pending movements: ${err.message}`);
-            return res.status(500).json({ message: 'Error processing CSV data', err });
-          }
+        try {
+          // Use the refactored promise-based function
+          const result = await PendingMovementsModel.bulkInsertPendingMovements(results);
+
+          // Perform merchant matching after inserting the pending movements
+          await matchMerchantsToTransactions();
 
           fs.unlinkSync(file.path);
-
           infoLogger.info('CSV file processed and movements inserted successfully');
-          res.status(200).json({ message: 'CSV file processed successfully', inserted: response.inserted });
-        });
+          res.status(200).json({ message: 'CSV file processed successfully' });
+        } catch (err) {
+          errorLogger.error(`Failed to process CSV data: ${err.message}`);
+          fs.unlinkSync(file.path);
+          res.status(500).json({ message: 'Error processing CSV data', err });
+        }
       })
       .on('error', (error) => {
         errorLogger.error(`Error parsing CSV file: ${error.message}`);
@@ -86,15 +88,38 @@ exports.uploadCSV = [
   },
 ];
 
-// Function to convert dates from 'DD/MM/YYYY' to 'YYYY-MM-DD'
+// Merchant matching function
+const matchMerchantsToTransactions = async () => {
+  try {
+    const pendingMovements = await PendingMovementsModel.getUnmatchedMovements(); // Retrieve unmatched transactions
+    const merchants = await merchantModel.getAllMerchants(); // Retrieve all merchants
+
+    for (const movement of pendingMovements) {
+      const matchedMerchant = merchants.find((merchant) =>
+        movement.description && movement.description.toLowerCase().includes(merchant.name.toLowerCase())
+      );
+
+      if (matchedMerchant) {
+        await PendingMovementsModel.updateMovementWithMerchant(movement.id, {
+          merchant_id: matchedMerchant.id,
+          category_id: matchedMerchant.category_id,
+          subcategory_id: matchedMerchant.subcategory_id,
+        });
+      }
+    }
+  } catch (err) {
+    errorLogger.error(`Error matching merchants: ${err.message}`);
+  }
+};
+
+// Date formatting function
 function formatDate(dateString) {
   const [day, month, year] = dateString.split('/');
   return `${year}-${month}-${day}`;
 }
 
-// Placeholder for getting all pending movements
+// Get all pending movements
 exports.getAllPendingMovements = (req, res) => {
-  // Replace this with the actual implementation
   PendingMovementsModel.getAllPendingMovements((err, movements) => {
     if (err) {
       errorLogger.error(`Failed to fetch pending movements: ${err.message}`);
@@ -105,7 +130,7 @@ exports.getAllPendingMovements = (req, res) => {
   });
 };
 
-// Placeholder for getting a pending movement by ID
+// Get a pending movement by ID
 exports.getPendingMovementById = (req, res) => {
   const { id } = req.params;
   PendingMovementsModel.getPendingMovementById(id, (err, movement) => {
@@ -122,7 +147,7 @@ exports.getPendingMovementById = (req, res) => {
   });
 };
 
-// Placeholder for creating a pending movement
+// Create a new pending movement
 exports.createPendingMovement = (req, res) => {
   const newMovement = req.body;
   infoLogger.info(`Creating new pending movement: ${JSON.stringify(newMovement)}`);
@@ -136,7 +161,7 @@ exports.createPendingMovement = (req, res) => {
   });
 };
 
-// Placeholder for updating a pending movement
+// Update a pending movement
 exports.updatePendingMovement = (req, res) => {
   const { id } = req.params;
   const updatedMovement = req.body;
@@ -151,7 +176,7 @@ exports.updatePendingMovement = (req, res) => {
   });
 };
 
-// Placeholder for deleting a pending movement
+// Delete a pending movement
 exports.deletePendingMovement = (req, res) => {
   const { id } = req.params;
   infoLogger.info(`Deleting pending movement with ID ${id}`);
